@@ -5,6 +5,7 @@ import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { getProperties } from '@ember/object';
 import { BufferedChangeset } from 'ember-changeset/types';
+import { TypedBufferedChangeset } from '../types/typed-changeset';
 
 export interface BaseValidationFormInterface {
   // eslint-disable-next-line no-unused-vars
@@ -13,17 +14,23 @@ export interface BaseValidationFormInterface {
   entity: any;
 }
 
-export default class BaseFormComponent<
-  T extends Record<string, any>
-> extends Component<BaseValidationFormInterface & T> {
-  @tracked changeset;
-  @tracked DTO: T;
+// eslint-disable-next-line no-unused-vars
+type AnyRecord<T> = { [P in keyof T]: any };
+// eslint-disable-next-line no-unused-vars
+type ValidatorRecord<T> = { [P in keyof T]?: Function[] };
+
+export class BaseFormComponent<
+  T extends BaseValidationFormInterface,
+  K extends Record<string, any> = {}
+> extends Component<T> {
+  @tracked changeset: TypedBufferedChangeset<K>;
+  @tracked DTO: K;
 
   constructor(
     owner: unknown,
-    args: BaseValidationFormInterface & T,
-    originalDTO: Record<string, any> & T,
-    validator: Record<string, any>
+    args: T,
+    originalDTO: AnyRecord<K>,
+    validator: ValidatorRecord<K>
   ) {
     super(owner, args);
 
@@ -43,6 +50,11 @@ export default class BaseFormComponent<
       this.DTO = originalDTO;
     }
     this.changeset = Changeset(this.DTO, lookupValidator(validator), validator);
+  }
+
+  @action
+  async updateValue(e: any) {
+    this.changeset.set(e.target.name, e.target.value);
   }
 
   @action
