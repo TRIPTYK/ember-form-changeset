@@ -54,7 +54,7 @@ export class BaseFormComponent<
 
   @action
   async updateValue(e: any) {
-    this.changeset.set(e.target.name, e.target.value);
+    this.changeset.set(e.target.name || e.target.id, e.target.value);
   }
 
   @action
