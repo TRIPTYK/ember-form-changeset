@@ -2,7 +2,7 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 import {
   BaseValidationFormInterface,
   BaseFormComponent,
-} from 'ember-form-changeset-validations';
+} from 'ember-form-changeset-validations/components/base-form';
 
 export interface DummyFormArgs extends BaseValidationFormInterface {}
 

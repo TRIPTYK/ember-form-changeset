@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { click, fillIn, render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import { TypedBufferedChangeset } from 'ember-form-changeset-validations/types/typed-changeset';
 import { DummyFormDTO } from 'dummy/tests/dummy/app/pods/components/dummy-form/component';
 
 module('Integration | Component | dummy-form', function (hooks) {
