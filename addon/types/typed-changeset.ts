@@ -3,7 +3,7 @@ import { BufferedChangeset } from 'ember-changeset/types';
 export interface TypedBufferedChangeset<T extends Record<string, any>>
   extends BufferedChangeset {
   // eslint-disable-next-line no-unused-vars
-  get(key: keyof T): any;
+  get<K extends keyof T>(key: K): T[K];
   // eslint-disable-next-line no-unused-vars
-  set(key: keyof T, value: any): void;
+  set<K extends keyof T>(key: K, value: any): void;
 }

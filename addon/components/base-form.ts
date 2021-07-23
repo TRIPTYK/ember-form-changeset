@@ -49,7 +49,11 @@ export class BaseFormComponent<
     } else {
       this.DTO = originalDTO;
     }
-    this.changeset = Changeset(this.DTO, lookupValidator(validator), validator);
+    this.changeset = Changeset(
+      this.DTO,
+      lookupValidator(validator),
+      validator
+    ) as TypedBufferedChangeset<K>;
   }
 
   @action

@@ -19,7 +19,7 @@ export default class DummyForm extends BaseFormComponent<
       owner,
       args,
       {
-        text: '',
+        text: ''
       },
       {
         text: [validatePresence({ presence: true })],
