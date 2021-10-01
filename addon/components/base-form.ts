@@ -26,10 +26,10 @@ export class BaseFormComponent<
   @tracked changeset: TypedBufferedChangeset<K>;
   @tracked DTO: K;
 
-  constructor(
+  public constructor(
     owner: unknown,
     args: T,
-    originalDTO: AnyRecord<K>,
+    originalDTO: AnyRecord<K> & { id?: number | string },
     validator: ValidatorRecord<K>
   ) {
     super(owner, args);
@@ -54,11 +54,6 @@ export class BaseFormComponent<
       lookupValidator(validator),
       validator
     ) as TypedBufferedChangeset<K>;
-  }
-
-  @action
-  async updateValue(e: any) {
-    this.changeset.set(e.target.name || e.target.id, e.target.value);
   }
 
   @action
