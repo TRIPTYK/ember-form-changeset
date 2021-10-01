@@ -12,6 +12,7 @@ export interface BaseValidationFormInterface {
   saveFunction?: (changeset: BufferedChangeset) => Promise<unknown>;
   mode?: 'update' | 'create';
   entity?: any;
+  changeset?: BufferedChangeset;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -53,6 +54,7 @@ export class BaseFormComponent<
     } else {
       this.DTO = originalDTO;
     }
+
     this.changeset = Changeset(
       this.DTO,
       lookupValidator(validator),
