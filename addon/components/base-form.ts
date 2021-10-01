@@ -9,9 +9,9 @@ import { TypedBufferedChangeset } from '../types/typed-changeset';
 
 export interface BaseValidationFormInterface {
   // eslint-disable-next-line no-unused-vars
-  saveFunction: ((changeset: BufferedChangeset) => Promise<any>) | null;
-  mode: 'update' | 'create';
-  entity: any;
+  saveFunction?: (changeset: BufferedChangeset) => Promise<unknown>;
+  mode?: 'update' | 'create';
+  entity?: any;
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -35,6 +35,10 @@ export class BaseFormComponent<
     super(owner, args);
 
     if (args.mode === 'update') {
+      if (args.entity) {
+        throw 'Update mode must have an @entity argument';
+      }
+
       this.DTO = {
         ...originalDTO,
         ...(args.entity.save
