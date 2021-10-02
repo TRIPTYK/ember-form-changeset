@@ -28,4 +28,4 @@ jobs:
         cache: 'npm'
     - run: npm install -g ember-cli
     - run: npm install
-    - run: npm run ember test
+    - run: ember test
