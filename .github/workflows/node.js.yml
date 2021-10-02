@@ -26,6 +26,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: yarn set version berry
-    - run: yarn
-    - run: yarn run ember test
+    - run: npm install
+    - run: npm run ember test
