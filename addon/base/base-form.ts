@@ -36,8 +36,8 @@ export class BaseFormComponent<
     super(owner, args);
 
     if (args.mode === 'update') {
-      if (args.entity) {
-        throw 'Update mode must have an @entity argument';
+      if (!args.entity && typeof args.entity !== 'object') {
+        throw new Error('Update mode must have an @entity argument');
       }
 
       this.DTO = {

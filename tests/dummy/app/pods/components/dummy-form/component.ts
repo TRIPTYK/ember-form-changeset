@@ -1,3 +1,4 @@
+import { action } from '@ember/object';
 import { validatePresence } from 'ember-changeset-validations/validators';
 import {
   BaseValidationFormInterface,
@@ -19,11 +20,16 @@ export default class DummyForm extends BaseFormComponent<
       owner,
       args,
       {
-        text: ''
+        text: '',
       },
       {
         text: [validatePresence({ presence: true })],
       }
     );
+  }
+
+  @action
+  updateText(e: Event) {
+    this.changeset.set('text', (e.target as HTMLInputElement).value);
   }
 }

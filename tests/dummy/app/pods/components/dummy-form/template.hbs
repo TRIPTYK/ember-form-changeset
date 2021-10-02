@@ -1,6 +1,6 @@
 <form {{on "submit" this.submit}}>
     <label for="text"></label>
-    <input id="text" name="text" type="text" value={{changeset-get this.changeset "text"}} {{on "change" this.updateValue}}>
+    <input id="text" name="text" type="text" value={{changeset-get this.changeset "text"}} {{on "change" this.updateText}}>
     <button type="submit">Submit</button>
     <input type="hidden" name="is-valid" value={{this.changeset.isValid}}>
 </form>
