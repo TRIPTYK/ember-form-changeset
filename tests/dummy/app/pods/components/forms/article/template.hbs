@@ -1,5 +1,5 @@
 <form {{on 'submit' this.submit}}>
-  <label for='text'></label>
+  <label for='text'>Title</label>
   <input
     id='text'
     name='text'
@@ -8,7 +8,7 @@
     {{on 'change' this.updateText}}
   />
 
-  <label for="author-username"></label>
+  <label for="author-username">Author</label>
   <input
     id="author-username"
     type='text'
@@ -20,7 +20,7 @@
   {{#each (changeset-get @changeset 'comments') as |comment|}}
     <Forms::Comment
       @changeset={{changeset comment}}
-      @saveFunction={{fn @saveComment @changeset}}
+      @saveFunction={{@saveComment}}
     />
   {{/each}}
 

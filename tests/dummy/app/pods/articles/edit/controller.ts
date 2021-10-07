@@ -9,11 +9,8 @@ export default class ArticlesEdit extends Controller {
   }
 
   @action
-  async saveComment(
-    _parentChangeset: BufferedChangeset,
-    changeset: BufferedChangeset
-  ) {
-    changeset.execute();
+  async saveComment(changeset: BufferedChangeset) {
+    await changeset.save();
   }
 }
 
