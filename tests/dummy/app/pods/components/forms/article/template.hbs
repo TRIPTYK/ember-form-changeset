@@ -1,0 +1,32 @@
+<form {{on 'submit' this.submit}}>
+  <label for='text'></label>
+  <input
+    id='text'
+    name='text'
+    type='text'
+    value={{changeset-get @changeset 'title'}}
+    {{on 'change' this.updateText}}
+  />
+
+  <label for="author-username"></label>
+  <input
+    id="author-username"
+    type='text'
+    name='author'
+    value={{changeset-get @changeset 'author.username'}}
+    {{on 'change' this.updateAuthor}}
+  />
+
+  {{#each (changeset-get @changeset 'comments') as |comment|}}
+    <Forms::Comment
+      @changeset={{changeset comment}}
+      @saveFunction={{fn @saveComment @changeset}}
+    />
+  {{/each}}
+
+  <button type='submit'>Submit ({{if
+      @changeset.isDirty
+      'changes'
+      'pristine'
+    }})</button>
+</form>

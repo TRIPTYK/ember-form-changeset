@@ -3,7 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import { getProperties } from '@ember/object';
 import { BufferedChangeset } from 'ember-changeset/types';
 import { TypedBufferedChangeset } from '../types/typed-changeset';
 
@@ -35,25 +34,14 @@ export class BaseFormComponent<
   ) {
     super(owner, args);
 
-    if (args.mode === 'update') {
-      if (!args.entity && typeof args.entity !== 'object') {
-        throw new Error('Update mode must have an @entity argument');
-      }
-
-      this.DTO = {
-        ...originalDTO,
-        ...(args.entity.save
-          ? getProperties(
-              args.entity,
-              Object.keys(originalDTO)
-                .filter((o) => args.entity.get(o) !== undefined) // remove undefined keys
-                .concat(['id'])
-            )
-          : args.entity),
-      };
-    } else {
-      this.DTO = originalDTO;
+    if (args.entity && typeof args.entity !== 'object') {
+      throw new Error('@entity must be of type');
     }
+
+    this.DTO = {
+      ...originalDTO,
+      ...(args.entity ?? {}),
+    };
 
     this.changeset = Changeset(
       this.DTO,
