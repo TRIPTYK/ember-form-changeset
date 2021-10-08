@@ -20,10 +20,11 @@
   {{#each (changeset-get @changeset 'comments') as |comment|}}
     <Forms::Comment
       @changeset={{changeset comment}}
-      @saveFunction={{@saveComment}}
+      @saveFunction={{fn @saveComment @changeset}}
     />
   {{/each}}
 
+  <button type="reset" {{on "click" this.rollback}}>Rollback</button>
   <button type='submit'>Submit ({{if
       @changeset.isDirty
       'changes'

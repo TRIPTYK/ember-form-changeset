@@ -14,7 +14,13 @@ export default abstract class BaseForm<
   T extends BaseFormArgs
 > extends Component<T> {
   @action
-  async submit(e: Event, ...otherArgs: unknown[]) {
+  rollback(e?: Event) {
+    e?.preventDefault();
+    this.args.changeset.rollback();
+  }
+
+  @action
+  async submit(e?: Event, ...otherArgs: unknown[]) {
     e?.preventDefault();
     await this.args.changeset.validate();
 

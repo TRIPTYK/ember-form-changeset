@@ -45,6 +45,9 @@
       ]
     }
   },
+  "exclude": [
+    "blueprints/**"
+  ],
   "include": [
     "app/**/*",
     "addon/**/*",

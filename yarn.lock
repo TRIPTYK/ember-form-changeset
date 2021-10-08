@@ -2471,6 +2471,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/inquirer@npm:^8.1.3":
+  version: 8.1.3
+  resolution: "@types/inquirer@npm:8.1.3"
+  dependencies:
+    "@types/through": "*"
+    rxjs: ^7.2.0
+  checksum: b2f9914d1380e60a9a6d890abdd24078db63069a4bd974e77a00c5660bf5cab33a60fba6f02b56f1b2e6418e287e4697361b12cb85704b13e76f1a23c934d203
+  languageName: node
+  linkType: hard
+
 "@types/jquery@npm:*":
   version: 3.5.6
   resolution: "@types/jquery@npm:3.5.6"
@@ -2585,6 +2595,15 @@ __metadata:
   version: 1.2.0
   resolution: "@types/symlink-or-copy@npm:1.2.0"
   checksum: 18fb73094b2cf6c84544939bd6344d7a8cd1ccf8496a1cfb1320f38491c8dfbea3248bb6e91495322a51a493e04a767582a214d5261f5c5b007aa6ef65fc8b50
+  languageName: node
+  linkType: hard
+
+"@types/through@npm:*":
+  version: 0.0.30
+  resolution: "@types/through@npm:0.0.30"
+  dependencies:
+    "@types/node": "*"
+  checksum: 9578470db0b527c26e246a1220ae9bffc6bf47f20f89c54aac467c083ab1f7e16c00d9a7b4bb6cb4e2dfae465027270827e5908a6236063f6214625e50585d78
   languageName: node
   linkType: hard
 
@@ -5491,7 +5510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.2":
+"chalk@npm:^4.0.0, chalk@npm:^4.1.0, chalk@npm:^4.1.1, chalk@npm:^4.1.2":
   version: 4.1.2
   resolution: "chalk@npm:4.1.2"
   dependencies:
@@ -7246,12 +7265,14 @@ __metadata:
     "@types/ember__test-helpers": ^2.0.2
     "@types/ember__utils": ^3.16.2
     "@types/htmlbars-inline-precompile": ^1.0.1
+    "@types/inquirer": ^8.1.3
     "@types/qunit": ^2.11.2
     "@types/rsvp": ^4.0.4
     "@typescript-eslint/eslint-plugin": ^4.32.0
     "@typescript-eslint/parser": ^4.32.0
     babel-eslint: ^10.1.0
     broccoli-asset-rev: ^3.0.0
+    console-ui: ^3.1.2
     ember-auto-import: ^1.12.0
     ember-changeset: ^3.15.0
     ember-changeset-validations: ^3.16.0
@@ -7283,6 +7304,7 @@ __metadata:
     eslint-plugin-node: ^11.1.0
     eslint-plugin-prettier: ^4.0.0
     eslint-plugin-qunit: ^6.2.0
+    inquirer: ^8.2.0
     loader.js: ^4.7.0
     npm-run-all: ^4.1.5
     prettier: ^2.4.1
@@ -9963,6 +9985,28 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"inquirer@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "inquirer@npm:8.2.0"
+  dependencies:
+    ansi-escapes: ^4.2.1
+    chalk: ^4.1.1
+    cli-cursor: ^3.1.0
+    cli-width: ^3.0.0
+    external-editor: ^3.0.3
+    figures: ^3.0.0
+    lodash: ^4.17.21
+    mute-stream: 0.0.8
+    ora: ^5.4.1
+    run-async: ^2.4.0
+    rxjs: ^7.2.0
+    string-width: ^4.1.0
+    strip-ansi: ^6.0.0
+    through: ^2.3.6
+  checksum: 861d1a9324ae933b49126b3541d94e4d6a2f2a25411b3f3cc00c34bf1bdab34146362d702cf289efe6d8034900dc5905bcf2ea716092a02b6fc390e5986dd236
+  languageName: node
+  linkType: hard
+
 "internal-slot@npm:^1.0.3":
   version: 1.0.3
   resolution: "internal-slot@npm:1.0.3"
@@ -12521,7 +12565,7 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ora@npm:^5.4.0":
+"ora@npm:^5.4.0, ora@npm:^5.4.1":
   version: 5.4.1
   resolution: "ora@npm:5.4.1"
   dependencies:
@@ -14000,6 +14044,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"rxjs@npm:^7.2.0":
+  version: 7.4.0
+  resolution: "rxjs@npm:7.4.0"
+  dependencies:
+    tslib: ~2.1.0
+  checksum: 6b33172a760dcad6882fdc836ee8cf1ebe160dd7eaad95c45a12338ffdaa96eb41e48e6c25bbd3d1fdf45075949ff447954bc17a9d01c688558a67967d09c114
+  languageName: node
+  linkType: hard
+
 "safe-buffer@npm:5.1.2, safe-buffer@npm:~5.1.0, safe-buffer@npm:~5.1.1":
   version: 5.1.2
   resolution: "safe-buffer@npm:5.1.2"
@@ -15427,6 +15480,13 @@ fsevents@~2.3.2:
   version: 2.3.1
   resolution: "tslib@npm:2.3.1"
   checksum: de17a98d4614481f7fcb5cd53ffc1aaf8654313be0291e1bfaee4b4bb31a20494b7d218ff2e15017883e8ea9626599b3b0e0229c18383ba9dce89da2adf15cb9
+  languageName: node
+  linkType: hard
+
+"tslib@npm:~2.1.0":
+  version: 2.1.0
+  resolution: "tslib@npm:2.1.0"
+  checksum: aa189c8179de0427b0906da30926fd53c59d96ec239dff87d6e6bc831f608df0cbd6f77c61dabc074408bd0aa0b9ae4ec35cb2c15f729e32f37274db5730cb78
   languageName: node
   linkType: hard
 

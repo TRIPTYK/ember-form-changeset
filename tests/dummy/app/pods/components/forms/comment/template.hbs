@@ -1,5 +1,6 @@
 <form {{on "submit" this.submit}}>
     <label for="content">Contenu</label>
     <input id="content" type="text" value={{changeset-get @changeset "content"}} {{on "change" this.updateContent}}>
+      <button type="reset" {{on "click" this.rollback}}>Rollback</button>
     <button type="submit">Submit ({{if @changeset.isDirty "changes" "pristine"}})</button>
 </form>
