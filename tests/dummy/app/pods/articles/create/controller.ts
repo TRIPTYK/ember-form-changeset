@@ -10,7 +10,7 @@ export default class ArticlesCreate extends Controller {
 
   @action
   async saveFunction(changeset: BufferedChangeset) {
-    const underlying = changeset.pendingData as ArticlesDTO;
+    const underlying = changeset.pendingData as Partial<ArticlesDTO>;
 
     const articleRecord = await this.store
       .createRecord('article', {
@@ -20,7 +20,7 @@ export default class ArticlesCreate extends Controller {
       .save();
 
     await Promise.all(
-      (underlying.comments as any[]).map((e) =>
+      underlying.comments!.map((e) =>
         this.store
           .createRecord('comment', { ...e, article: articleRecord })
           .save()
