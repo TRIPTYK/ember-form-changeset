@@ -129,7 +129,7 @@ module.exports = {
       '  ' +
       fields
         .map((field) => mapValidation(field, config, options))
-        .join(`;${EOL}  `);
+        .join(`,${EOL}  `);
     options.fieldsFormatted =
       '  ' +
       fields.map((field) => mapField(field, config, options)).join(`;${EOL}  `);
