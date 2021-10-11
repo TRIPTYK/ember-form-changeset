@@ -4,6 +4,8 @@ const inquirer = require('inquirer');
 const EOL = require('os').EOL;
 const { existsSync } = require('fs');
 const { join } = require('path');
+const camelize = require('camelcase');
+const { v4: uuidv4 } = require('uuid');
 
 /**
  * Ask fields name and type
@@ -60,17 +62,20 @@ function mapField({ type, name }, config) {
    * Defaults
    */
   switch (type) {
-    case 'text':
-      return `<input name="${name}" type="type"/>`;
+    case 'text': {
+      const inputName = camelize(name);
+      const id = uuidv4();
+      return `<label for="${id}"></label>${EOL}  <input name="${inputName}" id="${id}" type="type"/>`;
+    }
     case 'select':
-      return `<PowerSelect @name="${name}" />`;
+      return `<PowerSelect @name="${camelize(name)}" />`;
     case 'textarea':
-      return `<FroalaEditor @name="${name}"/>`;
+      return `<FroalaEditor @name="${camelize(name)}"/>`;
   }
 }
 
 function mapValidation({ _type, name }, _config) {
-  return `${name}: [validatePresence(true)]`;
+  return `${camelize(name)}: [validatePresence(true)]`;
 }
 
 module.exports = {
@@ -101,6 +106,22 @@ module.exports = {
           return 'template';
         },
       };
+    } else {
+      return {
+        __path__() {
+          return '';
+        },
+        __componentname__() {
+          return path.join(options.locals.path, options.dasherizedModuleName);
+        },
+        __templatename__() {
+          return path.join(
+            'templates',
+            'components',
+            options.dasherizedModuleName
+          );
+        },
+      };
     }
   },
   locals: async (options) => {
@@ -110,8 +131,6 @@ module.exports = {
     if (existsSync(`${filePath}.js`)) {
       config = require(filePath);
     }
-
-    console.log(config);
 
     if (options === null || typeof options !== 'object') {
       throw new TypeError('getPathOptions first argument must be an object');
@@ -123,21 +142,20 @@ module.exports = {
       options.path = 'components';
     }
 
-    const fields = await askFields();
-
-    options.validationFormatted =
-      '  ' +
-      fields
-        .map((field) => mapValidation(field, config, options))
-        .join(`,${EOL}  `);
-    options.fieldsFormatted =
-      '  ' +
-      fields.map((field) => mapField(field, config, options)).join(`;${EOL}  `);
+    if (['g', 'generate'].includes(process.argv[2])) {
+      const fields = await askFields();
+      options.validationFormatted =
+        '  ' +
+        fields
+          .map((field) => mapValidation(field, config, options))
+          .join(`,${EOL}  `);
+      options.fieldsFormatted =
+        '  ' +
+        fields
+          .map((field) => mapField(field, config, options))
+          .join(`${EOL}  `);
+    }
 
     return options;
   },
-
-  // afterInstall(options) {
-  //   // Perform extra work here.
-  // }
 };
