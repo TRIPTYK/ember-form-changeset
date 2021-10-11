@@ -69,6 +69,10 @@ function mapField({ type, name }, config) {
   }
 }
 
+function mapValidation({ _type, name }, _config) {
+  return `${name}: [validatePresence(true)]`;
+}
+
 module.exports = {
   description: 'generates a base form component',
   fileMapTokens(options) {
@@ -119,11 +123,16 @@ module.exports = {
       options.path = 'components';
     }
 
-    options.fields =
+    const fields = await askFields();
+
+    options.validationFormatted =
       '  ' +
-      (await askFields())
-        .map((field) => mapField(field, config, options))
+      fields
+        .map((field) => mapValidation(field, config, options))
         .join(`;${EOL}  `);
+    options.fieldsFormatted =
+      '  ' +
+      fields.map((field) => mapField(field, config, options)).join(`;${EOL}  `);
 
     return options;
   },
