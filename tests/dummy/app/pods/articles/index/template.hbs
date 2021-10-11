@@ -5,6 +5,6 @@
 {{#each @model as |article|}}
     <div>
         <h2>{{article.title}}</h2>
-        <LinkTo @route="articles.edit" @model={{article}}>Edit article</LinkTo>
+        <LinkTo @route="articles.edit" @model={{article.id}}>Edit article</LinkTo>
     </div>
 {{/each}}

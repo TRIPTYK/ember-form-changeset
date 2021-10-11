@@ -1,33 +1,37 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import RouterService from '@ember/routing/router-service';
+import { inject } from '@ember/service';
 import { BufferedChangeset } from 'validated-changeset';
+import { ArticlesDTO } from '../../components/forms/articles/component';
 
 export default class ArticlesEdit extends Controller {
+  @inject declare router: RouterService;
+
   @action
   async saveFunction(changeset: BufferedChangeset) {
-    const underlying = {
-      ...(changeset.pendingData as Record<string, unknown>),
-    };
+    const data = changeset.pendingData as ArticlesDTO;
+    const articleRecord = this.store.peekRecord(
+      'article',
+      changeset.get('id')
+    )!;
 
-    const comments = await Promise.all(
-      (underlying.comments as any[]).map((e) =>
-        (e.id
+    /**
+     * Saving comments
+     */
+    await Promise.all(
+      data.comments.map((e) => {
+        const record = e.id
           ? this.store.peekRecord('comment', e.id)!
-          : this.store.createRecord('comment', e)
-        ).save()
-      )
+          : this.store.createRecord('comment');
+        record.setProperties({ ...e, article: articleRecord } as any);
+        return record.save();
+      })
     );
 
-    delete underlying.comments;
+    await articleRecord.save();
 
-    const record = this.store.peekRecord('article', changeset.get('id'))!;
-
-    record.setProperties({
-      ...underlying,
-      comments,
-    });
-
-    await record.save();
+    this.router.transitionTo('articles');
   }
 
   @action
