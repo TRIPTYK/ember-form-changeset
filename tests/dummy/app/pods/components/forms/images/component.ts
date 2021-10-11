@@ -3,14 +3,11 @@ import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
 
-interface <%= classifiedModuleName %>Args extends BaseFormArgs {} 
+interface FormsImagesArgs extends BaseFormArgs {}
 
-export default class <%= classifiedModuleName %> extends BaseForm<<%= classifiedModuleName %>Args> {
-  constructor(owner: unknown, args: <%= classifiedModuleName %>Args) {
-    super(
-      owner,
-      args
-    );
+export default class FormsImages extends BaseForm<FormsImagesArgs> {
+  constructor(owner: unknown, args: FormsImagesArgs) {
+    super(owner, args);
   }
 
   @action
@@ -19,4 +16,3 @@ export default class <%= classifiedModuleName %> extends BaseForm<<%= classified
     this.args.changeset.set(field, (e.target as HTMLInputElement).value);
   }
 }
-

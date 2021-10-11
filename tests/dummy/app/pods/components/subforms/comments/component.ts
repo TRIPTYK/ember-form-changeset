@@ -3,10 +3,10 @@ import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
 
-interface <%= classifiedModuleName %>Args extends BaseFormArgs {} 
+interface SubformsCommentsArgs extends BaseFormArgs {} 
 
-export default class <%= classifiedModuleName %> extends BaseForm<<%= classifiedModuleName %>Args> {
-  constructor(owner: unknown, args: <%= classifiedModuleName %>Args) {
+export default class SubformsComments extends BaseForm<SubformsCommentsArgs> {
+  constructor(owner: unknown, args: SubformsCommentsArgs) {
     super(
       owner,
       args

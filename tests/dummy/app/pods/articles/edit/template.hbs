@@ -1,15 +1,7 @@
 <LinkTo @route="articles">Retour</LinkTo>
 
-<h2>WITH EMBER OBJECT</h2>
-<Forms::Article
+<Forms::Articles
     @changeset={{changeset @model.raw}}
     @saveFunction={{this.saveFunction}}
-    @saveComment={{this.saveComment}}
-/>
-
-<h2>WITH POJO</h2>
-<Forms::Article
-    @changeset={{changeset @model.pojo}}
-    @saveFunction={{this.saveFunctionPojo}}
     @saveComment={{this.saveComment}}
 />

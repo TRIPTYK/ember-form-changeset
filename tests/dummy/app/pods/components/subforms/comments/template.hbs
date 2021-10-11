@@ -1,0 +1,5 @@
+<form {{on "submit" this.submit}} ...attributes>
+  <label for="5d07241c-e335-4911-822f-6782c252f4aa"></label>
+  <textarea name="content" id="5d07241c-e335-4911-822f-6782c252f4aa" {{on "change" (fn this.updateValue "content")}} value={{changeset-get @changeset "content"}}/>
+  <button type="submit">submit</button>
+</form>

@@ -4,24 +4,24 @@ import { BufferedChangeset } from 'ember-changeset/types';
 
 export default class ArticlesCreate extends Controller {
   @action
-  async saveFunctionPojo(changeset: BufferedChangeset) {
-    await changeset.save();
+  async saveFunction(changeset: BufferedChangeset) {
     const underlying = changeset.data as Record<string, unknown>;
-    await Promise.all(
-      (underlying.comments as { id: string }[]).map((e) => {
-        const comment = this.store.peekRecord('comment', e.id)!;
-        comment.setProperties(e);
-        return comment.save();
-      })
-    );
+    console.log(underlying);
+    await changeset.save();
   }
 
   @action
   async saveComment(
-    _parentChangeset: BufferedChangeset,
+    parentChangeset: BufferedChangeset,
     changeset: BufferedChangeset
   ) {
-    await changeset.save();
+    parentChangeset.set('comments', [
+      ...parentChangeset.get('comments'),
+      // TODO: add changeset type
+      { ...(changeset as any).pendingData },
+    ]);
+
+    changeset.rollback();
   }
   // normal class body definition here
 }

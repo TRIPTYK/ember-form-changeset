@@ -1,10 +1,10 @@
 import { Factory } from 'ember-cli-mirage';
 
 export default Factory.extend({
-  title(i) {
-    return `Movie ${i}`;
+  name(i) {
+    return `${i}.png`;
   },
-  description(i) {
-    return `Lotem ipsum ${i}`;
+  path(i) {
+    return `/static/${i}.png`;
   },
 });

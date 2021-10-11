@@ -65,12 +65,15 @@ function mapField({ type, name }, config) {
     case 'text': {
       const inputName = camelize(name);
       const id = uuidv4();
-      return `<label for="${id}"></label>${EOL}  <input name="${inputName}" id="${id}" type="type"/>`;
+      return `<label for="${id}"></label>${EOL}  <input name="${inputName}" id="${id}" type="${type}" {{on "change" (fn this.updateValue "${inputName}")}} value={{changeset-get @changeset "${inputName}"}}/>`;
     }
     case 'select':
       return `<PowerSelect @name="${camelize(name)}" />`;
-    case 'textarea':
-      return `<FroalaEditor @name="${camelize(name)}"/>`;
+    case 'textarea': {
+      const inputName = camelize(name);
+      const id = uuidv4();
+      return `<label for="${id}"></label>${EOL}  <textarea name="${inputName}" id="${id}" {{on "change" (fn this.updateValue "${inputName}")}} value={{changeset-get @changeset "${inputName}"}}/>`;
+    }
   }
 }
 
@@ -79,14 +82,25 @@ function mapValidation({ _type, name }, _config) {
 }
 
 module.exports = {
+  availableOptions: [
+    {
+      name: 'ask',
+      type: Boolean,
+      default: false,
+    },
+  ],
   description: 'generates a base form component',
   fileMapTokens(options) {
+    console.log(options);
     let commandOptions = options;
 
     if (commandOptions.pod) {
       return {
         __componentname__() {
           return 'component';
+        },
+        __name__() {
+          return options.dasherizedModuleName;
         },
         __path__() {
           return path.join(
@@ -108,6 +122,9 @@ module.exports = {
       };
     } else {
       return {
+        __name__() {
+          return options.dasherizedModuleName;
+        },
         __path__() {
           return '';
         },
@@ -142,7 +159,10 @@ module.exports = {
       options.path = 'components';
     }
 
-    if (['g', 'generate'].includes(process.argv[2])) {
+    options.validationFormatted = '';
+    options.fieldsFormatted = '';
+
+    if (['g', 'generate'].includes(process.argv[2]) && options.ask) {
       const fields = await askFields();
       options.validationFormatted =
         '  ' +

@@ -2,15 +2,16 @@ import { action } from '@ember/object';
 import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
+import { tracked } from '@glimmer/tracking';
 
-interface <%= classifiedModuleName %>Args extends BaseFormArgs {} 
+interface FormsArticlesArgs extends BaseFormArgs {}
 
-export default class <%= classifiedModuleName %> extends BaseForm<<%= classifiedModuleName %>Args> {
-  constructor(owner: unknown, args: <%= classifiedModuleName %>Args) {
-    super(
-      owner,
-      args
-    );
+export default class FormsArticles extends BaseForm<FormsArticlesArgs> {
+  @tracked isAddingComment = false;
+
+  @action
+  toggleCommentModal() {
+    this.isAddingComment = !this.isAddingComment;
   }
 
   @action
@@ -19,4 +20,3 @@ export default class <%= classifiedModuleName %> extends BaseForm<<%= classified
     this.args.changeset.set(field, (e.target as HTMLInputElement).value);
   }
 }
-

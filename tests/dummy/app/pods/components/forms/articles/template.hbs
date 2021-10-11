@@ -1,0 +1,22 @@
+<form {{on "submit" this.submit}} ...attributes>
+  <label for="99816110-6d02-4a74-a6e0-3a49abe6a7da"></label>
+  <input name="title" id="99816110-6d02-4a74-a6e0-3a49abe6a7da" type="text" {{on "change" (fn this.updateValue "title")}} value={{changeset-get @changeset "title"}}/>
+  <label for="96772210-3b09-4cbb-bc7e-28ad7ef9fa5d"></label>
+  <textarea name="description" id="96772210-3b09-4cbb-bc7e-28ad7ef9fa5d" {{on "change" (fn this.updateValue "description")}} value={{changeset-get @changeset "description"}}/>
+
+  <hr>
+
+  <button type="button" {{on "click" this.toggleCommentModal}}>Ajouter un commentaire</button>
+  {{!-- Simulate modal --}}
+  {{#if this.isAddingComment}}
+    <Subforms::Comments @changeset={{changeset (hash)}} @saveFunction={{fn @saveComment @changeset}} />
+  {{/if}}
+
+  <hr>
+  {{log 'cm' (changeset-get @changeset "comments")}}
+  {{#each (changeset-get @changeset "comments") as |comment|}}
+    <Subforms::Comments @changeset={{changeset comment}} @saveFunction={{fn @saveComment @changeset}} />
+  {{/each}}
+
+  <button type="submit">submit</button>
+</form>
