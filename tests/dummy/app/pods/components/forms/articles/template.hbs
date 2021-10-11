@@ -13,7 +13,6 @@
   {{/if}}
 
   <hr>
-  {{log 'cm' (changeset-get @changeset "comments")}}
   {{#each (changeset-get @changeset "comments") as |comment|}}
     <Subforms::Comments @changeset={{changeset comment}} @saveFunction={{fn @saveComment @changeset}} />
   {{/each}}

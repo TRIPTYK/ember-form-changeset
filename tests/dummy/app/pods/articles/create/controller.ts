@@ -1,13 +1,32 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import { inject } from '@ember/service';
 import { BufferedChangeset } from 'ember-changeset/types';
+import Store from '@ember-data/store';
 
 export default class ArticlesCreate extends Controller {
+  @inject declare store: Store;
+
   @action
   async saveFunction(changeset: BufferedChangeset) {
-    const underlying = changeset.data as Record<string, unknown>;
-    console.log(underlying);
-    await changeset.save();
+    const underlying = {
+      ...(changeset.pendingData as Record<string, unknown>),
+    };
+
+    const comments = await Promise.all(
+      (underlying.comments as any[]).map((e) =>
+        this.store.createRecord('comment', e).save()
+      )
+    );
+
+    delete underlying.comments;
+
+    await this.store
+      .createRecord('article', {
+        ...underlying,
+        comments,
+      })
+      .save();
   }
 
   @action

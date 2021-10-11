@@ -5,29 +5,43 @@ import { BufferedChangeset } from 'validated-changeset';
 export default class ArticlesEdit extends Controller {
   @action
   async saveFunction(changeset: BufferedChangeset) {
-    await changeset.save();
-    console.log(changeset.data);
-  }
+    const underlying = {
+      ...(changeset.pendingData as Record<string, unknown>),
+    };
 
-  @action
-  async saveFunctionPojo(changeset: BufferedChangeset) {
-    await changeset.save();
-    const underlying = changeset.data as Record<string, unknown>;
-    await Promise.all(
-      (underlying.comments as { id: string }[]).map((e) => {
-        const comment = this.store.peekRecord('comment', e.id)!;
-        comment.setProperties(e);
-        return comment.save();
-      })
+    const comments = await Promise.all(
+      (underlying.comments as any[]).map((e) =>
+        (e.id
+          ? this.store.peekRecord('comment', e.id)!
+          : this.store.createRecord('comment', e)
+        ).save()
+      )
     );
+
+    delete underlying.comments;
+
+    const record = this.store.peekRecord('article', changeset.get('id'))!;
+
+    record.setProperties({
+      ...underlying,
+      comments,
+    });
+
+    await record.save();
   }
 
   @action
   async saveComment(
-    _parentChangeset: BufferedChangeset,
+    parentChangeset: BufferedChangeset,
     changeset: BufferedChangeset
   ) {
-    await changeset.save();
+    parentChangeset.set('comments', [
+      ...parentChangeset.get('comments'),
+      // TODO: add changeset type
+      { ...(changeset as any).pendingData },
+    ]);
+
+    changeset.rollback();
   }
 }
 
