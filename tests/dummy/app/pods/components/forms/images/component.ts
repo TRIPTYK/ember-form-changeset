@@ -11,6 +11,12 @@ export default class FormsImages extends BaseForm<FormsImagesArgs> {
   }
 
   @action
+  setFile(file: any) {
+    this.args.changeset.set('blob', file.blob);
+    this.args.changeset.set('url', URL.createObjectURL(file.blob));
+  }
+
+  @action
   updateValue(field: string, e: InputEvent) {
     e.preventDefault();
     this.args.changeset.set(field, (e.target as HTMLInputElement).value);

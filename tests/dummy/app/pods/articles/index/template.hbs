@@ -3,8 +3,12 @@
 <LinkTo @route="articles.create">Create article</LinkTo>
 
 {{#each @model as |article|}}
-    <div>
+    {{!-- 90's website style --}}
+    <div style="background-color: beige; border: black solid 1px;padding:5px;">
         <h2>{{article.title}}</h2>
-        <LinkTo @route="articles.edit" @model={{article.id}}>Edit article</LinkTo>
+        <img src={{article.image.url}} width="64" height="64" role="presentation" alt="">
+        <div>
+            <LinkTo @route="articles.edit" @model={{article.id}}>Edit article</LinkTo>
+        </div>
     </div>
 {{/each}}

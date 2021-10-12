@@ -8,7 +8,7 @@ import ArrayProxy from '@ember/array/proxy';
  * Pojoize an ember data record
  */
 export const toPojo = <T extends Model>(
-  object: T | ArrayProxy<T>,
+  object: T | ArrayProxy<T> | null,
   store: Store
 ): Record<string, unknown> | Record<string, unknown>[] => {
   if (object instanceof ArrayProxy) {

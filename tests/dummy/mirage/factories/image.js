@@ -4,7 +4,7 @@ export default Factory.extend({
   name(i) {
     return `${i}.png`;
   },
-  path(i) {
-    return `/static/${i}.png`;
+  url() {
+    return `/grumpy.jpg`;
   },
 });

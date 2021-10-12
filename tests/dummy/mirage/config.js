@@ -32,6 +32,11 @@ export default function () {
   this.post('/comments');
   this.patch('/comments/:id');
 
+  this.get('/images');
+  this.post('/images');
+  this.get('/images/:id');
+  this.patch('/images/:id');
+
   this.get('/users');
   this.get('/users/:id');
 }

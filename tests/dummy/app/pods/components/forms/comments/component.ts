@@ -3,14 +3,11 @@ import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
 
-interface SubformsCommentsArgs extends BaseFormArgs {} 
+interface SubformsCommentsArgs extends BaseFormArgs {}
 
 export default class SubformsComments extends BaseForm<SubformsCommentsArgs> {
   constructor(owner: unknown, args: SubformsCommentsArgs) {
-    super(
-      owner,
-      args
-    );
+    super(owner, args);
   }
 
   @action
@@ -19,4 +16,3 @@ export default class SubformsComments extends BaseForm<SubformsCommentsArgs> {
     this.args.changeset.set(field, (e.target as HTMLInputElement).value);
   }
 }
-
