@@ -4,17 +4,18 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import Validation from 'dummy/validator/forms/comments';
+import Validation from '<%= dummy ? "dummy" : project.pkg.name %>/validator/<%= dasherizedModuleName %>';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
-import { CommentsDTO } from 'dummy/pods/components/forms/articles/component';
 import click from '@ember/test-helpers/dom/click';
+<% if(fields.length){ %>
 import fillIn from '@ember/test-helpers/dom/fill-in';
+<% } %>
 
 module('Integration | Component | <%= classifiedModuleName %>', function (hooks) {
   setupRenderingTest(hooks);
 
   test('Create (empty changeset)', async function (assert) {
-    assert.expect(3);
+    assert.expect(<%= createAssertions %>);
 
     this.set(
       'changeset',
@@ -27,33 +28,33 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
 
     this.set(
       'saveFunction',
-      (changeset: TypedBufferedChangeset<CommentsDTO>) => {
-        assert.strictEqual(changeset.get('content'), 'text');
+      (<%= !createSaveFunctionAssertions ? '_' : '' %>changeset: TypedBufferedChangeset) => {
+<%= createSaveFunctionAssertions %>
       }
     );
 
     await render(
-      hbs`<Forms::Comments @changeset={{this.changeset}} @saveFunction={{this.saveFunction}}/>`
+      hbs`<<%= componentName %> @changeset={{this.changeset}} @saveFunction={{this.saveFunction}} />`
     );
 
     await click("button[type='submit']");
     assert.dom("button[type='submit']").isDisabled();
 
-    assert.dom('#aaaa').hasValue('');
+<%= createMainAssertions %>
 
-    await fillIn('#aaaa', 'text');
+<%= createFillAssertions %>
 
     await click("button[type='submit']");
   });
 
   test('Edit (populated changeset)', async function (assert) {
-    assert.expect(2);
+    assert.expect(<%= updateAssertions %>);
 
     this.set(
       'changeset',
       Changeset(
         {
-          content: 'text',
+<%= updateChangesetInitialValues %>
         } as Record<keyof typeof Validation, any>,
         lookupValidator(Validation),
         Validation
@@ -62,16 +63,16 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
 
     this.set(
       'saveFunction',
-      (changeset: TypedBufferedChangeset<CommentsDTO>) => {
-        assert.strictEqual(changeset.get('content'), 'text');
+      (<%= !updateSaveFunctionAssertions ? '_' : '' %>changeset: TypedBufferedChangeset) => {
+<%= updateSaveFunctionAssertions %>
       }
     );
 
     await render(
-      hbs`<Forms::Comments @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`
+      hbs`<<%= componentName %> @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`
     );
 
-    assert.dom('#aaaa').hasValue('text');
+<%= updateMainAssertions %>
 
     await click("button[type='submit']");
   });

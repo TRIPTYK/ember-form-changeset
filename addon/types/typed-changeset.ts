@@ -1,7 +1,7 @@
 import { BufferedChangeset } from 'ember-changeset/types';
 
 export interface TypedBufferedChangeset<
-  T extends Record<string, any> = Record<string, unknown>
+  T extends Record<string, any> = Record<string, any>
 > extends BufferedChangeset {
   pendingData: Partial<T>;
   data: T;

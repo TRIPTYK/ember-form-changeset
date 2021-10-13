@@ -1,11 +1,14 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { BufferedChangeset, isChangeset } from 'validated-changeset';
+import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import { isChangeset } from 'validated-changeset';
 
-export interface BaseFormArgs {
-  changeset: BufferedChangeset;
+export interface BaseFormArgs<
+  T extends Record<string, any> = Record<string, any>
+> {
+  changeset: TypedBufferedChangeset<T>;
   saveFunction: (
-    changeset: BufferedChangeset,
+    changeset: TypedBufferedChangeset<T>,
     ...otherArgs: unknown[]
   ) => Promise<void>;
 }

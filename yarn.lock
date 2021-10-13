@@ -3255,6 +3255,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"any-base@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "any-base@npm:1.1.0"
+  checksum: e04b8f072c8ff137dd2cdb75002424d61709f0f3cd1aa1a11ab528658299112abd868e6d71669024bc4d0c74c1d3fee5b2186560806fcc0640b974f19668ea3d
+  languageName: node
+  linkType: hard
+
 "anymatch@npm:^2.0.0":
   version: 2.0.0
   resolution: "anymatch@npm:2.0.0"
@@ -7370,6 +7377,7 @@ __metadata:
     ember-cli-inject-live-reload: ^2.1.0
     ember-cli-mirage: ^2.2.0
     ember-cli-sri: ^2.1.1
+    ember-cli-string-utils: ^1.1.0
     ember-cli-terser: ^4.0.2
     ember-cli-typescript: ^4.2.1
     ember-cli-typescript-blueprints: ^3.0.0
@@ -7398,8 +7406,8 @@ __metadata:
     prettier: ^2.4.1
     qunit: ^2.17.2
     qunit-dom: ^1.6.0
+    short-uuid: ^4.2.0
     typescript: ^4.4.3
-    uuid: ^8.3.2
   languageName: unknown
   linkType: soft
 
@@ -14404,6 +14412,16 @@ fsevents@~2.3.2:
   version: 0.1.1
   resolution: "shellwords@npm:0.1.1"
   checksum: 3559ff550917ece921d252edf42eb54827540e9676e537137ace236df8f9b78e48c542ae0b3f8876fea0faf5826c97629d5b8cb9ac7dee287260e9804fb8132c
+  languageName: node
+  linkType: hard
+
+"short-uuid@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "short-uuid@npm:4.2.0"
+  dependencies:
+    any-base: ^1.1.0
+    uuid: ^8.3.2
+  checksum: 0f83f3038bd6923779f5db7f4b6813c104db3ef22666c79e163dd91964575e85ef7eafd53e33a79ec038a407a687ed446a730bb9457a59c68a698292a90f54ba
   languageName: node
   linkType: hard
 
