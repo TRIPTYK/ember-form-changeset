@@ -8,6 +8,22 @@ module('To-pojo', function (hooks) {
 
   hooks.beforeEach(function () {});
 
+  test('Transforms should throw if not an Ember model', async function (assert) {
+    const store = this.owner.lookup('service:store') as Store;
+    assert.throws(
+      // @ts-expect-error
+      () => toPojo([], store),
+      /Please provide an ember record/i,
+      'should throw if not an ember record'
+    );
+    assert.throws(
+      // @ts-expect-error
+      () => toPojo({}, store),
+      /Please provide an ember record/i,
+      'should throw if not an ember record'
+    );
+  });
+
   test('Transforms ember record to POJO', async function (assert) {
     const store = this.owner.lookup('service:store') as Store;
 
