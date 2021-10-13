@@ -202,8 +202,6 @@ module.exports = {
     const filePath = join(process.cwd(), '.formconfig');
     let config;
 
-    console.log(options);
-
     if (existsSync(`${filePath}.js`)) {
       config = require(filePath);
     }
