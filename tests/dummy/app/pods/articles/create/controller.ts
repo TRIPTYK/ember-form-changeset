@@ -16,7 +16,7 @@ export default class ArticlesCreate extends Controller {
     const image = await this.store
       .createRecord('image', {
         name: changeset.get<string>('image.name'),
-        path: changeset.get<string>('image.url'),
+        url: changeset.get<string>('image.url'),
       })
       .save();
 
