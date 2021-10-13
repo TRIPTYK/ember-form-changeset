@@ -6,7 +6,7 @@ import Store from '@ember-data/store';
 module('To-pojo', function (hooks) {
   setupApplicationTest(hooks);
 
-  hooks.beforeEach(function (_assert) {});
+  hooks.beforeEach(function () {});
 
   test('Transforms ember record to POJO', async function (assert) {
     const store = this.owner.lookup('service:store') as Store;
@@ -25,6 +25,7 @@ module('To-pojo', function (hooks) {
     const record = store.createRecord('article', {
       id: 3,
       title: 'A nice article',
+      description: 'Consectetur ad dolore ea commodo nostrud esse.',
       comments: store.peekAll('comment'),
       author: user,
     });
@@ -33,10 +34,30 @@ module('To-pojo', function (hooks) {
 
     assert.propEqual(result, {
       title: 'A nice article',
+      description: 'Consectetur ad dolore ea commodo nostrud esse.',
       comments: ['1'],
       author: '2',
       id: '3',
     });
+  });
+
+  test('Transforms ember record skip undefined keys', async function (assert) {
+    const store = this.owner.lookup('service:store') as Store;
+
+    const user = store.createRecord('user', {
+      id: 2,
+      username: undefined,
+    });
+
+    const result = toPojo(user, store);
+
+    assert.propEqual(
+      result,
+      {
+        id: '2',
+      },
+      'undefined keys are skipped'
+    );
   });
 
   test('Transforms ember record array to POJO', async function (assert) {
@@ -55,6 +76,7 @@ module('To-pojo', function (hooks) {
 
     store.createRecord('article', {
       id: 3,
+      description: 'Consectetur ad dolore ea commodo nostrud esse.',
       title: 'A nice article',
       comments: store.peekAll('comment'),
       author: user,
@@ -65,6 +87,7 @@ module('To-pojo', function (hooks) {
     assert.propEqual(result, [
       {
         title: 'A nice article',
+        description: 'Consectetur ad dolore ea commodo nostrud esse.',
         comments: ['1'],
         author: '2',
         id: '3',

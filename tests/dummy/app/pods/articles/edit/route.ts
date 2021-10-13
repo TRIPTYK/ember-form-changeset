@@ -15,10 +15,12 @@ export default class ArticlesEdit extends Route {
     });
     const pojo = toPojo(article, this.store) as Record<string, unknown>;
 
+    // pojoize image relationship
     pojo.image = pojo.image
       ? toPojo(this.store.peekRecord('image', pojo.image as string), this.store)
       : null;
 
+    // pojoize comments relationship
     pojo.comments = (pojo.comments as string[]).map((e) =>
       toPojo(this.store.peekRecord('comment', e)!, this.store)
     );

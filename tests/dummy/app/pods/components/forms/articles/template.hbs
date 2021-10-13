@@ -1,4 +1,4 @@
-<form {{on "submit" this.submit}} ...attributes>
+<form class={{if @changeset.isDirty "hasChangesMain"}} {{on "submit" this.submit}} ...attributes>
   <h1>Article</h1>
   <label for="99816110-6d02-4a74-a6e0-3a49abe6a7da"></label>
   <input name="title" id="99816110-6d02-4a74-a6e0-3a49abe6a7da" type="text" {{on "change" (fn this.updateValue "title")}} value={{changeset-get @changeset "title"}}/>
@@ -8,21 +8,34 @@
   <hr>
   <h2>Image</h2>
   {{#let (changeset-get @changeset "image") as |image|}}
-    {{!-- If image is undefined, creates an empty changeset, NOTE : maybe move to component ? --}}
-    <Forms::Images @changeset={{changeset (if image image (hash)) this.ImagesValidation}} @saveFunction={{this.saveImage}} />
+    {{!-- 
+      let stores the result of the helper, so we can reuse 
+      If image is undefined, creates an empty changeset (hash equals {})
+    --}}
+    {{#let (changeset (if image image (hash)) this.ImagesValidation) as |changeset|}}
+      <Forms::Images class={{if changeset.isDirty "hasChanges"}} @changeset={{changeset}} @saveFunction={{this.saveImage}} />
+    {{/let}}
   {{/let}}
   <hr>
 
   <button type="button" {{on "click" this.toggleCommentModal}}>{{if this.isAddingComment "Cancel" "Add comment"}}</button>
   {{!-- Simulate modal --}}
   {{#if this.isAddingComment}}
-    <Forms::Comments @changeset={{changeset (hash) this.CommentsValidation}} @saveFunction={{fn this.createComment @changeset}} />
+    {{!-- let stores the result of the helper, so we can reuse --}}
+    {{#let (changeset (hash) this.CommentsValidation) as |changeset|}}
+      {{!-- If changes are pending, notify visually if there is changes to save (optional) --}}
+      <Forms::Comments class={{if changeset.isDirty "hasChanges"}} @changeset={{changeset}} @saveFunction={{fn this.createComment @changeset}} />
+    {{/let}}
   {{/if}}
 
   <hr>
   <h2>Commentaires</h2>
   {{#each (changeset-get @changeset "comments") as |comment|}}
-    <Forms::Comments @changeset={{changeset comment this.CommentsValidation}} @saveFunction={{fn @editComment @changeset}} />
+    {{!-- let stores the result of the helper, so we can reuse --}}
+    {{#let (changeset comment this.CommentsValidation) as |changeset|}}
+      {{!-- If changes are pending, notify visually if there is changes to save (optional) --}}
+      <Forms::Comments class={{if changeset.isDirty "hasChanges"}} @changeset={{changeset}} @saveFunction={{fn @editComment @changeset}} />
+    {{/let}}
   {{else}}
     <p>There's no comments</p>
   {{/each}} 

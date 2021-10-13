@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { BufferedChangeset } from 'validated-changeset';
+import { BufferedChangeset, isChangeset } from 'validated-changeset';
 
 export interface BaseFormArgs {
   changeset: BufferedChangeset;
@@ -13,6 +13,13 @@ export interface BaseFormArgs {
 export default abstract class BaseForm<
   T extends BaseFormArgs
 > extends Component<T> {
+  constructor(owner: unknown, args: T) {
+    super(owner, args);
+    if (!args.changeset || !isChangeset(args.changeset)) {
+      throw new Error('You must pass a valid @changeset as argument');
+    }
+  }
+
   @action
   rollback(e?: Event) {
     e?.preventDefault();

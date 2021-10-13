@@ -8,7 +8,7 @@ export default class Article extends Model {
   @attr() declare description: string;
   @hasMany('comment') declare comments: Comment[];
   @belongsTo('user') declare author: User;
-  @belongsTo('image') declare image: Image;
+  @belongsTo('image') declare image?: Image;
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your models.

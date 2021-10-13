@@ -14,23 +14,27 @@ export default class ArticlesEdit extends Controller {
 
   @action
   async saveFunction(changeset: TypedBufferedChangeset<ArticlesDTO>) {
-    // don't forget to copy
-    const data = { ...changeset.pendingData };
+    // persists the changes into the underlying object
+    changeset.execute();
+
+    // fetch the existing article
     const articleRecord = this.store.peekRecord(
       'article',
       changeset.get('id')!
     )!;
 
-    const image = this.store.peekRecord('image', data.image?.id!);
-    image?.set('url', data.image?.url);
-    image?.set('name', data.image?.name);
+    // image is mandatory, it should exists with an id
+    const imageDTO = changeset.get('image');
+    const image = this.store.peekRecord('image', imageDTO.id!);
+    image?.set('url', imageDTO.url);
+    image?.set('name', imageDTO.name);
     await image?.save();
 
     /**
-     * Saving comments
+     * Saving comments, PROMISE ALL IS IMPORTANT
      */
     await Promise.all(
-      data.comments!.map((e) => {
+      changeset.get('comments').map((e) => {
         const record = e.id
           ? this.store.peekRecord('comment', e.id)!
           : this.store.createRecord('comment');

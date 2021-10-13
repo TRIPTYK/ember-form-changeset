@@ -5,36 +5,37 @@ import { BufferedChangeset } from 'ember-changeset/types';
 import Store from '@ember-data/store';
 import { ArticlesDTO } from '../../components/forms/articles/component';
 import RouterService from '@ember/routing/router-service';
+import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 
 export default class ArticlesCreate extends Controller {
   @inject declare store: Store;
   @inject declare router: RouterService;
 
   @action
-  async saveFunction(changeset: BufferedChangeset) {
-    const underlying = changeset.pendingData as Partial<ArticlesDTO>;
-
+  async saveFunction(changeset: TypedBufferedChangeset<ArticlesDTO>) {
     const image = await this.store
       .createRecord('image', {
-        name: changeset.get('name'),
-        path: changeset.get('url'),
+        name: changeset.get<string>('image.name'),
+        path: changeset.get<string>('image.url'),
       })
       .save();
 
     const articleRecord = await this.store
       .createRecord('article', {
-        title: underlying.title,
-        description: underlying.description,
+        title: changeset.get('title'),
+        description: changeset.get('description'),
         image,
       })
       .save();
 
     await Promise.all(
-      underlying.comments!.map((e) =>
-        this.store
-          .createRecord('comment', { ...e, article: articleRecord })
-          .save()
-      )
+      changeset
+        .get('comments')
+        .map((e) =>
+          this.store
+            .createRecord('comment', { ...e, article: articleRecord })
+            .save()
+        )
     );
 
     this.router.transitionTo('articles');
@@ -42,18 +43,19 @@ export default class ArticlesCreate extends Controller {
 
   @action
   async editComment(changeset: BufferedChangeset) {
+    // persists the changes into the underlying object
     changeset.execute();
   }
 
   @action
   async createComment(
-    parentChangeset: BufferedChangeset,
-    changeset: BufferedChangeset
+    parentChangeset: TypedBufferedChangeset<ArticlesDTO>,
+    changeset: TypedBufferedChangeset<ArticlesDTO>
   ) {
+    // append to comments array
     parentChangeset.set('comments', [
       ...parentChangeset.get('comments'),
-      // TODO: add changeset type
-      { ...(changeset as any).pendingData },
+      { ...changeset.pendingData },
     ]);
 
     changeset.rollback();

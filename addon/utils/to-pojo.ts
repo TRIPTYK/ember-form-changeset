@@ -1,11 +1,10 @@
-// import Model from '@ember-data/model';
 import Model from '@ember-data/model';
 import Store from '@ember-data/store';
 import ArrayProxy from '@ember/array/proxy';
-// eslint-disable-next-line ember/use-ember-data-rfc-395-imports
 
 /**
  * Pojoize an ember data record
+ * Relations will be loaded if they are available in the store
  */
 export const toPojo = <T extends Model>(
   object: T | ArrayProxy<T> | null,
@@ -31,7 +30,10 @@ export const toPojo = <T extends Model>(
   const plain: Record<string, unknown> = {};
 
   attributes.forEach((_meta: unknown, name: keyof Model) => {
-    plain[name] = object.get(name);
+    const value = object.get(name);
+    if (value !== undefined) {
+      plain[name] = value;
+    }
   });
   relationships.forEach(
     (
