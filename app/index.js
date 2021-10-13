@@ -1,2 +1,2 @@
 export * from './base/base-form';
-export * from './types/typed-changeset';
+export * from './components/typed-changeset';

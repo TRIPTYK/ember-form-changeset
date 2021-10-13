@@ -6,10 +6,12 @@ import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import Validation from 'dummy/validator/forms/comments';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
-import { CommentsDTO } from 'dummy/pods/components/forms/articles/component';
 import click from '@ember/test-helpers/dom/click';
 import fillIn from '@ember/test-helpers/dom/fill-in';
 
+/**
+ * Serves as default template for test generation
+ */
 module('Integration | Component | Comment', function (hooks) {
   setupRenderingTest(hooks);
 
@@ -25,12 +27,9 @@ module('Integration | Component | Comment', function (hooks) {
       )
     );
 
-    this.set(
-      'saveFunction',
-      (changeset: TypedBufferedChangeset<CommentsDTO>) => {
-        assert.strictEqual(changeset.get('content'), 'text');
-      }
-    );
+    this.set('saveFunction', (changeset: TypedBufferedChangeset) => {
+      assert.strictEqual(changeset.get('content'), 'text');
+    });
 
     await render(
       hbs`<Forms::Comments @changeset={{this.changeset}} @saveFunction={{this.saveFunction}}/>`
@@ -60,12 +59,9 @@ module('Integration | Component | Comment', function (hooks) {
       )
     );
 
-    this.set(
-      'saveFunction',
-      (changeset: TypedBufferedChangeset<CommentsDTO>) => {
-        assert.strictEqual(changeset.get('content'), 'text');
-      }
-    );
+    this.set('saveFunction', (changeset: TypedBufferedChangeset) => {
+      assert.strictEqual(changeset.get('content'), 'text');
+    });
 
     await render(
       hbs`<Forms::Comments @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`

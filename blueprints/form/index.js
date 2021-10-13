@@ -143,36 +143,44 @@ function mapField({ type, name, id }, config) {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapValidation({ _type, name }, _config) {
   return `${camelize(name)}: [validatePresence(true)]`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapDTOField({ _type, name }, _config) {
   return `${camelize(name)}: unknown`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapCreateSaveFunctionAssertions({ _type, name }, config) {
   return `assert.strictEqual(changeset.get('${camelize(
     name
   )}'), 'Edited${name}')`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapUpdateSaveFunctionAssertions({ _type, name }, config) {
   return `assert.strictEqual(changeset.get('${camelize(name)}'), '${name}')`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapCreateMainAssertions({ _type, name, id }, config) {
   return `assert.dom('#${id}').hasValue('')`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapUpdateMainAssertions({ _type, name, id }, config) {
   return `assert.dom('#${id}').hasValue('${name}')`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapCreateFillAssertions({ _type, name, id }, config) {
   return `await fillIn('#${id}', 'Edited${name}')`;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function mapUpdateChangesetInitialValues({ _type, name, id }, config) {
   return `${camelize(name)}: '${name}'`;
 }
