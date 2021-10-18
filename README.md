@@ -79,7 +79,14 @@ Utilitaries functions to work with POJO changesets.
 Transforms an ember record or an ember record array to plain changeset.
 
 ```ts 
-toPojo()<T extends Model>(object: T | ArrayProxy<T> | null,store: Store): Record<string, unknown> | Record<string, unknown>[]
+toPojo()<T extends Model>(
+  object: T | T[] | ArrayProxy<T> | ObjectProxy<T> | null | undefined,
+  store: Store
+):
+  | Record<string, unknown>
+  | (Record<string, unknown> | null | undefined)[]
+  | null
+  | undefined
 ```
 
 ##### Example
@@ -88,12 +95,24 @@ toPojo()<T extends Model>(object: T | ArrayProxy<T> | null,store: Store): Record
 const article = await this.store.findRecord('article', id, {
       include: 'image',
 });
-const pojo = toPojo(article, this.store) as Record<string, unknown>;
+const pojo = toPojo(article, this.store) as ArticleDTO;
 
 // pojoize image relationship
-pojo.image = pojo.image
+pojo.image = (pojo.image
     ? toPojo(this.store.peekRecord('image', pojo.image as string), this.store)
-    : null;
+    : null) as ImageDTO | null;
+```
+
+Also works : 
+
+```ts
+const article = await this.store.findRecord('article', id, {
+      include: 'image',
+});
+const pojo = toPojo(article, this.store) as ArticleDTO;
+
+// pojoize image relationship
+pojo.image = toPojo(article.image, this.store) as ImageDTO;
 ```
 
 ## More examples
