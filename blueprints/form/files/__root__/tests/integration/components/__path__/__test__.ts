@@ -20,7 +20,7 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
     this.set(
       'changeset',
       Changeset(
-        {} as Record<keyof typeof Validation, any>,
+        {} as Record<keyof typeof Validation, unknown>,
         lookupValidator(Validation),
         Validation
       )
@@ -55,7 +55,7 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
       Changeset(
         {
 <%= updateChangesetInitialValues %>
-        } as Record<keyof typeof Validation, any>,
+        } as Record<keyof typeof Validation, unknown>,
         lookupValidator(Validation),
         Validation
       )
