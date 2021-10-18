@@ -1,6 +1,6 @@
 {
   "name": "ember-form-changeset-validations",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Helps creating form components logic based on ember-changeset-validations.",
   "keywords": [
     "ember-addon"
@@ -25,7 +25,7 @@
     "test:ember": "ember test",
     "test:ember-compatibility": "ember try:each",
     "prepack": "ember ts:precompile",
-    "postpack": "ember ts:clean"
+    "postpack": "rm -rf utils && rm -rf components"
   },
   "dependencies": {
     "camelcase": "~6.2.0",
