@@ -1,6 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
-import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
+import { TypedBufferedChangeset } from '../components/typed-changeset';
 import { isChangeset } from 'validated-changeset';
 
 export interface BaseFormArgs<
