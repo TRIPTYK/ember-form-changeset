@@ -10,17 +10,35 @@ module('To-pojo', function (hooks) {
 
   test('Transforms should throw if not an Ember model', async function (assert) {
     const store = this.owner.lookup('service:store') as Store;
+    const article = store.createRecord('article');
+
     assert.throws(
       // @ts-expect-error
       () => toPojo([{}], store),
       /Please provide an ember record/i,
-      'should throw if not an ember record'
+      'Should throw if not an ember record'
     );
     assert.throws(
       // @ts-expect-error
       () => toPojo({}, store),
       /Please provide an ember record/i,
-      'should throw if not an ember record'
+      'Should throw if not an ember record'
+    );
+    assert.throws(
+      // @ts-expect-error
+      () => toPojo([{}, article], store),
+      /Please provide an ember record/i,
+      'Should throw if one of elements is not ember record'
+    );
+  });
+
+  test('Transform undefined or null returns themselves', function (assert) {
+    const store = this.owner.lookup('service:store') as Store;
+    assert.equal(toPojo(null, store), null, 'Null returns null');
+    assert.equal(
+      toPojo(undefined, store),
+      undefined,
+      'Undefined returns undefined'
     );
   });
 
