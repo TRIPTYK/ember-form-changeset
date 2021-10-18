@@ -82,7 +82,7 @@ function invocationFor(options) {
 /**
  * Ask fields name and type
  */
-async function askFields() {
+async function askFields(config) {
   /**
    * @type Array<{ type: string; name: string }>
    */
@@ -101,7 +101,7 @@ async function askFields() {
       name: 'type',
       message: 'Type de champ',
       default: 'text',
-      choices: ['text', 'select', 'textarea'],
+      choices: ['text', 'select', 'textarea'].concat(config?.custom ?? []),
     });
 
     fields.push({
@@ -130,7 +130,7 @@ async function askFields() {
 }
 
 function mapField({ type, name, id }, config) {
-  if (config?.[type]) {
+  if (config?.overrides?.[type]) {
     return config?.[type](type, name);
   }
 
@@ -148,6 +148,10 @@ function mapField({ type, name, id }, config) {
       const inputName = camelize(name);
       return `<label for="${id}"></label>${EOL}  <textarea name="${inputName}" id="${id}" {{on "change" (fn this.updateValue "${inputName}")}} value={{changeset-get @changeset "${inputName}"}}/>`;
     }
+    default:
+      throw new Error(
+        `${type} is not implemented, please create a template in "overrides"`
+      );
   }
 }
 
@@ -240,7 +244,7 @@ module.exports = {
     options.updateMainAssertions = '';
 
     if (['g', 'generate'].includes(process.argv[2]) && options.ask) {
-      const fields = await askFields();
+      const fields = await askFields(config ?? {});
       options.createAssertions += fields.length * 2;
       options.updateAssertions += fields.length * 2;
 

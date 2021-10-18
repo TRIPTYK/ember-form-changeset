@@ -25,7 +25,30 @@ Features
 
 ### Form generation
 Form generation with `ember generate form <formName>`.
+- It will generate integration tests for the form with 2 scenarios : 
+    - Create : creation of the entity
+    - Edit : edition of an existing entity
 - You can add --ask parameter to prompt fields to add to the template
+
+3 base types are available : 
+    - text
+    - select
+    - textarea
+
+#### Custom fields types & overrides
+
+You can override or generate your own type like in the example below.
+
+```js
+// .formconfig.js
+module.exports = {
+  custom: ['checkbox'],
+  overrides: {
+    text: (type, name) => `<Custom @type="${type}" @name={{${name}}} />`,
+    checkbox: (type, name) => `<Checkbox@type="${type}" @name={{${name}}}  />`,
+  },
+};
+```
 
 ### Base Form Component
 
