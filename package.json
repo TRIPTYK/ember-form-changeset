@@ -5,7 +5,7 @@
   "keywords": [
     "ember-addon"
   ],
-  "repository": "",
+  "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
   "license": "MIT",
   "author": "",
   "directories": {
