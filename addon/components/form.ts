@@ -14,7 +14,8 @@ export interface BaseFormArgs<
 }
 
 export default abstract class BaseForm<
-  T extends BaseFormArgs
+  T extends BaseFormArgs<K>,
+  K extends Record<string, any> = Record<string, any>
 > extends Component<T> {
   constructor(owner: unknown, args: T) {
     super(owner, args);

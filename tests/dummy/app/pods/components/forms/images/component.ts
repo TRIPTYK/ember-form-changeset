@@ -3,9 +3,14 @@ import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
 
-interface FormsImagesArgs extends BaseFormArgs {}
+interface DTO {
+  blob: string;
+  url: string;
+}
 
-export default class FormsImages extends BaseForm<FormsImagesArgs> {
+interface FormsImagesArgs extends BaseFormArgs<DTO> {}
+
+export default class FormsImages extends BaseForm<FormsImagesArgs, DTO> {
   constructor(owner: unknown, args: FormsImagesArgs) {
     super(owner, args);
   }
@@ -19,6 +24,9 @@ export default class FormsImages extends BaseForm<FormsImagesArgs> {
   @action
   updateValue(field: string, e: InputEvent) {
     e.preventDefault();
-    this.args.changeset.set(field, (e.target as HTMLInputElement).value);
+    this.args.changeset.set<string>(
+      field,
+      (e.target as HTMLInputElement).value
+    );
   }
 }

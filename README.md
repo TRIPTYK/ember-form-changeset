@@ -4,8 +4,6 @@ ember-form-changeset-validations
 This addon helps creating form components logic based on [ember-changeset-validations](https://github.com/poteto/ember-changeset-validations).
 
 
-
-
 Compatibility
 ------------------------------------------------------------------------------
 
@@ -24,9 +22,44 @@ ember install ember-form-changeset-validations
 
 Features
 ------------------------------------------------------------------------------
-- Form generation with `ember generate form <formName>`.
-- Base abstract class to boilerplate form component creation
-- Typescript types for ember-changeset-validation
+
+### Form generation
+Form generation with `ember generate form <formName>`.
+- You can add --ask parameter to prompt fields to add to the template
+
+### Base Form Component
+
+```ts
+import { BaseForm } from "ember-changeset-validations";
+
+export MyChangesetDTO {
+    name: string;
+}
+
+class MyFormComponent extends BaseForm<MyChangesetDTO> {}
+```
+
+### Typescript types
+- Basic Typescript types for ember-changeset-validations
+```json
+"ember-changeset-validations": [
+    "node_modules/ember-form-changeset-validations/types/ember-changeset-validations"
+],
+```
+- Typed changeset interface
+```ts
+import { TypedBufferedChangeset } from "ember-changeset-validations";
+// ...
+const changeset = Changeset({}) as TypedBufferedChangeset<{
+    name : string;
+}>;
+
+changeset.get("name"); // check prop name
+
+// if unknown key, you can just specify the return type to keep type checking
+changeset.get<string>("unknown.key"):
+```
+
 
 Usage
 ------------------------------------------------------------------------------

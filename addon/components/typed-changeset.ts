@@ -11,4 +11,5 @@ export interface TypedBufferedChangeset<
   get<Key extends keyof T>(key: Key): T[Key];
   get<K>(key: string): K;
   set(key: keyof T, value: unknown): void;
+  set<K>(key: string, value: K): void;
 }
