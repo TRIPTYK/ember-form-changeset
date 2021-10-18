@@ -12,7 +12,7 @@ module('To-pojo', function (hooks) {
     const store = this.owner.lookup('service:store') as Store;
     assert.throws(
       // @ts-expect-error
-      () => toPojo([], store),
+      () => toPojo([{}], store),
       /Please provide an ember record/i,
       'should throw if not an ember record'
     );
@@ -32,7 +32,7 @@ module('To-pojo', function (hooks) {
       username: 'Amaury Deflorenne',
     });
 
-    store.createRecord('comment', {
+    const comment = store.createRecord('comment', {
       id: 1,
       content: 'Contenu du commentaire',
       author: user,
@@ -42,7 +42,7 @@ module('To-pojo', function (hooks) {
       id: 3,
       title: 'A nice article',
       description: 'Consectetur ad dolore ea commodo nostrud esse.',
-      comments: store.peekAll('comment'),
+      comments: [comment],
       author: user,
     });
 
@@ -84,7 +84,7 @@ module('To-pojo', function (hooks) {
       username: 'Amaury Deflorenne',
     });
 
-    store.createRecord('comment', {
+    const comment = store.createRecord('comment', {
       id: 1,
       content: 'Contenu du commentaire',
       author: user,
@@ -94,11 +94,46 @@ module('To-pojo', function (hooks) {
       id: 3,
       description: 'Consectetur ad dolore ea commodo nostrud esse.',
       title: 'A nice article',
-      comments: store.peekAll('comment'),
+      comments: [comment],
       author: user,
     });
 
     const result = toPojo(store.peekAll('article'), store);
+
+    assert.propEqual(result, [
+      {
+        title: 'A nice article',
+        description: 'Consectetur ad dolore ea commodo nostrud esse.',
+        comments: ['1'],
+        author: '2',
+        id: '3',
+      },
+    ]);
+  });
+
+  test('Transforms native array of ember records to POJO', async function (assert) {
+    const store = this.owner.lookup('service:store') as Store;
+
+    const user = store.createRecord('user', {
+      id: 2,
+      username: 'Amaury Deflorenne',
+    });
+
+    const comment = store.createRecord('comment', {
+      id: 1,
+      content: 'Contenu du commentaire',
+      author: user,
+    });
+
+    const article = store.createRecord('article', {
+      id: 3,
+      description: 'Consectetur ad dolore ea commodo nostrud esse.',
+      title: 'A nice article',
+      comments: [comment],
+      author: user,
+    });
+
+    const result = toPojo([article], store);
 
     assert.propEqual(result, [
       {

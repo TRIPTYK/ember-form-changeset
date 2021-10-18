@@ -32,12 +32,21 @@ Form generation with `ember generate form <formName>`.
 ```ts
 import { BaseForm } from "ember-changeset-validations";
 
-export MyChangesetDTO {
+export interface MyChangesetDTO {
     name: string;
 }
 
-class MyFormComponent extends BaseForm<MyChangesetDTO> {}
+interface MyComponentArgs extends BaseFormArgs<MyChangesetDTO> {}
+
+export default class MyFormComponent extends BaseForm<MyComponentArgs,MyChangesetDTO> {
+}
+
 ```
+#### Methods
+- rollback
+    - Rollback the changeset
+- submit
+    - Validates the changeset and triggers @saveFunction
 
 ### Typescript types
 - Basic Typescript types for ember-changeset-validations
@@ -55,25 +64,41 @@ const changeset = Changeset({}) as TypedBufferedChangeset<{
 }>;
 
 changeset.get("name"); // check prop name
+changeset.set("name","blah"); // check prop name
 
 // if unknown key, you can just specify the return type to keep type checking
-changeset.get<string>("unknown.key"):
+changeset.get<string>("unknown.key");
+changeset.set<string>("name","blah"); // check set prop type is string
+changeset.set<string>("name", 0); // Error
 ```
 
+### Utils
+Utilitaries functions to work with POJO changesets.
 
-Usage
-------------------------------------------------------------------------------
+#### toPojo 
+Transforms an ember record or an ember record array to plain changeset.
 
-ember g form articles --dummy --pods
+```ts 
+toPojo()<T extends Model>(object: T | ArrayProxy<T> | null,store: Store): Record<string, unknown> | Record<string, unknown>[]
+```
 
+##### Example
 
-We bind the method submit inherited from the BaseFormComponent to the form. If the changeset is valid, it will call `this.args.saveFunction` with the changeset as first argument.
+```ts
+const article = await this.store.findRecord('article', id, {
+      include: 'image',
+});
+const pojo = toPojo(article, this.store) as Record<string, unknown>;
 
-Contributing
-------------------------------------------------------------------------------
+// pojoize image relationship
+pojo.image = pojo.image
+    ? toPojo(this.store.peekRecord('image', pojo.image as string), this.store)
+    : null;
+```
 
-See the [Contributing](CONTRIBUTING.md) guide for details.
+## More examples
 
+See [Dummy App](https://github.com/TRIPTYK/ember-form-changeset-validations/tree/main/tests/dummy)
 
 License
 ------------------------------------------------------------------------------
