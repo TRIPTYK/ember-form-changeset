@@ -7,9 +7,8 @@
   ],
   "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
   "license": "MIT",
-  "author": "",
+  "author": "TRIPTYK",
   "directories": {
-    "doc": "doc",
     "test": "tests"
   },
   "scripts": {
