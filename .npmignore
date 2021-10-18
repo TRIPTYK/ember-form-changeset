@@ -37,3 +37,5 @@
 
 /.yarn/
 /.vscode/
+
+/pnpm-lock.yaml
