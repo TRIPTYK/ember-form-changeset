@@ -37,5 +37,7 @@
 
 /.yarn/
 /.vscode/
+/.github/
 
 /pnpm-lock.yaml
+*.example
