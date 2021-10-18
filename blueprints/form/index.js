@@ -16,6 +16,11 @@ function fileMaps(options) {
       __componentname__() {
         return 'component';
       },
+      __testpath__() {
+        return path.join(
+          options.dasherizedModuleName.split('/').slice(1).join('/')
+        );
+      },
       __test__() {
         return `${options.dasherizedModuleName}-test`;
       },
@@ -47,6 +52,9 @@ function fileMaps(options) {
       },
       __path__() {
         return '';
+      },
+      __testpath__() {
+        return 'components';
       },
       __test__() {
         return `${options.dasherizedModuleName}-test`;
@@ -299,11 +307,5 @@ module.exports = {
     options.componentName = invocationFor(options);
 
     return options;
-  },
-  afterInstall() {
-    this.addPackagesToProject([
-      { name: 'ember-changeset' },
-      { name: 'ember-changeset-validations' },
-    ]);
   },
 };
