@@ -1,6 +1,6 @@
 {
   "name": "ember-form-changeset-validations",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "Helps creating form components logic based on ember-changeset-validations.",
   "keywords": [
     "ember-addon"
@@ -34,7 +34,6 @@
     "ember-cli-typescript": "^4.2.1",
     "ember-changeset": "^3.15.0",
     "ember-changeset-validations": "^3.16.0",
-    "validated-changeset": "^1.0.0",
     "inquirer": "^8.2.0",
     "short-uuid": "^4.2.0"
   },
