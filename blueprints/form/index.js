@@ -131,7 +131,7 @@ async function askFields(config) {
 
 function mapField({ type, name, id }, config) {
   if (config?.overrides?.[type]) {
-    return config?.[type](type, name, id, config);
+    return config.overrides[type](type, name, id, config);
   }
 
   /**
