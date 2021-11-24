@@ -73,11 +73,18 @@ export default class MyFormComponent extends BaseForm<MyComponentArgs,MyChangese
 
 ### Typescript types
 - Basic Typescript types for ember-changeset-validations
+
+In tsconfig.json : 
+
 ```json
 "ember-changeset-validations/*": [
     "node_modules/ember-form-changeset-validations/types/ember-changeset-validations/*"
 ],
+"ember-changeset-validations": [
+    "node_modules/ember-form-changeset-validations/types/ember-changeset-validations"
+],
 ```
+
 - Typed changeset interface
 ```ts
 import { TypedBufferedChangeset } from "ember-changeset-validations";
