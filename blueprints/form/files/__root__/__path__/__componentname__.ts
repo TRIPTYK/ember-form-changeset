@@ -20,7 +20,8 @@ export default class <%= classifiedModuleName %> extends BaseForm<<%= classified
   @action
   updateValue(field: keyof <%= classifiedModuleName %>DTO, e: InputEvent) {
     e.preventDefault();
-    this.args.changeset.set(field, (e.target as HTMLInputElement).value);
+    const target = e.target as HTMLInputElement;
+    this.args.changeset.set(field,  target.type === "checkbox" ? target.checked : target.value);
   }
 }
 

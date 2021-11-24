@@ -7,15 +7,13 @@ import lookupValidator from 'ember-changeset-validations';
 import Validation from '<%= dummy ? "dummy" : project.pkg.name %>/validator/<%= dasherizedModuleName %>';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import click from '@ember/test-helpers/dom/click';
-<% if(fields.length){ %>
-import fillIn from '@ember/test-helpers/dom/fill-in';
-<% } %>
+
+<% imports %>
 
 module('Integration | Component | <%= classifiedModuleName %>', function (hooks) {
   setupRenderingTest(hooks);
 
   test('Create (empty changeset)', async function (assert) {
-    assert.expect(<%= createAssertions %>);
 
     this.set(
       'changeset',
@@ -29,6 +27,7 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
     this.set(
       'saveFunction',
       (<%= !createSaveFunctionAssertions ? '_' : '' %>changeset: TypedBufferedChangeset) => {
+        assert.step('saveFunction');
 <%= createSaveFunctionAssertions %>
       }
     );
@@ -37,18 +36,16 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
       hbs`<<%= componentName %> @changeset={{this.changeset}} @saveFunction={{this.saveFunction}} />`
     );
 
-    await click("button[type='submit']");
-    assert.dom("button[type='submit']").isDisabled();
 
-<%= createMainAssertions %>
+<%= createCheckChangesetInitialValues %>
 
 <%= createFillAssertions %>
 
     await click("button[type='submit']");
+    assert.verifySteps(['saveFunction']);
   });
 
   test('Edit (populated changeset)', async function (assert) {
-    assert.expect(<%= updateAssertions %>);
 
     this.set(
       'changeset',
@@ -65,15 +62,18 @@ module('Integration | Component | <%= classifiedModuleName %>', function (hooks)
       'saveFunction',
       (<%= !updateSaveFunctionAssertions ? '_' : '' %>changeset: TypedBufferedChangeset) => {
 <%= updateSaveFunctionAssertions %>
+        assert.step('saveFunction')
       }
     );
 
     await render(
       hbs`<<%= componentName %> @saveFunction={{this.saveFunction}} @changeset={{this.changeset}}/>`
     );
-
-<%= updateMainAssertions %>
+    
+<%= updateCheckChangesetInitialValues %>
+<%= updateFillFunctions %>
 
     await click("button[type='submit']");
+    assert.verifySteps(['saveFunction']);
   });
 });
