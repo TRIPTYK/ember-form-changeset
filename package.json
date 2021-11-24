@@ -34,6 +34,7 @@
   "dependencies": {
     "@glimmer/component": "~1.0.4",
     "camelcase": "~6.2.1",
+    "ember-cli-babel" : "~7.26.6",
     "ember-cli-htmlbars": "~6.0.0",
     "ember-cli-string-utils": "^1.1.0",
     "ember-cli-typescript": "~4.2.1",

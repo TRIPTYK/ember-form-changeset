@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "strictNullChecks": true,
@@ -46,7 +47,8 @@
     }
   },
   "exclude": [
-    "blueprints/**"
+    "blueprints/**",
+    "node_modules"
   ],
   "include": [
     "app/**/*",
