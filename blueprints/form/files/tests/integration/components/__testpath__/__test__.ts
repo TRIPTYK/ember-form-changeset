@@ -6,9 +6,7 @@ import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import Validation from '<%= dummy ? "dummy" : project.pkg.name %>/validator/<%= dasherizedModuleName %>';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
-import click from '@ember/test-helpers/dom/click';
-
-<% imports %>
+<%= imports %>
 
 module('Integration | Component | <%= classifiedModuleName %>', function (hooks) {
   setupRenderingTest(hooks);
