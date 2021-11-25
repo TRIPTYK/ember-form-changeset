@@ -29,14 +29,14 @@ QUnit.test('form no args', async function (assert) {
 });
 
 QUnit.test('form pods', async function (assert) {
-  execSync('ember generate form testable --pods --dummy');
+  execSync('ember generate form testable --pods');
   await Promise.all([
     assert.true(fs.existsSync(path.pods.template), 'template generation'),
     assert.true(fs.existsSync(path.pods.component), 'component generation'),
     assert.true(fs.existsSync(path.pods.test), 'test generation'),
     assert.true(fs.existsSync(path.validator), 'validator generation'),
   ]);
-  execSync('ember d form testable');
+  execSync('ember d form testable --pods');
 });
 
 QUnit.test('form --ask', function (assert) {
@@ -57,7 +57,7 @@ QUnit.test('reversability', async function (assert) {
     assert.true(fs.existsSync(path.normal.test), 'test generation'),
     assert.true(fs.existsSync(path.validator), 'validator generation'),
   ]);
-  execSync('ember d form testable --pods');
+  execSync('ember d form testable');
   await Promise.all([
     assert.false(fs.existsSync(path.normal.template), 'delete template'),
     assert.false(fs.existsSync(path.normal.component), 'delete component'),
