@@ -1,4 +1,0 @@
-<form {{on "submit" this.submit}} ...attributes>
-<Input @value={{changeset-get @changeset "ccc"}} {{on "change" ( fn this.updateValue "ccc")}} name="ccc" data-test-input="ccc" />\n<Textarea @value={{changeset-get @changeset "bbb"}} {{on "change" ( fn this.updateValue "bbb")}} name="bbb" data-test-input="bbb" />\n<Input @type="checkbox" @checked={{changeset-get @changeset "ddd"}} {{on "change" ( fn this.updateValue "ddd")}} name="ddd" data-test-input="ddd" />
-  <button type="submit" disabled={{@changeset.isInvalid}}>submit</button>
-</form>

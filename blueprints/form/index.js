@@ -15,6 +15,25 @@ const {
   mapValidation,
   mapDTO,
 } = require('./utils');
+const defaultConfig = require('./default-config');
+
+function mapConfigValues(e, config) {
+  const configForField = config.overrides[e.type](e.type, e.name);
+  if (!configForField) {
+    throw new Error(`Please define a configuration for the type ${e.type}`);
+  }
+  const selector = configForField.selector ?? shortUUID('abcdefgh');
+  const tests = configForField.tests(selector);
+
+  return {
+    name: e.name,
+    type: e.type,
+    validation: configForField.validation,
+    hbs: configForField.hbs,
+    selector: selector,
+    tests: tests,
+  };
+}
 
 module.exports = {
   availableOptions: [
@@ -31,7 +50,7 @@ module.exports = {
   locals: async (options) => {
     // eslint-disable-next-line ember/no-string-prototype-extensions
     const filePath = join(process.cwd(), '.formconfig');
-    let config;
+    let config = {};
 
     if (existsSync(`${filePath}.js`)) {
       config = require(filePath);
@@ -61,27 +80,25 @@ module.exports = {
     const fieldsFormatted = [];
     const validationFormatted = [];
 
-    const imports = ["import click from '@ember/test-helpers/dom/click';"];
+    const imports = ["import click from '@ember/test-helpers/dom/click'"];
 
     if (['g', 'generate'].includes(process.argv[2]) && options.ask) {
-      const fields = await askFields(config ?? {});
+      const defaultKeys = Object.keys(defaultConfig?.overrides ?? {});
+      const overridenKeys = Object.keys(config?.overrides ?? {});
+
+      const allKeys = overridenKeys
+        .filter((key) => defaultKeys.includes(key))
+        .concat(defaultKeys);
+
+      const fields = await askFields(allKeys);
+
       const fieldsWithConfig = fields.map((e) => {
-        const configForField = config.overrides[e.type](e.type, e.name);
-        if (!configForField) {
-          throw new Error(
-            `Please define a configuration for the type ${e.type}`
-          );
-        }
-        const selector = configForField.selector ?? shortUUID('abcdefgh');
-        const tests = configForField.tests(selector);
+        const defCfg = mapConfigValues(e, defaultConfig);
+        const currentCfg = mapConfigValues(e, config);
 
         return {
-          name: e.name,
-          type: e.type,
-          validation: configForField.validation,
-          hbs: configForField.hbs,
-          selector: selector,
-          tests: tests,
+          ...defCfg,
+          ...currentCfg,
         };
       });
 
@@ -97,8 +114,8 @@ module.exports = {
         updateCheckChangesetInitialValues.push(
           mapCheckValueFunction(field, 'edit')
         );
-        imports.push(addImportIfNotPresent(imports, field, 'create'));
-        imports.push(addImportIfNotPresent(imports, field, 'edit'));
+        addImportIfNotPresent(imports, field, 'create');
+        addImportIfNotPresent(imports, field, 'edit');
         dtoFields.push(mapDTO(field));
         validationFormatted.push(mapValidation(field, validationImports));
         fieldsFormatted.push(field.hbs);
@@ -117,7 +134,7 @@ module.exports = {
     options.updateSaveFunctionAssertions =
       updateSaveFunctionAssertions.join(EOL);
     options.updateFillFunctions = updateFillFunctions.join(EOL);
-    options.imports = imports.join(EOL);
+    options.imports = imports.join(`;${EOL}`);
     options.dtoFields = dtoFields.join(EOL);
     options.fieldsFormatted = fieldsFormatted.join(EOL);
     options.validationFormatted = validationFormatted.join(EOL);

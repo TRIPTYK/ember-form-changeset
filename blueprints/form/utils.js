@@ -78,7 +78,7 @@ exports.invocationFor = function (options) {
 /**
  * Ask fields name and type
  */
-exports.askFields = async function (config) {
+exports.askFields = async function (types) {
   /**
    * @type Array<{ type: string; name: string }>
    */
@@ -97,7 +97,7 @@ exports.askFields = async function (config) {
       name: 'type',
       message: 'Type de champ',
       default: 'text',
-      choices: Object.keys(config.overrides),
+      choices: types,
     });
 
     fields.push({
@@ -145,7 +145,6 @@ exports.addImportIfNotPresent = function (importArray, data, mode) {
   if (!importArray.includes(data.tests[mode].fillValueHelperImport)) {
     importArray.push(data.tests[mode].fillValueHelperImport);
   }
-  return importArray;
 };
 
 const supportedValidator = [
@@ -178,7 +177,6 @@ exports.mapValidation = function (field, validationImports) {
   const validationsAsString = (
     Array.isArray(field.validation) ? field.validation : [field.validation]
   ).map((validation) => {
-    console.log(validation);
     if (typeof validation === 'object') {
       if (!validationImports.includes(validation)) {
         validationImports.push(validation.import);
