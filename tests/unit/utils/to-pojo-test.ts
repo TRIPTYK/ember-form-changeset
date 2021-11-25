@@ -34,8 +34,8 @@ module('To-pojo', function (hooks) {
 
   test('Transform undefined or null returns themselves', function (assert) {
     const store = this.owner.lookup('service:store') as Store;
-    assert.equal(toPojo(null, store), null, 'Null returns null');
-    assert.equal(
+    assert.strictEqual(toPojo(null, store), null, 'Null returns null');
+    assert.strictEqual(
       toPojo(undefined, store),
       undefined,
       'Undefined returns undefined'

@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 const path = require('path');
 const inquirer = require('inquirer');
-const EOL = require('os').EOL;
 const stringUtil = require('ember-cli-string-utils');
 
 exports.fileMaps = function (options) {

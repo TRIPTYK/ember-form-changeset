@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 //const execa = require('execa');
 const cp = require('child_process');
 const fs = require('fs');

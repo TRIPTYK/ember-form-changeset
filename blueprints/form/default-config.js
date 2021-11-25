@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = {
   overrides: {
     checkbox: (type, name) => ({
