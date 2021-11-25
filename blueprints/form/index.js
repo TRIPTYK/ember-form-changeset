@@ -56,6 +56,7 @@ module.exports = {
     const updateSaveFunctionAssertions = [];
     const updateFillFunctions = [];
 
+    const validationImports = [];
     const dtoFields = [];
     const fieldsFormatted = [];
     const validationFormatted = [];
@@ -77,6 +78,7 @@ module.exports = {
         return {
           name: e.name,
           type: e.type,
+          validation: configForField.validation,
           hbs: configForField.hbs,
           selector: selector,
           tests: tests,
@@ -98,7 +100,7 @@ module.exports = {
         imports.push(addImportIfNotPresent(imports, field, 'create'));
         imports.push(addImportIfNotPresent(imports, field, 'edit'));
         dtoFields.push(mapDTO(field));
-        validationFormatted.push(mapValidation(field));
+        validationFormatted.push(mapValidation(field, validationImports));
         fieldsFormatted.push(field.hbs);
       }
     }

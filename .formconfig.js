@@ -3,6 +3,7 @@ module.exports = {
     checkbox: (type, name) => ({
       hbs: `<Input @type="checkbox" @checked={{changeset-get @changeset "${name}"}} {{on "change" ( fn this.updateValue "${name}")}} @name="${name}" data-test-input="${name}" />`,
       selector: `[data-test-input="${name}"]`,
+      validation: ['validatePresence(true)'],
       tests: (selector) => ({
         create: {
           checkValueAssert: `assert.dom('${selector}').isNotChecked()`,
@@ -16,6 +17,46 @@ module.exports = {
           fillValueHelper: `await click('${selector}')`,
           fillValueHelperImport: `import click from '@ember/test-helpers/dom/click'`,
           saveFunctionAssert: `assert.strictEqual(changeset.get("${name}"), false)`,
+        },
+      }),
+    }),
+    text: (type, name) => ({
+      hbs: `<Input @value={{changeset-get @changeset "${name}"}} {{on "change" ( fn this.updateValue "${name}")}} @name="${name}" data-test-input="${name}" />`,
+      selector: `[data-test-input="${name}"]`,
+      validation: ['validatePresence(true)'],
+      tests: (selector) => ({
+        create: {
+          checkValueAssert: `assert.dom('${selector}').hasValue('')`,
+          fillValueHelper: `await fillIn('${selector}','edited')`,
+          fillValueHelperImport: `import click from '@ember/test-helpers/dom/click'`,
+          saveFunctionAssert: `assert.strictEqual(changeset.get("${name}"), 'edited')`,
+        },
+        edit: {
+          startValue: 'hello',
+          checkValueAssert: `assert.dom('${selector}').hasValue('')`,
+          fillValueHelper: `await fillIn('${selector}','hello')`,
+          fillValueHelperImport: `import click from '@ember/test-helpers/dom/click'`,
+          saveFunctionAssert: `assert.strictEqual(changeset.get("${name}"), 'hello')`,
+        },
+      }),
+    }),
+    textarea: (type, name) => ({
+      hbs: `<Textarea @value={{changeset-get @changeset "${name}"}} {{on "change" ( fn this.updateValue "${name}")}} @name="${name}" data-test-input="${name}" />`,
+      selector: `[data-test-input="${name}"]`,
+      validation: ['validatePresence(true)'],
+      tests: (selector) => ({
+        create: {
+          checkValueAssert: `assert.dom('${selector}').hasValue('')`,
+          fillValueHelper: `await fillIn('${selector}','edited')`,
+          fillValueHelperImport: `import click from '@ember/test-helpers/dom/click'`,
+          saveFunctionAssert: `assert.strictEqual(changeset.get("${name}"), 'edited')`,
+        },
+        edit: {
+          startValue: 'hello',
+          checkValueAssert: `assert.dom('${selector}').hasValue('')`,
+          fillValueHelper: `await fillIn('${selector}','hello')`,
+          fillValueHelperImport: `import click from '@ember/test-helpers/dom/click'`,
+          saveFunctionAssert: `assert.strictEqual(changeset.get("${name}"), 'hello')`,
         },
       }),
     }),

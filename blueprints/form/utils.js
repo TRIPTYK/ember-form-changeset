@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const path = require('path');
 const inquirer = require('inquirer');
 const EOL = require('os').EOL;
@@ -147,6 +148,51 @@ exports.addImportIfNotPresent = function (importArray, data, mode) {
   return importArray;
 };
 
-exports.mapValidation = function (data) {
-  return `${data.name}: [validatePresence(true)],`;
+const supportedValidator = [
+  'validatePresence',
+  'validationFormat',
+  'validationConfirmation',
+  'validateLength',
+];
+
+/**
+ * Determines if the validatorField
+ * @param {string} validatorField the import statement
+ */
+function resolveEmberChangesetValidationImport(validatorField) {
+  const supportedValidatorImport = supportedValidator.find((sv) =>
+    validatorField.includes(sv)
+  );
+  if (supportedValidatorImport) {
+    return `import { ${supportedValidatorImport} } from "ember-changeset-validations"`;
+  }
+}
+
+/**
+ *
+ * @param {Record<string, unknown>} field field's config
+ * @param {Array<string>} validationImports the validation array
+ * @returns {Array<string>} validation as array of strings
+ */
+exports.mapValidation = function (field, validationImports) {
+  const validationsAsString = (
+    Array.isArray(field.validation) ? field.validation : [field.validation]
+  ).map((validation) => {
+    console.log(validation);
+    if (typeof validation === 'object') {
+      if (!validationImports.includes(validation)) {
+        validationImports.push(validation.import);
+      }
+      return validation.validator;
+    }
+
+    const resolvedImportString =
+      resolveEmberChangesetValidationImport(validation);
+
+    if (!validationImports.includes(resolvedImportString)) {
+      validationImports.push(resolvedImportString);
+    }
+    return validation;
+  });
+  return `${field.name}: [${validationsAsString}],`;
 };
