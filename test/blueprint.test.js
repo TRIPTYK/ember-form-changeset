@@ -57,7 +57,7 @@ QUnit.test('reversability', async function (assert) {
     assert.true(fs.existsSync(path.normal.test), 'test generation'),
     assert.true(fs.existsSync(path.validator), 'validator generation'),
   ]);
-  execSync('ember d form testable');
+  execSync('ember d form testable --pods');
   await Promise.all([
     assert.false(fs.existsSync(path.normal.template), 'delete template'),
     assert.false(fs.existsSync(path.normal.component), 'delete component'),
