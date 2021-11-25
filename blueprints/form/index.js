@@ -2,6 +2,7 @@
 const { existsSync } = require('fs');
 const { join } = require('path');
 const shortUUID = require('short-uuid');
+const EOL = require('os').EOL;
 const {
   askFields,
   invocationFor,
@@ -103,21 +104,21 @@ module.exports = {
     }
 
     options.createSaveFunctionAssertions =
-      createSaveFunctionAssertions.join('\\n');
+      createSaveFunctionAssertions.join(EOL);
     options.createCheckChangesetInitialValues =
-      createCheckChangesetInitialValues.join('\\n');
-    options.createFillAssertions = createFillAssertions.join('\\n');
+      createCheckChangesetInitialValues.join(EOL);
+    options.createFillAssertions = createFillAssertions.join(EOL);
     options.updateChangesetInitialValues =
-      updateChangesetInitialValues.join('\\n');
+      updateChangesetInitialValues.join(EOL);
     options.updateCheckChangesetInitialValues =
-      updateCheckChangesetInitialValues.join('\\n');
+      updateCheckChangesetInitialValues.join(EOL);
     options.updateSaveFunctionAssertions =
-      updateSaveFunctionAssertions.join('\\n');
-    options.updateFillFunctions = updateFillFunctions.join('\\n');
-    options.imports = imports.join('\\n');
-    options.dtoFields = dtoFields.join('\\n');
-    options.fieldsFormatted = fieldsFormatted.join('\\n');
-    options.validationFormatted = validationFormatted.join('\\n');
+      updateSaveFunctionAssertions.join(EOL);
+    options.updateFillFunctions = updateFillFunctions.join(EOL);
+    options.imports = imports.join(EOL);
+    options.dtoFields = dtoFields.join(EOL);
+    options.fieldsFormatted = fieldsFormatted.join(EOL);
+    options.validationFormatted = validationFormatted.join(EOL);
 
     options.componentName = invocationFor(options);
 
