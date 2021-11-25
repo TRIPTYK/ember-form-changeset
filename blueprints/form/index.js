@@ -87,7 +87,7 @@ module.exports = {
       const overridenKeys = Object.keys(config?.overrides ?? {});
 
       const allKeys = overridenKeys
-        .filter((key) => defaultKeys.includes(key))
+        .filter((key) => !defaultKeys.includes(key))
         .concat(defaultKeys);
 
       const fields = await askFields(allKeys);
