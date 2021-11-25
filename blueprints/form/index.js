@@ -18,9 +18,9 @@ const {
 const defaultConfig = require('./default-config');
 
 function mapConfigValues(e, config) {
-  const configForField = config.overrides[e.type](e.type, e.name);
+  const configForField = config?.overrides?.[e.type]?.(e.type, e.name);
   if (!configForField) {
-    throw new Error(`Please define a configuration for the type ${e.type}`);
+    return {};
   }
   const selector = configForField.selector ?? shortUUID('abcdefgh');
   const tests = configForField.tests(selector);
