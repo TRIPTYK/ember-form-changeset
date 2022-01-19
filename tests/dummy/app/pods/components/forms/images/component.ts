@@ -2,6 +2,7 @@ import { action } from '@ember/object';
 import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
+import UploadFile from "ember-file-upload/upload-file";
 
 interface DTO {
   blob: string;
@@ -16,9 +17,9 @@ export default class FormsImages extends BaseForm<FormsImagesArgs, DTO> {
   }
 
   @action
-  setFile(file: any) {
-    this.args.changeset.set('blob', file.blob);
-    this.args.changeset.set('url', URL.createObjectURL(file.blob));
+  async setFile(file: UploadFile) {
+    this.args.changeset.set('blob', file);
+    this.args.changeset.set('url', await file.readAsDataURL());
   }
 
   @action
