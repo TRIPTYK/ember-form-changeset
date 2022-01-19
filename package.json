@@ -27,26 +27,28 @@
     "postpack": "rm -rf utils && rm -rf components && rm index.d.ts"
   },
   "peerDependencies": {
-    "ember-changeset": "~4.0.0-beta.0",
-    "ember-changeset-validations": "~4.0.0-beta.1",
+    "ember-changeset": "^4.0.0-beta.1",
+    "ember-changeset-validations": "^4.0.0-beta.2",
     "validated-changeset": "^1.0.0"
   },
   "dependencies": {
+    "ember-cli-typescript": "^4.2.1",
     "@glimmer/component": "~1.0.4",
     "camelcase": "~6.3.0",
     "ember-cli-babel": "~7.26.11",
     "ember-cli-htmlbars": "~6.0.1",
     "ember-cli-string-utils": "^1.1.0",
-    "ember-cli-typescript": "~4.2.1",
     "inquirer": "~8.2.0",
-    "short-uuid": "~4.2.0",
-    "webpack": "~5.66.0"
+    "short-uuid": "~4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.6.0",
     "@embroider/test-setup": "^1.0.0",
+    "@embroider/compat": "^1.0.0",
+    "@embroider/core": "^1.0.0",
+    "@embroider/webpack": "^1.0.0",
     "@glimmer/tracking": "^1.0.4",
     "@types/ember-data": "^3.16.15",
     "@types/ember-data__adapter": "^3.16.1",
@@ -79,13 +81,11 @@
     "@typescript-eslint/parser": "^5.10.0",
     "babel-eslint": "^10.1.0",
     "broccoli-asset-rev": "^3.0.0",
-    "camelcase": "^6.2.0",
     "console-ui": "^3.1.2",
     "ember-auto-import": "^2.3.0",
     "ember-changeset": "^4.0.0-beta.1",
     "ember-changeset-validations": "^4.0.0-beta.2",
     "ember-cli": "~4.1.0",
-    "ember-cli-babel": "^7.26.6",
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-mirage": "^2.3.2",
