@@ -3,8 +3,7 @@ import { action } from '@ember/object';
 import RouterService from '@ember/routing/router-service';
 import { inject } from '@ember/service';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
-
-import type { BufferedChangeset } from 'validated-changeset';
+import { BufferedChangeset } from 'ember-changeset/types';
 import {
   ArticlesDTO,
   CommentsDTO,

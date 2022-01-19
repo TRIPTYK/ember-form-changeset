@@ -1,7 +1,6 @@
 import { action } from '@ember/object';
 import Component from '@glimmer/component';
 import { TypedBufferedChangeset } from '../components/typed-changeset';
-import { isChangeset } from 'validated-changeset';
 
 export interface BaseFormArgs<
   T extends Record<string, any> = Record<string, any>
@@ -19,7 +18,7 @@ export default abstract class BaseForm<
 > extends Component<T> {
   constructor(owner: unknown, args: T) {
     super(owner, args);
-    if (!args.changeset || !isChangeset(args.changeset)) {
+    if (!args.changeset) {
       throw new Error('You must pass a valid @changeset as argument');
     }
   }

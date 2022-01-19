@@ -83,7 +83,6 @@ specifiers:
   qunit-dom: ^2.0.0
   short-uuid: ~4.2.0
   typescript: ^4.5.4
-  validated-changeset: ^1.1.0
   webpack: ^5.66.0
   webpack-bundle-analyzer: ^4.5.0
 
@@ -172,7 +171,6 @@ devDependencies:
   qunit: 2.17.2
   qunit-dom: 2.0.0
   typescript: 4.5.4
-  validated-changeset: 1.1.0
   webpack: 5.66.0
   webpack-bundle-analyzer: 4.5.0
 
