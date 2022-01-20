@@ -37,7 +37,7 @@ Form generation with `ember generate form <formName>`.
 
 #### Custom fields types & overrides
 
-You can create your own types for the generator by using a .formconfig.js with the same structure specified as [this file](https://github.com/TRIPTYK/ember-form-changeset-validations/blob/develop/blueprints/form/default-config.js).   
+You can create your own types for the generator by using a .formconfig.js with the same structure specified in [this file](https://github.com/TRIPTYK/ember-form-changeset-validations/blob/develop/blueprints/form/default-config.js).   
 
 ### Base Form Component
 
