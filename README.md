@@ -7,9 +7,9 @@ This addon helps creating form components logic based on [ember-changeset-valida
 Compatibility
 ------------------------------------------------------------------------------
 
-* Ember.js v3.24 or above
-* Ember CLI v3.24 or above
-* Node.js v12 or above
+* Ember.js v3.28 or above
+* Ember CLI v3.28 or above
+* Node.js v14 or above
 
 
 Installation
@@ -37,23 +37,14 @@ Form generation with `ember generate form <formName>`.
 
 #### Custom fields types & overrides
 
-You can override or generate your own type like in the example below.
-
-```js
-// .formconfig.js
-module.exports = {
-  custom: ['checkbox'],
-  overrides: {
-    text: (type, name) => `<Custom @type="${type}" @name={{${name}}} />`,
-    checkbox: (type, name) => `<Checkbox@type="${type}" @name={{${name}}}  />`,
-  },
-};
-```
+You can create your own types for the generator by using a .formconfig.js with the same structure specified as [this file](https://github.com/TRIPTYK/ember-form-changeset-validations/blob/develop/blueprints/form/default-config.js).   
 
 ### Base Form Component
 
 ```ts
-import { BaseForm } from "ember-changeset-validations";
+import BaseForm, {
+  BaseFormArgs,
+} from 'ember-form-changeset-validations/components/form';
 
 export interface MyChangesetDTO {
     name: string;
