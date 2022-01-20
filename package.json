@@ -22,7 +22,7 @@
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "test:ember-compatibility": "ember try:each",
+    "_test:ember-compatibility": "ember try:each",
     "prepack": "ember ts:precompile",
     "postpack": "rm -rf utils && rm -rf components && rm index.d.ts"
   },
