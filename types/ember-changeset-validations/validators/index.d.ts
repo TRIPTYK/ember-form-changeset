@@ -36,7 +36,7 @@ declare module 'ember-changeset-validations/validators' {
     on?: string[] | string;
     message?: string;
   }): ValidationResult | Promise<ValidationResult>;
-  export function validateDate(date: {
+  export function validateDate(options: {
     before?: Date | (() => Date);
     onOrBefore?: Date | (() => Date);
     after?: Date | (() => Date);
