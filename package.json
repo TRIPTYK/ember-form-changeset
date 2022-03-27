@@ -27,8 +27,8 @@
     "postpack": "rm -rf utils && rm -rf components && rm index.d.ts"
   },
   "peerDependencies": {
-    "ember-changeset": "^4.0.0-beta.1",
-    "ember-changeset-validations": "^4.0.0-beta.2"
+    "ember-changeset": "^4.0.0",
+    "ember-changeset-validations": "^4.0.0"
   },
   "dependencies": {
     "@glimmer/component": "~1.0.4",
