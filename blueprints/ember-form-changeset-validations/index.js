@@ -1,4 +1,5 @@
 module.exports = {
+  normalizeEntityName() {},
   afterInstall() {
     return this.addPackagesToProject([
       { name: 'ember-changeset' },
