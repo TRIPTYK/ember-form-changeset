@@ -125,7 +125,8 @@
     "edition": "octane"
   },
   "ember-addon": {
-    "configPath": "tests/dummy/config"
+    "configPath": "tests/dummy/config",
+    "defaultBlueprint": "ember-form-changeset-validations"
   },
   "volta": {
     "node": "14.18.1"

@@ -1,6 +1,6 @@
 module.exports = {
   afterInstall() {
-    this.addPackagesToProject([
+    return this.addPackagesToProject([
       { name: 'ember-changeset' },
       { name: 'ember-changeset-validations' },
     ]);
