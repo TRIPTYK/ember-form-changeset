@@ -1,9 +1,12 @@
 {
   "name": "ember-form-changeset-validations",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Helps creating form components logic based on ember-changeset-validations.",
   "keywords": [
-    "ember-addon"
+    "ember-addon",
+    "changeset",
+    "generator",
+    "form"
   ],
   "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
   "license": "MIT",
