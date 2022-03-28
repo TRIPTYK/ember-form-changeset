@@ -1,4 +1,4 @@
-import { ValidationResult } from 'ember-changeset/types';
+import type { ValidationResult } from 'ember-changeset/types';
 
 declare module 'ember-changeset-validations/validators' {
   export function validateConfirmation(options: {
@@ -67,5 +67,10 @@ declare module 'ember-changeset-validations/validators' {
     allowNonTld?: boolean;
     minTldLength?: number;
     message?: string;
+  }): ValidationResult | Promise<ValidationResult>;
+  export function validateExclusion(options: {
+    allowBlank?: boolean;
+    in?: unknown[];
+    range?: unknown[];
   }): ValidationResult | Promise<ValidationResult>;
 }
