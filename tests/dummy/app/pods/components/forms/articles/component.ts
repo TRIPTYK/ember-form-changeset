@@ -5,8 +5,8 @@ import BaseForm, {
 import { tracked } from '@glimmer/tracking';
 
 import { BufferedChangeset } from 'ember-changeset/types';
-import CommentsValidation from '../../../../validator/forms/comments';
-import ImagesValidation from '../../../../validator/forms/images';
+import CommentsValidation from '../../../../validators/forms/comments';
+import ImagesValidation from '../../../../validators/forms/images';
 
 export interface CommentsDTO {
   id?: string;

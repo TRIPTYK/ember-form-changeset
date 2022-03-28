@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import Validation from '<%= dummy ? "dummy" : project.pkg.name %>/validator/<%= dasherizedModuleName %>';
+import Validation from '<%= dummy ? "dummy" : project.pkg.name %>/validators/<%= dasherizedModuleName %>';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 <%= imports %>
 

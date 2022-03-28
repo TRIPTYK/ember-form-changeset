@@ -4,7 +4,7 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import Validation from 'dummy/validator/forms/comments';
+import Validation from 'dummy/validators/forms/comments';
 import { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import click from '@ember/test-helpers/dom/click';
 import fillIn from '@ember/test-helpers/dom/fill-in';

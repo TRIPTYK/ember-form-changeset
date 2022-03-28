@@ -5,7 +5,7 @@ const fs = require('fs');
 QUnit.module('generate');
 
 const path = {
-  validator: './addon/validator/testable.ts',
+  validator: './addon/validators/testable.ts',
   normal: {
     template: './addon/templates/components/testable.hbs',
     component: './addon/components/testable.ts',

@@ -4,7 +4,7 @@ import Store from '@ember-data/store';
 import { toPojo } from 'ember-form-changeset-validations/utils/to-pojo';
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import ArticleValidation from '../../../validator/forms/articles';
+import ArticleValidation from '../../../validators/forms/articles';
 
 export default class ArticlesEdit extends Route {
   @inject declare store: Store;
