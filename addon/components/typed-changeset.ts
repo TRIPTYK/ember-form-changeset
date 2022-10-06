@@ -1,10 +1,11 @@
-import { BufferedChangeset } from 'ember-changeset/types';
+import { EmberChangeset } from "ember-changeset";
+
 
 export interface TypedBufferedChangeset<
   T extends Record<string, any> = Record<string, any>
-> extends BufferedChangeset {
-  pendingData: Partial<T>;
+> extends EmberChangeset {
   data: T;
+  pendingData: Partial<T>;
   /**
    * In case it's an unknown key, just specify the expected return type
    */
@@ -12,4 +13,6 @@ export interface TypedBufferedChangeset<
   get<K>(key: string): K;
   set(key: keyof T, value: unknown): void;
   set<K>(key: string, value: K): void;
+  validate(...validationKeys: (keyof T)[]): Promise<unknown>;
+  rollbackInvalid(key: keyof T | void): this;
 }

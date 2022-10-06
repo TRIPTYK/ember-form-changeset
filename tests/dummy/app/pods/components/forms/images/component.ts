@@ -2,7 +2,7 @@ import { action } from '@ember/object';
 import BaseForm, {
   BaseFormArgs,
 } from 'ember-form-changeset-validations/components/form';
-import UploadFile from "ember-file-upload/upload-file";
+import UploadFile from 'ember-file-upload/upload-file';
 
 interface DTO {
   blob: string;

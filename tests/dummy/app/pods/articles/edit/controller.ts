@@ -8,9 +8,11 @@ import {
   ArticlesDTO,
   CommentsDTO,
 } from '../../components/forms/articles/component';
+import emberData__store from '@ember-data/store';
 
 export default class ArticlesEdit extends Controller {
   @inject declare router: RouterService;
+  @inject declare store: emberData__store;
 
   @action
   async saveFunction(changeset: TypedBufferedChangeset<ArticlesDTO>) {
