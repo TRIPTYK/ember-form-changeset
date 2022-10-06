@@ -1,5 +1,4 @@
-import { EmberChangeset } from "ember-changeset";
-
+import { EmberChangeset } from 'ember-changeset';
 
 export interface TypedBufferedChangeset<
   T extends Record<string, any> = Record<string, any>
