@@ -1,8 +1,8 @@
 import JSONAPISerializer from '@ember-data/serializer/json-api';
 
 export default class Application extends JSONAPISerializer {
-  payloadTypeFromModelName(modelName: string) {
-    return modelName;
+  payloadTypeFromModelName(modelName: string | number | symbol) {
+    return modelName.toString();
   }
 }
 

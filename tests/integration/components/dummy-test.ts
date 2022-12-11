@@ -21,7 +21,7 @@ module('Integration | Component | dummy', function (hooks) {
   test('No changeset throws error', async function (assert) {
     assert.rejects(
       new Promise((res, rej) => {
-        setupOnerror((error: Error) => {
+        setupOnerror((error) => {
           rej(error);
         });
         render(hbs`<DummyForm />`).then(res);
@@ -33,7 +33,7 @@ module('Integration | Component | dummy', function (hooks) {
     this.set('changeset', {});
     assert.rejects(
       new Promise((res, rej) => {
-        setupOnerror((error: Error) => {
+        setupOnerror((error) => {
           rej(error);
         });
         render(hbs`<DummyForm @changeset={{this.changeset}} />`).then(res);

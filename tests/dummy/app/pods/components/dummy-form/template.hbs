@@ -1,5 +1,0 @@
-<form {{on "submit" this.submit}} ...attributes>
-  <label for="text"></label>
-  <input name="text" id="text" type="text" {{on "change" (fn this.updateValue "text")}} value={{changeset-get @changeset "text"}}/>
-  <button type="submit">submit</button>
-</form>

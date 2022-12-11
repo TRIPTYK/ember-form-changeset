@@ -1,6 +1,0 @@
-<form {{on "submit" this.submit}} ...attributes>
-  <label for="aaaa"></label>
-  <textarea name="content" id="aaaa" {{on "change" (fn this.updateValue "content")}} value={{changeset-get @changeset "content"}}/>
-  <button type="submit" disabled={{@changeset.isInvalid}}>submit</button>
-  <ChangesetErrors @changeset={{@changeset}}  />
-</form>
