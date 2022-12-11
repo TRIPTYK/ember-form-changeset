@@ -1,19 +1,16 @@
-ember-form-changeset-validations
-==============================================================================
+# ember-form-changeset-validations
 
 This addon helps creating form components logic based on [ember-changeset-validations](https://github.com/poteto/ember-changeset-validations).
 
 
-Compatibility
-------------------------------------------------------------------------------
+## Compatibility
 
 * Ember.js v3.28 or above
 * Ember CLI v3.28 or above
 * Node.js v14 or above
 
 
-Installation
-------------------------------------------------------------------------------
+## Installation
 
 ```
 ember install ember-form-changeset-validations
@@ -140,7 +137,6 @@ pojo.image = toPojo(article.image, this.store) as ImageDTO;
 
 See [Dummy App](https://github.com/TRIPTYK/ember-form-changeset-validations/tree/main/tests/dummy)
 
-License
-------------------------------------------------------------------------------
+## License
 
 This project is licensed under the [MIT License](LICENSE.md).
