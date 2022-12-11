@@ -1,1 +1,1 @@
-export * from 'ember-form-changeset-validations/components/typed-changeset';
+export * from 'ember-form-changeset-validations/types/typed-changeset';
