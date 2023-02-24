@@ -197,8 +197,9 @@ module('Unit | Utility | nested changeset', function () {
 
     assert.deepEqual(errors(changesetWithNestedData), [
       {
-        key: 'shipments.a',
+        key: 'shipments.0.a',
         validation: ["A can't be blank"],
+        value: undefined,
       },
     ]);
   });

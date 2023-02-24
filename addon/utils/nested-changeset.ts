@@ -80,23 +80,33 @@ export function isValid(changeset: TypedBufferedChangeset) {
 }
 
 export function errors<T extends TypedBufferedChangeset>(
-  changeset: T
+  changeset: T,
+  parentKey?: string
 ): Record<string, unknown>[] {
-  const out: Record<string, unknown>[] = changeset.errors;
+  const errorsMap: Record<string, unknown>[] = changeset.errors;
+
+  for (const error of errorsMap) {
+    const path = parentKey ? `${parentKey}.${error['key']}` : parentKey;
+    error['key'] = path;
+  }
+
   for (const key in changeset.data) {
     const keyValue = changeset.data[key];
+
     if (isChangeset(keyValue)) {
-      console.log(errors(keyValue));
-      out.push(...errors(keyValue));
+      errorsMap.push(...errors(keyValue, key));
     }
     if (isChangesetArray(keyValue)) {
       const changesetArray = keyValue as TypedBufferedChangeset[];
-      console.log(keyValue);
-
-      out.push(...changesetArray.flatMap((changeset) => errors(changeset)));
+      errorsMap.push(
+        ...changesetArray.flatMap((changeset, i) =>
+          errors(changeset, `${key}.${i}`)
+        )
+      );
     }
   }
-  return out;
+
+  return errorsMap;
 }
 
 export function data<T extends TypedBufferedChangeset>(
