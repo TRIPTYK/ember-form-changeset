@@ -4,7 +4,6 @@ export interface TypedBufferedChangeset<
   T extends Record<string, any> = Record<string, any>
 > extends EmberChangeset {
   data: T;
-  pendingData: Partial<T>;
   /**
    * In case it's an unknown key, just specify the expected return type
    */

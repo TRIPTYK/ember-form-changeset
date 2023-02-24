@@ -5,6 +5,7 @@ import { validatePresence } from 'ember-changeset-validations/validators';
 import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import {
   data,
+  errors,
   execute,
   isValid,
   validate,
@@ -51,6 +52,7 @@ module('Unit | Utility | nested changeset', function () {
       a: 'c',
     });
   });
+
   test('nested changeset should be invalid', async function (assert) {
     const { innerChangeset, changesetWithNestedData } = setupChangeset({
       a: validatePresence(false),
@@ -62,6 +64,7 @@ module('Unit | Utility | nested changeset', function () {
 
     assert.false(isChangesetValid);
   });
+
   test('nested changeset should be valid', async function (assert) {
     const { innerChangeset, changesetWithNestedData } = setupChangeset({
       a: validatePresence(true),
@@ -73,6 +76,7 @@ module('Unit | Utility | nested changeset', function () {
 
     assert.true(isChangesetValid);
   });
+
   test('should merge nested data', async function (assert) {
     const { changesetWithNestedData } = setupChangeset({
       a: validatePresence(true),
@@ -88,6 +92,7 @@ module('Unit | Utility | nested changeset', function () {
       ],
     });
   });
+
   test('should merge pending data', async function (assert) {
     interface DTO {
       a: 'a';
@@ -151,6 +156,7 @@ module('Unit | Utility | nested changeset', function () {
       ],
     });
   });
+
   test('Pending changes should also be validated', async function (assert) {
     const { innerChangeset, changesetWithNestedData } = setupChangeset({
       a: () => assert.step('a'),
@@ -178,5 +184,22 @@ module('Unit | Utility | nested changeset', function () {
     await validate(changesetWithNestedData);
 
     assert.verifySteps(['a', 'a', 'b']);
+  });
+
+  test('Errors', async function (assert) {
+    const { innerChangeset, changesetWithNestedData } = setupChangeset({
+      a: [validatePresence(true)],
+    });
+
+    innerChangeset.set('a', undefined);
+
+    await validate(changesetWithNestedData);
+
+    assert.deepEqual(errors(changesetWithNestedData), [
+      {
+        key: 'shipments.a',
+        validation: ["A can't be blank"],
+      },
+    ]);
   });
 });

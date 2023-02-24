@@ -79,6 +79,26 @@ export function isValid(changeset: TypedBufferedChangeset) {
   return changeset.isValid;
 }
 
+export function errors<T extends TypedBufferedChangeset>(
+  changeset: T
+): Record<string, unknown>[] {
+  const out: Record<string, unknown>[] = changeset.errors;
+  for (const key in changeset.data) {
+    const keyValue = changeset.data[key];
+    if (isChangeset(keyValue)) {
+      console.log(errors(keyValue));
+      out.push(...errors(keyValue));
+    }
+    if (isChangesetArray(keyValue)) {
+      const changesetArray = keyValue as TypedBufferedChangeset[];
+      console.log(keyValue);
+
+      out.push(...changesetArray.flatMap((changeset) => errors(changeset)));
+    }
+  }
+  return out;
+}
+
 export function data<T extends TypedBufferedChangeset>(
   changeset: T
 ): PojoChangeset<T['data']> {
