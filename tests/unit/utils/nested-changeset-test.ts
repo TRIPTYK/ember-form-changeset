@@ -7,6 +7,7 @@ import {
   data,
   errors,
   execute,
+  isDirty,
   isValid,
   validate,
 } from 'ember-form-changeset-validations/utils/nested-changeset';
@@ -202,5 +203,23 @@ module('Unit | Utility | nested changeset', function () {
         value: undefined,
       },
     ]);
+  });
+
+  test('isDirty is true when nested changeset is dirty', async function (assert) {
+    const { innerChangeset, changesetWithNestedData } = setupChangeset({
+      a: [validatePresence(true)],
+    });
+
+    innerChangeset.set('a', undefined);
+
+    assert.true(isDirty(changesetWithNestedData));
+  });
+
+  test('isDirty is false when nested changeset is not dirty', async function (assert) {
+    const { changesetWithNestedData } = setupChangeset({
+      a: [validatePresence(true)],
+    });
+
+    assert.false(isDirty(changesetWithNestedData));
   });
 });

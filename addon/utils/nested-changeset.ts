@@ -79,6 +79,22 @@ export function isValid(changeset: TypedBufferedChangeset) {
   return changeset.isValid;
 }
 
+export function isDirty(changeset: TypedBufferedChangeset) {
+  for (const key in changeset.data) {
+    const keyValue = changeset.get(key);
+    if (
+      isChangesetArray(keyValue) &&
+      (keyValue as TypedBufferedChangeset[]).some((c) => isDirty(c))
+    ) {
+      return true;
+    }
+    if (isChangeset(keyValue) && isDirty(keyValue as TypedBufferedChangeset)) {
+      return true;
+    }
+  }
+  return changeset.isDirty;
+}
+
 export function errors<T extends TypedBufferedChangeset>(
   changeset: T,
   parentKey?: string
