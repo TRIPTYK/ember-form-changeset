@@ -1,7 +1,10 @@
 /* eslint-disable max-statements */
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
-import { validatePresence } from 'ember-changeset-validations/validators';
+import {
+  validateDate,
+  validatePresence,
+} from 'ember-changeset-validations/validators';
 import {
   data,
   errors,
@@ -15,7 +18,10 @@ import { validate } from 'ember-form-changeset-validations';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | nested changeset', function () {
-  function setupChangeset(validationMap?: Record<string, unknown>) {
+  function setupChangeset(
+    validationMap?: Record<string, unknown>,
+    rootValidationMap?: Record<string, unknown>
+  ) {
     const innerChangeset = Changeset(
       {
         a: 'b',
@@ -25,9 +31,15 @@ module('Unit | Utility | nested changeset', function () {
         : [undefined, undefined])
     );
 
-    const changesetWithNestedData = Changeset({
-      shipments: [innerChangeset],
-    }) as TypedBufferedChangeset;
+    const changesetWithNestedData = Changeset(
+      {
+        shipments: [innerChangeset],
+        z: 'z',
+      },
+      ...(rootValidationMap
+        ? [lookupValidator(rootValidationMap), rootValidationMap]
+        : [undefined, undefined])
+    ) as TypedBufferedChangeset;
 
     return { innerChangeset, changesetWithNestedData };
   }
@@ -92,6 +104,7 @@ module('Unit | Utility | nested changeset', function () {
           a: 'b',
         },
       ],
+      z: 'z',
     });
   });
 
@@ -188,16 +201,26 @@ module('Unit | Utility | nested changeset', function () {
     assert.verifySteps(['a', 'a', 'b']);
   });
 
-  test('Errors', async function (assert) {
-    const { innerChangeset, changesetWithNestedData } = setupChangeset({
-      a: [validatePresence(true)],
-    });
+  test('Nested errors must be prefixed correctly', async function (assert) {
+    const { innerChangeset, changesetWithNestedData } = setupChangeset(
+      {
+        a: [validatePresence(true)],
+      },
+      {
+        z: [validateDate({})],
+      }
+    );
 
     innerChangeset.set('a', undefined);
 
     await validate(changesetWithNestedData);
 
     assert.deepEqual(errors(changesetWithNestedData), [
+      {
+        key: 'z',
+        validation: ['Z must be a valid date'],
+        value: 'z',
+      },
       {
         key: 'shipments.0.a',
         validation: ["A can't be blank"],

@@ -9,7 +9,7 @@ export function errors<T extends TypedBufferedChangeset>(
   const errorsMap: Record<string, unknown>[] = changeset.errors;
 
   for (const error of errorsMap) {
-    const path = parentKey ? `${parentKey}.${error['key']}` : parentKey;
+    const path = parentKey ? `${parentKey}.${error['key']}` : error['key'];
     error['key'] = path;
   }
 
