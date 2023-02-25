@@ -1,5 +1,4 @@
 import { Changeset } from 'ember-changeset';
-import { isChangeset } from 'ember-form-changeset-validations/utils/is-changeset';
 import { isChangesetArray } from 'ember-form-changeset-validations/utils/is-changeset-array';
 import { module, test } from 'qunit';
 
