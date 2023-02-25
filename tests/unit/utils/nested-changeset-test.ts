@@ -2,15 +2,16 @@
 import { Changeset } from 'ember-changeset';
 import lookupValidator from 'ember-changeset-validations';
 import { validatePresence } from 'ember-changeset-validations/validators';
-import type { TypedBufferedChangeset } from 'ember-form-changeset-validations';
 import {
   data,
   errors,
   execute,
   isDirty,
   isValid,
-  validate,
-} from 'ember-form-changeset-validations/utils/nested-changeset';
+  TypedBufferedChangeset,
+} from 'ember-form-changeset-validations';
+import { validate } from 'ember-form-changeset-validations';
+
 import { module, test } from 'qunit';
 
 module('Unit | Utility | nested changeset', function () {
