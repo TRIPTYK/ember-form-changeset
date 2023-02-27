@@ -140,3 +140,5 @@ This function returns the data for a changeset or any of its nested changesets. 
 This function returns the errors for a changeset or any of its nested changesets. It returns an object containing the changeset errors. It accepts one argument:
 
 `changeset` - a changeset or a nested changeset to get the errors from
+
+![/static/flow.png](/static/flow.png)
