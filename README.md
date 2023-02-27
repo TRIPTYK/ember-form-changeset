@@ -90,53 +90,53 @@ changeset.set<string>("name","blah"); // check set prop type is string
 changeset.set<string>("name", 0); // Error
 ```
 
-### Utils
-Utilitaries functions to work with POJO changesets.
+### Nested changeset utilities
 
-#### toPojo 
-Transforms an ember record or an ember record array to plain changeset.
+Sometimes, you may want to nest changesets into a big changeset. You can manipulate all these changesets like if they were only one changeset.
 
-```ts 
-toPojo()<T extends Model>(
-  object: T | T[] | ArrayProxy<T> | ObjectProxy<T> | null | undefined,
-  store: Store
-):
-  | Record<string, unknown>
-  | (Record<string, unknown> | null | undefined)[]
-  | null
-  | undefined
-```
+This library exports the following functions:
 
-##### Example
+* validate(changeset)
+* execute(changeset)
+* isDirty(changeset)
+* isValid(changeset)
+* data(changeset)
+* errors(changeset)
 
-```ts
-const article = await this.store.findRecord('article', id, {
-      include: 'image',
-});
-const pojo = toPojo(article, this.store) as ArticleDTO;
+#### Functions
 
-// pojoize image relationship
-pojo.image = (pojo.image
-    ? toPojo(this.store.peekRecord('image', pojo.image as string), this.store)
-    : null) as ImageDTO | null;
-```
+##### validate(changeset)
 
-Also works : 
+This function validates a changeset and all of its nested changesets. It returns a promise that resolves when validation is complete. It accepts one argument:
 
-```ts
-const article = await this.store.findRecord('article', id, {
-      include: 'image',
-});
-const pojo = toPojo(article, this.store) as ArticleDTO;
+`changeset` - a changeset or a nested changeset to validate
 
-// pojoize image relationship
-pojo.image = toPojo(article.image, this.store) as ImageDTO;
-```
+##### execute(changeset)
 
-## More examples
+This function executes a changeset and all of its nested changesets. It returns a promise that resolves when execution is complete. It accepts one argument:
 
-See [Dummy App](https://github.com/TRIPTYK/ember-form-changeset-validations/tree/main/tests/dummy)
+`changeset` - a changeset or a nested changeset to execute
 
-## License
+##### isDirty(changeset)
 
-This project is licensed under the [MIT License](LICENSE.md).
+This function checks whether a changeset or any of its nested changesets have any pending changes. It returns a boolean value. It accepts one argument:
+
+`changeset` - a changeset or a nested changeset to check
+
+##### isValid(changeset)
+
+This function checks whether a changeset or any of its nested changesets are valid. It returns a boolean value. It accepts one argument:
+
+`changeset` - a changeset or a nested changeset to check
+
+##### data(changeset)
+
+This function returns the data for a changeset or any of its nested changesets. It returns an object containing the changeset data. It accepts one argument:
+
+`changeset` - a changeset or a nested changeset to get the data from
+
+##### errors(changeset)
+
+This function returns the errors for a changeset or any of its nested changesets. It returns an object containing the changeset errors. It accepts one argument:
+
+`changeset` - a changeset or a nested changeset to get the errors from
