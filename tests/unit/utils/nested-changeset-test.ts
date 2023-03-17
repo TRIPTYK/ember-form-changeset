@@ -229,6 +229,34 @@ module('Unit | Utility | nested changeset', function () {
     ]);
   });
 
+  test('Deep nested errors must be prefixed correctly', async function (assert) {
+    const { innerChangeset, changesetWithNestedData } = setupChangeset(
+      {
+        a: [validatePresence(true)],
+      },
+      {
+        z: [validateDate({})],
+      }
+    );
+
+    innerChangeset.set('a', undefined);
+
+    await validate(changesetWithNestedData);
+
+    assert.deepEqual(errors(changesetWithNestedData), [
+      {
+        key: 'z',
+        validation: ['Z must be a valid date'],
+        value: 'z',
+      },
+      {
+        key: 'shipments.0.a',
+        validation: ["A can't be blank"],
+        value: undefined,
+      },
+    ]);
+  });
+
   test('isDirty is true when nested changeset is dirty', async function (assert) {
     const { innerChangeset, changesetWithNestedData } = setupChangeset({
       a: [validatePresence(true)],
