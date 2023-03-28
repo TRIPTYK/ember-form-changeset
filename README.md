@@ -1,6 +1,6 @@
 # ember-form-changeset-validations
 
-This addon helps creating form components logic based on [ember-changeset-validations](https://github.com/poteto/ember-changeset-validations).
+This addon helps creating form components logic based on [ember-changeset](https://github.com/poteto/ember-changeset).
 
 
 ## Compatibility
@@ -16,12 +16,12 @@ This addon helps creating form components logic based on [ember-changeset-valida
 ember install ember-form-changeset-validations
 ```
 
-
 Features
 ------------------------------------------------------------------------------
 
 
 ### Typescript types
+
 - Fully typed changesets
 
 In tsconfig.json : 
@@ -35,20 +35,9 @@ In tsconfig.json :
 ],
 ```
 
-- Interface
-```ts
-import { createChangeset } from "ember-changeset-validations";
-// ...
-const changeset = createChangeset();
+### CreateChangeset
 
-changeset.get("name"); // check prop name
-changeset.set("name","blah"); // check prop name
 
-// if unknown key, you can just specify the return type to keep type checking
-changeset.get<string>("unknown.key");
-changeset.set<string>("name","blah"); // check set prop type is string
-changeset.set<string>("name", 0); // Error
-```
 
 ### Nested changeset utilities
 
