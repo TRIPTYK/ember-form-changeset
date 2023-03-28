@@ -1,7 +1,6 @@
 import { createChangeset } from 'ember-form-changeset-validations/changeset/create-changeset';
 import { module, test } from 'qunit';
 import { ExtendedChangeset } from 'ember-form-changeset-validations/changeset/extended-changeset';
-import { EmberChangeset } from 'ember-changeset';
 
 interface ArticleDTO {
   name: string;
