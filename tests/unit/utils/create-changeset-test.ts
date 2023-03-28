@@ -18,8 +18,6 @@ module('Unit | Utility | create-changeset', function () {
       name: '',
     };
 
-    createChangeset(EmberChangeset, {}, {});
-
     const changeset = createChangeset(ArticleChangeset, dto, validationMap);
 
     assert.strictEqual(changeset.data, dto);
