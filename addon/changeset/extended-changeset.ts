@@ -3,7 +3,7 @@ import { EmberChangeset } from 'ember-changeset';
 import { Changeset } from 'ember-form-changeset-validations/types/typed-changeset';
 import { ConditionalPick, StringKeyOf } from 'type-fest';
 
-type ArrayKeys<DTO> = StringKeyOf<ConditionalPick<DTO, []>>;
+type ArrayKeys<DTO> = StringKeyOf<ConditionalPick<DTO, Array<any>>>;
 
 export class ExtendedChangeset<T extends Record<string, any>>
   extends EmberChangeset
@@ -13,12 +13,12 @@ export class ExtendedChangeset<T extends Record<string, any>>
     return super.data as T;
   }
 
-  pushInArray<K extends ArrayKeys<K>>(key: K, value: T[K]) {
+  pushInArray<K extends ArrayKeys<T>>(key: K, value: T[K]) {
     this.set(key, [...this.get(key), value]);
     return value;
   }
 
-  removeFromArray<K extends ArrayKeys<K>>(key: K, value: T[K]) {
+  removeFromArray<K extends ArrayKeys<T>>(key: K, value: T[K]) {
     this.set(
       key,
       this.get(key).filter((v: unknown[]) => v !== value)

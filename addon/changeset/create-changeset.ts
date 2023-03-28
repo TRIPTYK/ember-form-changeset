@@ -1,16 +1,15 @@
 import lookupValidator from 'ember-changeset-validations';
-import { ProxyWrappedChangeset as ProxyWrappedExtendedChangeset } from 'ember-form-changeset-validations/types/typed-changeset';
+import {
+  Changeset,
+  ProxyWrappedChangeset,
+} from 'ember-form-changeset-validations/types/typed-changeset';
 import { Class, StringKeyOf } from 'type-fest';
-import { ExtendedChangeset } from './extended-changeset';
 
-export function createChangeset<
-  DTO extends object,
-  C extends ExtendedChangeset<DTO> = ExtendedChangeset<DTO>
->(
+export function createChangeset<C extends Changeset>(
   changesetClass: Class<C>,
-  initialData: DTO,
-  validationMap: Record<StringKeyOf<DTO>, unknown>
-): ProxyWrappedExtendedChangeset<DTO> {
+  initialData: C['data'],
+  validationMap: Record<StringKeyOf<C['data']>, unknown>
+): ProxyWrappedChangeset<C> {
   const instance = new changesetClass(
     initialData,
     lookupValidator(validationMap),
@@ -18,13 +17,13 @@ export function createChangeset<
   );
 
   return new Proxy(instance, {
-    get(targetBuffer, key) {
-      const res = targetBuffer.get(key.toString());
+    get(targetBuffer, key: StringKeyOf<C['data']>) {
+      const res = targetBuffer.get(key);
       return res;
     },
-    set(targetBuffer, key, value) {
-      targetBuffer.set(key.toString(), value);
+    set(targetBuffer, key: StringKeyOf<C['data']>, value) {
+      targetBuffer.set(key, value);
       return true;
     },
-  }) as unknown as ProxyWrappedExtendedChangeset<DTO>;
+  }) as unknown as ProxyWrappedChangeset<C>;
 }

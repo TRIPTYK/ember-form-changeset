@@ -20,47 +20,9 @@ ember install ember-form-changeset-validations
 Features
 ------------------------------------------------------------------------------
 
-### Form generation
-Form generation with `ember generate form <formName>`.
-- It will generate integration tests for the form with 2 scenarios : 
-    - Create : creation of the entity
-    - Edit : edition of an existing entity
-- You can add --ask parameter to prompt fields to add to the template
-
-3 base types are available : 
-    - text
-    - select
-    - textarea
-
-#### Custom fields types & overrides
-
-You can create your own types for the generator by using a .formconfig.js with the same structure specified in [this file](https://github.com/TRIPTYK/ember-form-changeset-validations/blob/develop/blueprints/form/default-config.js).   
-
-### Base Form Component
-
-```ts
-import BaseForm, {
-  BaseFormArgs,
-} from 'ember-form-changeset-validations/components/form';
-
-export interface MyChangesetDTO {
-    name: string;
-}
-
-interface MyComponentArgs extends BaseFormArgs<MyChangesetDTO> {}
-
-export default class MyFormComponent extends BaseForm<MyComponentArgs,MyChangesetDTO> {
-}
-
-```
-#### Methods
-- rollback
-    - Rollback the changeset
-- submit
-    - Validates the changeset and triggers @saveFunction
 
 ### Typescript types
-- Basic Typescript types for ember-changeset-validations
+- Fully typed changesets
 
 In tsconfig.json : 
 
@@ -73,13 +35,11 @@ In tsconfig.json :
 ],
 ```
 
-- Typed changeset interface
+- Interface
 ```ts
-import { TypedBufferedChangeset } from "ember-changeset-validations";
+import { createChangeset } from "ember-changeset-validations";
 // ...
-const changeset = Changeset({}) as TypedBufferedChangeset<{
-    name : string;
-}>;
+const changeset = createChangeset();
 
 changeset.get("name"); // check prop name
 changeset.set("name","blah"); // check prop name

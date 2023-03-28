@@ -12,9 +12,11 @@ export interface Changeset<T extends Record<string, any> = Record<string, any>>
   validate(...validationKeys: StringKeyOf<T>[]): Promise<unknown>;
 }
 
-export type ProxyWrappedChangeset<
-  T extends Record<string, any> = Record<string, any>
-> =
-  | Changeset<T> & {
-      [K in StringKeyOf<T>]: T[K];
+/**
+ * A changeset wrapped into a proxy
+ * https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+ */
+export type ProxyWrappedChangeset<T extends Changeset> =
+  | T & {
+      [K in StringKeyOf<T['data']>]: T['data'][K];
     };
