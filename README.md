@@ -37,6 +37,21 @@ In tsconfig.json :
 
 ### CreateChangeset
 
+```ts
+createChangeset<C extends Changeset>(changesetClass: Class<C>, initialData: C['data'], validationMap: Record<StringKeyOf<C['data']>, unknown>): ProxyWrappedChangeset<C>
+```
+
+Creates a new `Changeset` object and returns a `Proxy` object that wraps the `Changeset` object, allowing you to get and set its properties dynamically.
+
+### Parameters
+
+- `changesetClass: Class<C>`: The `Changeset` class to instantiate. This should be a subclass of the `Changeset` interface defined in your codebase.
+- `initialData: C['data']`: The initial data for the `Changeset` object. This should be an object that matches the shape of the `data` property in the `Changeset` interface.
+- `validationMap: Record<StringKeyOf<C['data']>, unknown>`: An object that maps the keys of the `data` property in the `Changeset` interface to validation functions. The validation functions should take a single argument (the value being validated) and return `true` if the value is valid, or an error message if the value is invalid.
+
+### Returns
+
+A `ProxyWrappedChangeset<C>` object, which is a `Proxy` object that wraps the `Changeset` object and allows you to get and set its properties dynamically.
 
 
 ### Nested changeset utilities
