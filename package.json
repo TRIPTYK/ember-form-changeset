@@ -133,7 +133,7 @@
     "defaultBlueprint": "ember-form-changeset-validations"
   },
   "volta": {
-    "node": "14.18.1"
+    "node": "16.19.1"
   },
   "packageManager": "pnpm@6.24.1"
 }
