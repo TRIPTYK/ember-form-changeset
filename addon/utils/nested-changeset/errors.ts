@@ -1,8 +1,8 @@
-import { TypedBufferedChangeset } from 'ember-form-changeset-validations/types/typed-changeset';
+import { Changeset } from 'ember-form-changeset-validations/types/typed-changeset';
 import { isChangeset } from '../is-changeset';
 import { isChangesetArray } from '../is-changeset-array';
 
-export function errors<T extends TypedBufferedChangeset>(
+export function errors<T extends Changeset>(
   changeset: T,
   parentKey?: string
 ): Record<string, unknown>[] {
@@ -20,7 +20,7 @@ export function errors<T extends TypedBufferedChangeset>(
       errorsMap.push(...errors(keyValue, key));
     }
     if (isChangesetArray(keyValue)) {
-      const changesetArray = keyValue as TypedBufferedChangeset[];
+      const changesetArray = keyValue as Changeset[];
       errorsMap.push(
         ...changesetArray.flatMap((changeset, i) =>
           errors(changeset, `${key}.${i}`)

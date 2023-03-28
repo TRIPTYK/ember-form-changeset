@@ -11,7 +11,7 @@ import {
   execute,
   isDirty,
   isValid,
-  TypedBufferedChangeset,
+  ProxyWrappedChangeset,
 } from 'ember-form-changeset-validations';
 import { validate } from 'ember-form-changeset-validations';
 
@@ -39,7 +39,7 @@ module('Unit | Utility | nested changeset', function () {
       ...(rootValidationMap
         ? [lookupValidator(rootValidationMap), rootValidationMap]
         : [undefined, undefined])
-    ) as TypedBufferedChangeset;
+    ) as ProxyWrappedChangeset;
 
     return { innerChangeset, changesetWithNestedData };
   }
@@ -112,15 +112,15 @@ module('Unit | Utility | nested changeset', function () {
     interface DTO {
       a: 'a';
       b: 'b';
-      c: TypedBufferedChangeset<{
+      c: ProxyWrappedChangeset<{
         d: 'd';
       }>;
       shipments: [
-        TypedBufferedChangeset<{
+        ProxyWrappedChangeset<{
           c: 'c';
           d: 'd';
           ships: [
-            TypedBufferedChangeset<{
+            ProxyWrappedChangeset<{
               e: 'e';
               f: 'f';
             }>
@@ -147,7 +147,7 @@ module('Unit | Utility | nested changeset', function () {
           ],
         }),
       ],
-    }) as TypedBufferedChangeset<DTO>;
+    }) as ProxyWrappedChangeset<DTO>;
 
     const changesetData = data(changeset);
 
