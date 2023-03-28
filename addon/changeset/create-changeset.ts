@@ -19,12 +19,12 @@ export function createChangeset<
 
   return new Proxy(instance, {
     get(targetBuffer, key) {
-      const res = targetBuffer.get(key.toString() as StringKeyOf<DTO>);
+      const res = targetBuffer.get(key.toString());
       return res;
     },
     set(targetBuffer, key, value) {
-      targetBuffer.set(key.toString() as StringKeyOf<DTO>, value);
+      targetBuffer.set(key.toString(), value);
       return true;
     },
-  }) as never;
+  }) as unknown as ProxyWrappedExtendedChangeset<DTO>;
 }
