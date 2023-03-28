@@ -10,7 +10,7 @@ module('Integration | Component | changeset-form', function (hooks) {
   async function renderForm() {
     await render(hbs`
         <ChangesetForm @changeset={{this.changeset}} @onSubmit={{this.save}}>
-          <input type="submit" />
+          <button type="submit"></button>
         </ChangesetForm>
       `);
   }
@@ -21,7 +21,7 @@ module('Integration | Component | changeset-form', function (hooks) {
 
     await renderForm();
 
-    await click('input');
+    await click('button');
     assert.verifySteps(['save']);
   });
 
@@ -34,7 +34,7 @@ module('Integration | Component | changeset-form', function (hooks) {
 
     await renderForm();
 
-    await click('input');
+    await click('button');
     assert.verifySteps([]);
   });
 });
