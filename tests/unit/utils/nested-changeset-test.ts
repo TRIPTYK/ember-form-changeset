@@ -1,6 +1,4 @@
 /* eslint-disable max-statements */
-import { Changeset } from 'ember-changeset';
-import lookupValidator from 'ember-changeset-validations';
 import {
   validateDate,
   validatePresence,
@@ -10,10 +8,12 @@ import {
   data,
   errors,
   execute,
+  ExtendedChangeset,
   isDirty,
   isValid,
 } from 'ember-form-changeset-validations';
 import { validate } from 'ember-form-changeset-validations';
+import { createChangeset } from 'ember-form-changeset-validations/changeset/create-changeset';
 
 import { module, test } from 'qunit';
 
@@ -22,24 +22,22 @@ module('Unit | Utility | nested changeset', function () {
     validationMap?: Record<string, unknown>,
     rootValidationMap?: Record<string, unknown>
   ) {
-    const innerChangeset = Changeset(
+    const innerChangeset = createChangeset(
+      ExtendedChangeset,
       {
         a: 'b',
       },
-      ...(validationMap
-        ? [lookupValidator(validationMap), validationMap]
-        : [undefined, undefined])
+      validationMap as never
     );
 
-    const changesetWithNestedData = Changeset(
+    const changesetWithNestedData = createChangeset(
+      ExtendedChangeset,
       {
         shipments: [innerChangeset],
         z: 'z',
       },
-      ...(rootValidationMap
-        ? [lookupValidator(rootValidationMap), rootValidationMap]
-        : [undefined, undefined])
-    ) as ChangesetType;
+      rootValidationMap as never
+    );
 
     return { innerChangeset, changesetWithNestedData };
   }
@@ -129,18 +127,18 @@ module('Unit | Utility | nested changeset', function () {
       ];
     }
 
-    const changeset = Changeset({
+    const changeset = createChangeset(ExtendedChangeset, {
       a: 'a',
       b: 'b',
-      c: Changeset({
+      c: createChangeset(ExtendedChangeset, {
         d: 'b',
       }),
       shipments: [
-        Changeset({
+        createChangeset(ExtendedChangeset, {
           c: 'c',
           d: 'd',
           ships: [
-            Changeset({
+            createChangeset(ExtendedChangeset, {
               e: 'e',
               f: 'f',
             }),
@@ -183,16 +181,16 @@ module('Unit | Utility | nested changeset', function () {
       a: () => assert.step('b'),
     };
 
-    const newChangeset = Changeset(
+    const newChangeset = createChangeset(
+      ExtendedChangeset,
       {
         a: 'b',
       },
-      lookupValidator(newValidationMap),
       newValidationMap
     );
 
     changesetWithNestedData.set('shipments', [
-      ...changesetWithNestedData.get('shipments'),
+      ...(changesetWithNestedData.get('shipments') as unknown[]),
       newChangeset,
     ]);
 

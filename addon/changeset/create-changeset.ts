@@ -1,20 +1,19 @@
-import lookupValidator from 'ember-changeset-validations';
 import {
   Changeset,
   ProxyWrappedChangeset,
 } from 'ember-form-changeset-validations/types/typed-changeset';
+import { ConstructorParams } from 'expect-type';
 import { Class, StringKeyOf } from 'type-fest';
 
+/**
+ * Creates a changeset and wrap it into a proxy
+ * If a proxy is not required, just use new changeset(...)
+ */
 export function createChangeset<C extends Changeset>(
   changesetClass: Class<C>,
-  initialData: C['data'],
-  validationMap: Record<StringKeyOf<C['data']>, unknown>
+  ...args: ConstructorParams<Class<C>>
 ): ProxyWrappedChangeset<C> {
-  const instance = new changesetClass(
-    initialData,
-    lookupValidator(validationMap),
-    validationMap
-  );
+  const instance = new changesetClass(...args);
 
   return new Proxy(instance, {
     get(targetBuffer, key: StringKeyOf<C['data']>) {
@@ -25,5 +24,5 @@ export function createChangeset<C extends Changeset>(
       targetBuffer.set(key, value);
       return true;
     },
-  }) as unknown as ProxyWrappedChangeset<C>;
+  }) as ProxyWrappedChangeset<C>;
 }

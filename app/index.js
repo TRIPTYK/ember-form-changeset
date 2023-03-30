@@ -8,7 +8,6 @@ export * from './utils/nested-changeset/validate.js';
 export * from './types/typed-changeset.js';
 
 export * from './changeset/extended-changeset.js';
-export * from './changeset/create-changeset.js';
 
 export * from './utils/is-changeset.js';
 export * from './utils/is-changeset-array.js';

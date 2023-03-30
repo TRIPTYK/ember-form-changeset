@@ -2,7 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'dummy/tests/helpers';
 import { click, render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
-import { EmberChangeset } from 'ember-changeset';
+import { ExtendedChangeset } from 'ember-form-changeset-validations';
 
 module('Integration | Component | changeset-form', function (hooks) {
   setupRenderingTest(hooks);
@@ -16,7 +16,7 @@ module('Integration | Component | changeset-form', function (hooks) {
   }
 
   test('it calls @onSubmit when form is submitted and is valid', async function (assert) {
-    this.set('changeset', new EmberChangeset({}));
+    this.set('changeset', new ExtendedChangeset({}));
     this.set('save', () => assert.step('save'));
 
     await renderForm();
@@ -26,7 +26,7 @@ module('Integration | Component | changeset-form', function (hooks) {
   });
 
   test('it does not call @onSubmit when form is submitted and changeset is not valid', async function (assert) {
-    const changeset = new EmberChangeset({});
+    const changeset = new ExtendedChangeset({});
     this.set('changeset', changeset);
     this.set('save', () => assert.step('save'));
 

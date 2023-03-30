@@ -4,10 +4,10 @@ import { module, test } from 'qunit';
 module('Unit | Utility | extended-changeset', function () {
   test('pushInArray', function (assert) {
     const changeset = new ExtendedChangeset({
-      array: [],
+      array: ['amaury'],
     });
     changeset.pushInArray('array', 'string');
-    assert.deepEqual(changeset.get('array'), ['string']);
+    assert.deepEqual(changeset.get('array'), ['amaury', 'string']);
   });
   test('removeFromArray', function (assert) {
     const changeset = new ExtendedChangeset({
