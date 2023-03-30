@@ -1,5 +1,5 @@
 import { action } from '@ember/object';
-import { Owner } from '@ember/test-helpers/build-owner';
+import Owner from '@ember/owner';
 import Component from '@glimmer/component';
 import { Changeset } from 'ember-form-changeset-validations/types/typed-changeset';
 import { isValid } from 'ember-form-changeset-validations/utils/nested-changeset/is-valid';

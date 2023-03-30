@@ -5,7 +5,7 @@ declare module 'ember-changeset-validations/validators' {
     on?: string;
     allowBlank?: boolean;
     message?: string;
-  });
+  }): ValidationResult | Promise<ValidationResult>;
   export function validateLength(options: {
     min?: number;
     max?: number;
