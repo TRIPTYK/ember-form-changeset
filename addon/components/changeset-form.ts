@@ -1,4 +1,3 @@
-import { action } from '@ember/object';
 import Owner from '@ember/owner';
 import Component from '@glimmer/component';
 import { Changeset } from 'ember-form-changeset-validations/types/typed-changeset';
@@ -7,10 +6,14 @@ import { validate } from 'ember-form-changeset-validations/utils/nested-changese
 import { Promisable } from 'type-fest';
 import { assert } from '@ember/debug';
 import { isChangeset } from 'ember-form-changeset-validations/utils/is-changeset';
+import { dropTask, task } from 'ember-concurrency';
+import { waitFor } from '@ember/test-waiters';
+import { taskFor } from 'ember-concurrency-ts';
 
 export interface ChangesetFormComponentArgs<T extends Changeset> {
   changeset: T;
   onSubmit: (changeset: T) => Promisable<unknown>;
+  handleSubmitError: (changeset: T, error: Error) => Promisable<unknown>;
 }
 
 export default class ChangesetFormComponent extends Component<
@@ -28,12 +31,19 @@ export default class ChangesetFormComponent extends Component<
     assert('@onSubmit is required', typeof args.onSubmit === 'function');
   }
 
-  @action
-  async submit(e: Event) {
-    e.preventDefault();
-    await validate(this.args.changeset);
+  @dropTask
+  *validateAndSubmit() {
+    yield validate(this.args.changeset);
     if (isValid(this.args.changeset)) {
-      await this.args.onSubmit(this.args.changeset);
+      yield this.args.onSubmit(this.args.changeset);
     }
+  }
+
+  @task
+  @waitFor
+  *submit(e: Event) {
+    e.preventDefault();
+    const task = taskFor(this.validateAndSubmit);
+    yield task.perform();
   }
 }

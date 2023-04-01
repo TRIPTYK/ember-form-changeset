@@ -1,4 +1,4 @@
-<form {{on "submit" this.submit}} ...attributes>
+<form {{on "submit" (perform this.submit)}} ...attributes>
     {{!-- TODO: Dynamic component invocation with @changeset --}}
-    {{yield}}
+    {{yield this.validateAndSubmit}}
 </form>

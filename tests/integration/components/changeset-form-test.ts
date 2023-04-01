@@ -1,15 +1,18 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'dummy/tests/helpers';
-import { click, render } from '@ember/test-helpers';
+import { click, find, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ExtendedChangeset } from 'ember-form-changeset-validations';
+import { timeout } from 'ember-concurrency';
 
 module('Integration | Component | changeset-form', function (hooks) {
   setupRenderingTest(hooks);
 
   async function renderForm() {
     await render(hbs`
-        <ChangesetForm @changeset={{this.changeset}} @onSubmit={{this.save}}>
+        <ChangesetForm 
+            @changeset={{this.changeset}} 
+            @onSubmit={{this.save}} >
           <button type="submit"></button>
         </ChangesetForm>
       `);
@@ -36,5 +39,21 @@ module('Integration | Component | changeset-form', function (hooks) {
 
     await click('button');
     assert.verifySteps([]);
+  });
+
+  test('Cannot submit while action is still in progress', async function (assert) {
+    const changeset = new ExtendedChangeset({});
+    this.set('changeset', changeset);
+    this.set('save', async () => {
+      assert.step('save');
+      await timeout(500);
+    });
+
+    await renderForm();
+    find('button')?.click();
+    find('button')?.click();
+    await settled();
+
+    assert.verifySteps(['save']);
   });
 });
