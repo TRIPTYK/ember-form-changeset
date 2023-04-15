@@ -15,5 +15,6 @@ export function isValid(changeset: Changeset) {
       return false;
     }
   }
+
   return changeset.isValid;
 }

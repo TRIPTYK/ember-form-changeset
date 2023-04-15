@@ -4,7 +4,6 @@ export interface Changeset<
   T extends Record<string, any> = Record<string, any>
 > {
   data: T;
-  validationMap: any;
   changes: Record<string, any>[];
   errors: Record<string, unknown>[];
   isValid: boolean;
@@ -15,14 +14,12 @@ export interface Changeset<
   unexecute(): void;
   save(options?: object): Promisable<void>;
   rollback(): void;
-  rollbackInvalid(key: string | void): void;
   rollbackProperty(key: string): void;
   addError(key: string, error: unknown): void;
-  pushErrors(key: string, ...newErrors: unknown[]): void;
   isValidating(key?: string): boolean;
   get(key: string): unknown;
   set(key: string, value: unknown): void;
-  validate(...validationKeys: string[]): Promisable<unknown>;
+  validate(...args: any[]): Promisable<any>;
 }
 
 /**

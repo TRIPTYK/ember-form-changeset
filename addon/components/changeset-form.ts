@@ -34,6 +34,7 @@ export default class ChangesetFormComponent extends Component<
   @dropTask
   *validateAndSubmit() {
     yield validate(this.args.changeset);
+
     if (isValid(this.args.changeset)) {
       yield this.args.onSubmit(this.args.changeset);
     }
