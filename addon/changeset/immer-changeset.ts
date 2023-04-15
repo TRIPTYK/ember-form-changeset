@@ -1,7 +1,7 @@
 import { Changeset } from 'ember-form-changeset-validations';
 import { Promisable } from 'type-fest';
 import produce, { Draft, Patch, applyPatches, enablePatches } from 'immer';
-import { get, set } from '@ember/object';
+import { computed, get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 enablePatches();
@@ -40,6 +40,7 @@ function getLastVersions(arr: Change[]) {
 export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   implements Changeset<T>
 {
+  @tracked
   data: T;
 
   @tracked
@@ -114,7 +115,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   }
 
   addError(key: string, error: Error): void {
-    this.innerErrors[key] = error;
+    this.innerErrors = { ...this.innerErrors, [key]: error };
   }
 
   removeError(key: string): void {

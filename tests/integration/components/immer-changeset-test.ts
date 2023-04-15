@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'dummy/tests/helpers';
-import { render, settled } from '@ember/test-helpers';
+import { TestContext, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { ImmerChangeset } from 'ember-form-changeset-validations/changeset/immer-changeset';
 import hugeChangeset from './huge-changeset-data';
@@ -17,9 +17,14 @@ const changes = [
 module('Integration | Component | immer-changeset', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('data tracking on huge changeset', async function (assert) {
+  function setupChangeset(this: TestContext) {
     const changeset = new ImmerChangeset(hugeChangeset);
     this.set('changeset', changeset);
+    return changeset;
+  }
+
+  test('data tracking on huge changeset', async function (assert) {
+    const changeset = setupChangeset.call(this);
     this.set('changesetGet', (ch: typeof changeset, key: string) => {
       return ch.get(key);
     });
@@ -48,5 +53,58 @@ module('Integration | Component | immer-changeset', function (hooks) {
       Date.now() - elapsed < 50,
       'Changing tracking is not too computational heavy < 50ms'
     );
+  });
+
+  test('errors tracking', async function (assert) {
+    const changeset = setupChangeset.call(this);
+
+    await render(hbs`
+    {{#each this.changeset.errors as |error|}}
+        {{error.path}}
+    {{/each}}
+    `);
+
+    assert.dom().matchesText('');
+
+    changeset.addError('name', {
+      originalValue: '',
+      value: '',
+      path: 'name',
+    });
+    changeset.addError('potato', {
+      originalValue: '',
+      value: '',
+      path: 'aaaaaardapell',
+    });
+
+    await settled();
+    assert.dom().matchesText('name aaaaaardapell');
+  });
+
+  test('data tracking', async function (assert) {
+    const changeset = setupChangeset.call(this);
+
+    await render(hbs`
+    {{#each-in this.changeset.data as |key  value|}}
+        {{key}}{{value}}
+    {{/each-in}}
+    `);
+
+    assert
+      .dom()
+      .matchesText(
+        'nameamaury age30 address[object Object] contacts[object Object],[object Object]'
+      );
+
+    changeset.set('a', 'b');
+    changeset.execute();
+
+    await settled();
+
+    assert
+      .dom()
+      .matchesText(
+        'nameamaury age30 address[object Object] contacts[object Object],[object Object] ab'
+      );
   });
 });

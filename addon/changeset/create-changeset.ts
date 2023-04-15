@@ -16,7 +16,7 @@ export function createChangeset<C extends Changeset>(
   const instance = new changesetClass(...args);
 
   return new Proxy(instance, {
-    get(targetBuffer, key: StringKeyOf<C['data']>) {
+    get(targetBuffer, key: string) {
       const res = targetBuffer.get(key);
       return res;
     },

@@ -2,6 +2,15 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import { ImmerChangeset } from 'ember-form-changeset-validations/changeset/immer-changeset';
 
+const dataWithNestedArray = {
+  name: 'a',
+  nested: [
+    {
+      hello: true,
+    },
+  ],
+};
+
 module('Unit | Immer changeset', function (hooks) {
   setupTest(hooks);
 
@@ -14,14 +23,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('It sets a deep key into the changeset', (assert) => {
-    const changeset = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0.hello', 'false');
 
@@ -30,14 +32,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('replace array', (assert) => {
-    const changeset = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0', {
       hello: 'hellloooo',
@@ -47,14 +42,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('unexecute', (assert) => {
-    const originalData = {
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    };
+    const originalData = dataWithNestedArray;
     const changeset = new ImmerChangeset(originalData);
 
     changeset.set('nested.0.hello', false);
@@ -66,14 +54,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('save', (assert) => {
-    const originalData = {
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    };
+    const originalData = dataWithNestedArray;
     const changeset = new ImmerChangeset(originalData);
 
     changeset.set('nested.0.hello', false);
@@ -94,14 +75,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('Trying to modify the inner changes and exposed data from the outside throws error', (assert) => {
-    const changeset: any = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset: any = new ImmerChangeset(dataWithNestedArray);
 
     assert.throws(
       () => changeset.get('nested').push([]),
@@ -114,14 +88,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('It executes changes to the changeset', (assert) => {
-    const changeset = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0.hello', false);
 
@@ -138,14 +105,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('rollback', (assert) => {
-    const changeset = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0.hello', false);
     changeset.set('name', 'false');
@@ -157,14 +117,7 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('changes', (assert) => {
-    const changeset = new ImmerChangeset({
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    });
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0.hello', false);
     changeset.set('name', 'false');
@@ -189,14 +142,7 @@ module('Unit | Immer changeset', function (hooks) {
 
   // eslint-disable-next-line qunit/require-expect
   test('validate', async (assert) => {
-    const data = {
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    };
+    const data = dataWithNestedArray;
     const errors = [
       {
         path: 'key',
@@ -221,22 +167,13 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('addError', async (assert) => {
-    const data = {
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    };
-
     const errors = {
       path: 'key',
       value: 'blblbl',
       originalValue: undefined,
     };
 
-    const changeset = new ImmerChangeset(data);
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     assert.false(changeset.isInvalid);
     assert.true(changeset.isValid);
@@ -249,22 +186,13 @@ module('Unit | Immer changeset', function (hooks) {
   });
 
   test('removeError', async (assert) => {
-    const data = {
-      name: 'a',
-      nested: [
-        {
-          hello: true,
-        },
-      ],
-    };
-
     const errors = {
       path: 'key',
       value: 'blblbl',
       originalValue: undefined,
     };
 
-    const changeset = new ImmerChangeset(data);
+    const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.addError(errors.path, errors);
 
