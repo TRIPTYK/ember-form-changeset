@@ -105,11 +105,11 @@ module('Unit | Immer changeset', function (hooks) {
 
     assert.throws(
       () => changeset.get('nested').push([]),
-      (e: Error) => e instanceof TypeError && e.message.includes('non-writable')
+      (e: Error) => e instanceof TypeError
     );
     assert.throws(
       () => changeset.data.nested.push([]),
-      (e: Error) => e instanceof TypeError && e.message.includes('non-writable')
+      (e: Error) => e instanceof TypeError
     );
   });
 

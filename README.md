@@ -1,7 +1,23 @@
 # ember-form-changeset-validations
 
-This addon helps creating form components logic based on [ember-changeset](https://github.com/poteto/ember-changeset).
+This repository provides :  
 
+- Full typescript typings.
+  - Lighweight and correclty typed changeset interface.
+  - Interface for proxied changeset.
+- Utils to interact with nested changesets (changesets in changesets).
+- 2 types of changesets implementation :
+  - ExtendedChangeset: a class encapsulating an [EmberChangeset](https://github.com/poteto/ember-changeset).
+  - ImmerChangeset: an implementation using [ImmerJS](https://immerjs.github.io).
+
+## Why not using directly ember changeset library ?
+
+We moved away from direct use of the library for some reasons :
+
+- Bugs using nested data structures (reactivity problems, incorrect behaviors).
+- Easier reactivity for bug fixing (obviously).
+- Use different validation methods/library.
+- Experimentations (ex: ImmerJS changeset).
 
 ## Compatibility
 
@@ -9,30 +25,55 @@ This addon helps creating form components logic based on [ember-changeset](https
 * Ember CLI v3.28 or above
 * Node.js v14 or above
 
-
 ## Installation
 
 ```
 ember install ember-form-changeset-validations
 ```
 
-Features
-------------------------------------------------------------------------------
-
+## Features
 
 ### Typescript types
 
-- Fully typed changesets
+- Add to tsconfig.json
 
-In tsconfig.json : 
-
-```json
+```json 
 "ember-changeset-validations/*": [
     "node_modules/ember-form-changeset-validations/types/ember-changeset-validations/*"
 ],
 "ember-changeset-validations": [
     "node_modules/ember-form-changeset-validations/types/ember-changeset-validations"
 ],
+```
+
+### ExtendedChangeset
+
+A changeset using EmberChangeset internally.
+
+### ImmerChangeset
+
+A changeset using ImmerJS internally.
+
+There are some differences with the ExtendedChangeset :
+
+- Can only be modified by get/set method.
+- .data is readonly (frozen)
+- Only works with classic JS data types (no ember model or complex classes atm).
+- validate() takes a callback that validates and returns errors.
+
+Pseudocode with yup :
+
+```ts
+const validationSchema = yup.object();
+const changeset = new ImmerChangeset();
+changeset.validate(async (draft) => {
+    const errors = await validationSchema.validate(draft);
+    return errors.map((e) => {
+        value: e.value,
+        originalValue: e.originalValue,
+        path: e.path
+    })
+});
 ```
 
 ### CreateChangeset
@@ -104,5 +145,7 @@ This function returns the data for a changeset or any of its nested changesets. 
 This function returns the errors for a changeset or any of its nested changesets. It returns an object containing the changeset errors. It accepts one argument:
 
 `changeset` - a changeset or a nested changeset to get the errors from
+
+## Notes
 
 ![/static/flow.png](/static/flow.png)

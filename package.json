@@ -1,12 +1,12 @@
 {
   "name": "ember-form-changeset-validations",
-  "version": "2.1.2",
-  "description": "Utils for ember-changeset.",
+  "version": "2.2.0",
+  "description": "A changeset library for emberJS.",
   "keywords": [
     "ember-addon",
     "changeset",
-    "generator",
-    "form"
+    "ember-changeset",
+    "typescript"
   ],
   "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
   "license": "MIT",
