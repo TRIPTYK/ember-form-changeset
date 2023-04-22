@@ -1,20 +1,20 @@
 import { Changeset } from 'ember-form-changeset-validations';
 import { Promisable } from 'type-fest';
 import produce, { Draft, Patch, applyPatches, enablePatches } from 'immer';
-import { computed, get, set } from '@ember/object';
+import { get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 enablePatches();
 
-type Error = {
+export type ValidationError = {
   path: string;
   value: unknown;
   originalValue: unknown;
 };
 
-type ValidationFunction<T extends Record<string, unknown>> = (
+export type ValidationFunction<T extends Record<string, unknown>> = (
   data: T
-) => Promisable<Error[]>;
+) => Promisable<ValidationError[]>;
 
 interface Change {
   key: string;
@@ -47,7 +47,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   private draftData: T;
 
   @tracked
-  private innerErrors: Record<string, Error> = {};
+  private innerErrors: Record<string, ValidationError> = {};
 
   private patches: Patch[] = [];
   private inversePatches: Patch[] = [];
@@ -114,7 +114,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     this.set(property, get(this.data, property));
   }
 
-  addError(key: string, error: Error): void {
+  addError(key: string, error: ValidationError): void {
     this.innerErrors = { ...this.innerErrors, [key]: error };
   }
 
@@ -149,6 +149,6 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     this.innerErrors = errors.reduce((p, c) => {
       p[c.path] = c;
       return p;
-    }, {} as Record<string, Error>);
+    }, {} as Record<string, ValidationError>);
   }
 }

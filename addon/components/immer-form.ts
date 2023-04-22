@@ -1,37 +1,43 @@
 import Owner from '@ember/owner';
 import Component from '@glimmer/component';
-import { isValid } from 'ember-form-changeset-validations/utils/nested-changeset/is-valid';
-import { validate } from 'ember-form-changeset-validations/utils/nested-changeset/validate';
 import { Promisable } from 'type-fest';
 import { assert } from '@ember/debug';
 import { isChangeset } from 'ember-form-changeset-validations/utils/is-changeset';
 import { dropTask, task } from 'ember-concurrency';
 import { waitFor } from '@ember/test-waiters';
 import { taskFor } from 'ember-concurrency-ts';
-import { ExtendedChangeset } from 'ember-form-changeset-validations/changeset/extended-changeset';
+import { ImmerChangeset } from 'ember-form-changeset-validations/changeset/immer-changeset';
 
-export interface ChangesetFormComponentArgs<T extends ExtendedChangeset<any>> {
+export interface ChangesetFormComponentArgs<T extends ImmerChangeset> {
   changeset: T;
   onSubmit: (changeset: T) => Promisable<unknown>;
+  validationFunction: Parameters<ImmerChangeset['validate']>[0];
 }
 
-export default class ChangesetFormComponent<
-  T extends ExtendedChangeset<any>
-> extends Component<ChangesetFormComponentArgs<T>> {
-  public constructor(owner: Owner, args: ChangesetFormComponentArgs<T>) {
+export default class ChangesetFormComponent extends Component<
+  ChangesetFormComponentArgs<ImmerChangeset>
+> {
+  public constructor(
+    owner: Owner,
+    args: ChangesetFormComponentArgs<ImmerChangeset>
+  ) {
     super(owner, args);
     assert(
-      '@changeset is required and must be an ExtendedChangeset',
-      isChangeset(args.changeset) && args.changeset instanceof ExtendedChangeset
+      '@changeset is required and must be an ImmerChangeset',
+      isChangeset(args.changeset) && args.changeset instanceof ImmerChangeset
     );
     assert('@onSubmit is required', typeof args.onSubmit === 'function');
+    assert(
+      '@validationFunction is required',
+      typeof args.validationFunction === 'function'
+    );
   }
 
   @dropTask
   *validateAndSubmit() {
-    yield validate(this.args.changeset);
+    yield this.args.changeset.validate(this.args.validationFunction);
 
-    if (isValid(this.args.changeset)) {
+    if (this.args.changeset.isValid) {
       yield this.args.onSubmit(this.args.changeset);
     }
   }
