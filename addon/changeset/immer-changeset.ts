@@ -7,7 +7,7 @@ import { tracked } from '@glimmer/tracking';
 enablePatches();
 
 export type ValidationError = {
-  path: string;
+  key: string;
   value: unknown;
   originalValue: unknown;
 };
@@ -147,7 +147,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   async validate(validation: ValidationFunction<T>) {
     const errors = await validation(this.draftData);
     this.innerErrors = errors.reduce((p, c) => {
-      p[c.path] = c;
+      p[c.key] = c;
       return p;
     }, {} as Record<string, ValidationError>);
   }

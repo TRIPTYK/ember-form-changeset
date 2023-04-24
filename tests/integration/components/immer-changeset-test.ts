@@ -60,7 +60,7 @@ module('Integration | Component | immer-changeset', function (hooks) {
 
     await render(hbs`
     {{#each this.changeset.errors as |error|}}
-        {{error.path}}
+        {{error.key}}
     {{/each}}
     `);
 
@@ -69,12 +69,12 @@ module('Integration | Component | immer-changeset', function (hooks) {
     changeset.addError('name', {
       originalValue: '',
       value: '',
-      path: 'name',
+      key: 'name',
     });
     changeset.addError('potato', {
       originalValue: '',
       value: '',
-      path: 'aaaaaardapell',
+      key: 'aaaaaardapell',
     });
 
     await settled();

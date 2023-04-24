@@ -145,7 +145,7 @@ module('Unit | Immer changeset', function (hooks) {
     const data = dataWithNestedArray;
     const errors = [
       {
-        path: 'key',
+        key: 'key',
         value: 'blblbl',
         originalValue: undefined,
       },
@@ -168,7 +168,7 @@ module('Unit | Immer changeset', function (hooks) {
 
   test('addError', async (assert) => {
     const errors = {
-      path: 'key',
+      key: 'key',
       value: 'blblbl',
       originalValue: undefined,
     };
@@ -178,7 +178,7 @@ module('Unit | Immer changeset', function (hooks) {
     assert.false(changeset.isInvalid);
     assert.true(changeset.isValid);
 
-    changeset.addError(errors.path, errors);
+    changeset.addError(errors.key, errors);
 
     assert.false(changeset.isValid);
     assert.true(changeset.isInvalid);
@@ -187,18 +187,18 @@ module('Unit | Immer changeset', function (hooks) {
 
   test('removeError', async (assert) => {
     const errors = {
-      path: 'key',
+      key: 'key',
       value: 'blblbl',
       originalValue: undefined,
     };
 
     const changeset = new ImmerChangeset(dataWithNestedArray);
 
-    changeset.addError(errors.path, errors);
+    changeset.addError(errors.key, errors);
 
     assert.deepEqual(changeset.errors, [errors]);
 
-    changeset.removeError(errors.path);
+    changeset.removeError(errors.key);
 
     assert.false(changeset.isInvalid);
     assert.true(changeset.isValid);
