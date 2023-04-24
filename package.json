@@ -1,6 +1,6 @@
 {
   "name": "ember-form-changeset-validations",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A changeset library for emberJS.",
   "keywords": [
     "ember-addon",
