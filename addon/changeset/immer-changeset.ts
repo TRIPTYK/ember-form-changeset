@@ -7,6 +7,8 @@ import { tracked } from '@glimmer/tracking';
 enablePatches();
 
 export type ValidationError = {
+  message?: string;
+  params?: Record<string, unknown>;
   key: string;
   value: unknown;
   originalValue: unknown;
