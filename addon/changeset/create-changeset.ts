@@ -17,11 +17,11 @@ export function createChangeset<C extends Changeset>(
 
   return new Proxy(instance, {
     get(targetBuffer, key: string) {
-      const res = targetBuffer.get(key);
+      const res = targetBuffer.get(key.toString());
       return res;
     },
     set(targetBuffer, key: StringKeyOf<C['data']>, value) {
-      targetBuffer.set(key, value);
+      targetBuffer.set(key.toString(), value);
       return true;
     },
   }) as ProxyWrappedChangeset<C>;
