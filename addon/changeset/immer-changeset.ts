@@ -1,6 +1,6 @@
 import { Changeset } from 'ember-form-changeset-validations';
-import { Promisable } from 'type-fest';
-import produce, { Draft, Patch, applyPatches, enablePatches } from 'immer';
+import { Get, Promisable } from 'type-fest';
+import { produce, Draft, Patch, applyPatches, enablePatches } from 'immer';
 import { get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
@@ -113,7 +113,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   }
 
   rollbackProperty(property: string): void {
-    this.set(property, get(this.data, property));
+    this.set(property, get(this.data, property) as never);
   }
 
   addError(key: string, error: ValidationError): void {
@@ -129,11 +129,11 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     return false;
   }
 
-  get(key: string): unknown {
-    return get(this.draftData, key);
+  get<K extends string>(key: K): Get<T, K> {
+    return get(this.draftData, key) as Get<T, K>;
   }
 
-  set(key: string, value: unknown): void {
+  set<K extends string>(key: K, value: Get<T, K>): void {
     this.draftData = produce(
       this.draftData,
       (d: Draft<T>) => {

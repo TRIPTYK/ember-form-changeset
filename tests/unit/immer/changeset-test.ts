@@ -25,20 +25,20 @@ module('Unit | Immer changeset', function (hooks) {
   test('It sets a deep key into the changeset', (assert) => {
     const changeset = new ImmerChangeset(dataWithNestedArray);
 
-    changeset.set('nested.0.hello', 'false');
+    changeset.set('nested.0.hello', 'false' as never);
 
     assert.strictEqual(changeset.get('name'), 'a');
-    assert.strictEqual(changeset.get('nested.0.hello'), 'false');
+    assert.strictEqual(changeset.get('nested.0.hello'), 'false' as never);
   });
 
   test('replace array', (assert) => {
     const changeset = new ImmerChangeset(dataWithNestedArray);
 
     changeset.set('nested.0', {
-      hello: 'hellloooo',
+      hello: 'hellloooo' as never,
     });
 
-    assert.strictEqual(changeset.get('nested.0.hello'), 'hellloooo');
+    assert.strictEqual(changeset.get('nested.0.hello'), 'hellloooo' as never);
   });
 
   test('unexecute', (assert) => {
@@ -122,7 +122,7 @@ module('Unit | Immer changeset', function (hooks) {
     changeset.set('nested.0.hello', false);
     changeset.set('name', 'false');
     changeset.set('name', 'fals');
-    changeset.set('nested.0', {});
+    changeset.set('nested.0', {} as never);
 
     assert.deepEqual(changeset.changes, [
       {

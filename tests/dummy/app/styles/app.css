@@ -1,7 +1,3 @@
-.hasChanges {
-    background-color: chartreuse;
-}
-
-.hasChangesMain {
-    background-color: turquoise;
+.has-changes {
+  background-color: chartreuse;
 }
