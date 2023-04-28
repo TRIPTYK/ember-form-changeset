@@ -125,10 +125,6 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     this.innerErrors = { ...this.innerErrors };
   }
 
-  isValidating(): boolean {
-    return false;
-  }
-
   get<K extends string>(key: K): Get<T, K> {
     return get(this.draftData, key) as Get<T, K>;
   }

@@ -16,7 +16,6 @@ export interface Changeset<
   rollback(): void;
   rollbackProperty(key: string): void;
   addError(key: string, error: unknown): void;
-  isValidating(key?: string): boolean;
   get(key: string): unknown;
   set(key: string, value: unknown): void;
   validate(...args: any[]): Promisable<any>;
