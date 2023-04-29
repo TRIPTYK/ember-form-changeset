@@ -50,6 +50,31 @@ ember install ember-form-changeset-validations
 
 A changeset using EmberChangeset internally.
 
+### ChangesetForm
+
+A form dealing with the submit of an ExtendedChangeset
+
+```hbs
+<ChangesetForm 
+    @changeset={{this.changeset}} 
+    @onSubmit={{this.save}} as |Changeset|>
+  <button type="submit">Submit</button>
+</ChangesetForm>
+```
+
+### ImmerForm
+
+A form dealing with the submit of an ImmerChangeset
+
+```hbs
+<ImmerForm 
+    @changeset={{this.changeset}} 
+    @validationFunction={{this.validationFunction}}
+    @onSubmit={{this.save}} as |Changeset|>
+  <button type="submit">Submit</button>
+</ImmerForm>
+```
+
 ### ImmerChangeset
 
 A changeset using ImmerJS internally.
