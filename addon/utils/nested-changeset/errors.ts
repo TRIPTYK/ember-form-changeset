@@ -2,6 +2,11 @@ import { Changeset } from 'ember-form-changeset-validations/types/typed-changese
 import { isChangeset } from '../is-changeset';
 import { isChangesetArray } from '../is-changeset-array';
 
+/**
+ * Creates a changeset and wrap it into a proxy
+ * If a proxy is not required, just use new changeset(...)
+ * @deprecated will be removed in next major version
+ */
 export function errors<T extends Changeset>(
   changeset: T,
   parentKey?: string
