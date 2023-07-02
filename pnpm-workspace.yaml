@@ -1,0 +1,3 @@
+packages:
+  - 'ember-form-changeset-validations'
+  - 'test-app'
