@@ -1,10 +1,36 @@
 import { Promisable, StringKeyOf } from 'type-fest';
 
+export type ValidateOneFunction<T extends Record<string, unknown>> = (
+  value: unknown,
+  field: StringKeyOf<T>,
+  data: T
+) => Promisable<ValidationError | undefined>;
+
+export type ValidationError = {
+  message?: string;
+  params?: Record<string, unknown>;
+  key: string;
+  value: unknown;
+  originalValue: unknown;
+};
+
+export type ValidationFunction<T extends Record<string, unknown>> = (
+  data: T
+) => Promisable<ValidationError[]>;
+
+export interface Change {
+  key: string;
+  value: unknown;
+}
+
+/**
+ * This interface is for the old changeset compatibility
+ */
 export interface Changeset<
   T extends Record<string, any> = Record<string, any>
 > {
   data: T;
-  changes: Record<string, any>[];
+  changes: Change[];
   errors: Record<string, unknown>[];
   isValid: boolean;
   isPristine: boolean;
@@ -18,7 +44,11 @@ export interface Changeset<
   addError(key: string, error: unknown): void;
   get(key: string): unknown;
   set(key: string, value: unknown): void;
-  validate(...args: any[]): Promisable<any>;
+  validate(fn: ValidationFunction<Record<string, unknown>>): Promisable<void>;
+  validateOne(
+    key: string,
+    fn: ValidateOneFunction<Record<string, unknown>>
+  ): Promisable<void>;
 }
 
 /**

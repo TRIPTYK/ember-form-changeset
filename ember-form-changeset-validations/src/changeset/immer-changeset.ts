@@ -1,43 +1,16 @@
-import { Get, Promisable } from 'type-fest';
+import { Get, Promisable, StringKeyOf } from 'type-fest';
 import { produce, Draft, Patch, applyPatches, enablePatches } from 'immer';
 import { get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import { Changeset } from '../types/typed-changeset';
+import {
+  Changeset,
+  ValidateOneFunction,
+  ValidationError,
+  ValidationFunction,
+} from '../types/changeset';
+import { aggregatedLastChanges } from '../utils/get-last-versions';
 
 enablePatches();
-
-export type ValidationError = {
-  message?: string;
-  params?: Record<string, unknown>;
-  key: string;
-  value: unknown;
-  originalValue: unknown;
-};
-
-export type ValidationFunction<T extends Record<string, unknown>> = (
-  data: T
-) => Promisable<ValidationError[]>;
-
-interface Change {
-  key: string;
-  value: unknown;
-}
-
-function getLastVersions(arr: Change[]) {
-  const result: Change[] = [];
-
-  arr.forEach((item) => {
-    const existingIndex = result.findIndex((e) => e.key === item.key);
-
-    if (existingIndex !== -1) {
-      result[existingIndex] = item;
-    } else {
-      result.push(item);
-    }
-  });
-
-  return result;
-}
 
 export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   implements Changeset<T>
@@ -55,7 +28,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   private inversePatches: Patch[] = [];
 
   get changes() {
-    return getLastVersions(this.normalizedPatches());
+    return aggregatedLastChanges(this.normalizedPatches());
   }
 
   get errors() {
@@ -78,13 +51,6 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     return !this.isPristine;
   }
 
-  private normalizedPatches() {
-    return this.patches.map((patch) => ({
-      value: patch.value,
-      key: patch.path.join('.'),
-    }));
-  }
-
   public constructor(data: T) {
     this.data = produce(data, () => {});
     this.draftData = produce(data, () => {});
@@ -105,11 +71,6 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
 
   rollback(): void {
     this.draftData = applyPatches(this.draftData, this.inversePatches);
-  }
-
-  private resetPatches() {
-    this.patches = [];
-    this.inversePatches = [];
   }
 
   rollbackProperty(property: string): void {
@@ -148,5 +109,29 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
       p[c.key] = c;
       return p;
     }, {} as Record<string, ValidationError>);
+  }
+
+  async validateOne<K extends StringKeyOf<T>>(
+    key: K,
+    validation: ValidateOneFunction<T>
+  ) {
+    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
+    const error = await validation(this.get(key), key, this.draftData);
+    if (error) {
+      return this.addError(key, error);
+    }
+    this.removeError(key);
+  }
+
+  private normalizedPatches() {
+    return this.patches.map((patch) => ({
+      value: patch.value,
+      key: patch.path.join('.'),
+    }));
+  }
+
+  private resetPatches() {
+    this.patches = [];
+    this.inversePatches = [];
   }
 }

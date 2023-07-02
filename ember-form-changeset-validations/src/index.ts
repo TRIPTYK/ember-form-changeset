@@ -1,4 +1,4 @@
-export * from './types/typed-changeset';
+export * from './types/changeset';
 
 export * from './changeset/immer-changeset';
 
