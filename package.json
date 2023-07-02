@@ -5,7 +5,6 @@
   "keywords": [
     "ember-addon",
     "changeset",
-    "ember-changeset",
     "typescript"
   ],
   "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
@@ -37,13 +36,11 @@
   "dependencies": {
     "@glimmer/component": "~1.1.2",
     "ember-auto-import": "^2.6.3",
-    "ember-changeset": "^4.0.0",
-    "ember-changeset-validations": "^4.0.0",
     "ember-cli-babel": "~7.26.11",
     "ember-cli-htmlbars": "~6.2.0",
     "ember-cli-string-utils": "^1.1.0",
     "ember-cli-typescript": "^5.2.1",
-    "immer": "~10.0.1",
+    "immer": "~10.0.2",
     "short-uuid": "~4.2.2"
   },
   "devDependencies": {
@@ -93,8 +90,6 @@
     "broccoli-asset-rev": "^3.0.0",
     "concurrently": "^8.0.1",
     "console-ui": "^3.1.2",
-    "ember-changeset": "^4.1.2",
-    "ember-changeset-validations": "^4.1.1",
     "ember-cli": "~4.12.1",
     "ember-cli-dependency-checker": "^3.3.1",
     "ember-cli-inject-live-reload": "^2.1.0",
