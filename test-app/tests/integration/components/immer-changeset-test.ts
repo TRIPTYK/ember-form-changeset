@@ -51,7 +51,7 @@ module('Integration | Component | immer-changeset', function (hooks) {
     // speed can vary depending  of  the processor, OS, context,  ... this is just an indicator   of performance
     assert.true(
       Date.now() - elapsed < 50,
-      'Changing tracking is not too computational heavy < 50ms'
+      'Changing tracking is not too computational heavy < 50ms',
     );
   });
 
@@ -93,7 +93,7 @@ module('Integration | Component | immer-changeset', function (hooks) {
     assert
       .dom()
       .matchesText(
-        'nameamaury age30 address[object Object] contacts[object Object],[object Object]'
+        'nameamaury age30 address[object Object] contacts[object Object],[object Object]',
       );
 
     changeset.set('a', 'b');
@@ -104,7 +104,7 @@ module('Integration | Component | immer-changeset', function (hooks) {
     assert
       .dom()
       .matchesText(
-        'nameamaury age30 address[object Object] contacts[object Object],[object Object] ab'
+        'nameamaury age30 address[object Object] contacts[object Object],[object Object] ab',
       );
   });
 });

@@ -1,14 +1,14 @@
-import { Get, Promisable, StringKeyOf } from 'type-fest';
+import { Get, Promisable } from 'type-fest';
 import { produce, Draft, Patch, applyPatches, enablePatches } from 'immer';
 import { get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import {
   Changeset,
-  ValidateOneFunction,
   ValidationError,
   ValidationFunction,
 } from '../types/changeset';
 import { aggregatedLastChanges } from '../utils/get-last-versions';
+import { ChangesetEventEmitter, OnSetCallback } from '../utils/event-emitter';
 
 enablePatches();
 
@@ -26,6 +26,8 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
 
   private patches: Patch[] = [];
   private inversePatches: Patch[] = [];
+
+  private eventEmitter = new ChangesetEventEmitter<this, T>(this);
 
   get changes() {
     return aggregatedLastChanges(this.normalizedPatches());
@@ -101,6 +103,7 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
         this.inversePatches.push(...inversePatches);
       }
     );
+    this.eventEmitter.emitOnSet(key as never, value);
   }
 
   async validate(validation: ValidationFunction<T>) {
@@ -109,18 +112,6 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
       p[c.key] = c;
       return p;
     }, {} as Record<string, ValidationError>);
-  }
-
-  async validateOne<K extends StringKeyOf<T>>(
-    key: K,
-    validation: ValidateOneFunction<T>
-  ) {
-    // eslint-disable-next-line ember/classic-decorator-no-classic-methods
-    const error = await validation(this.get(key), key, this.draftData);
-    if (error) {
-      return this.addError(key, error);
-    }
-    this.removeError(key);
   }
 
   private normalizedPatches() {
@@ -133,5 +124,12 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
   private resetPatches() {
     this.patches = [];
     this.inversePatches = [];
+  }
+
+  public onSet(fn: OnSetCallback<ImmerChangeset, T>) {
+    const listener = this.eventEmitter.on('set', fn as never);
+    return () => {
+      this.eventEmitter.off('set', listener);
+    };
   }
 }

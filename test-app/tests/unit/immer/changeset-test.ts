@@ -79,11 +79,11 @@ module('Unit | Immer changeset', function (hooks) {
 
     assert.throws(
       () => changeset.get('nested').push([]),
-      (e: Error) => e instanceof TypeError
+      (e: Error) => e instanceof TypeError,
     );
     assert.throws(
       () => changeset.data.nested.push([]),
-      (e: Error) => e instanceof TypeError
+      (e: Error) => e instanceof TypeError,
     );
   });
 
@@ -166,29 +166,6 @@ module('Unit | Immer changeset', function (hooks) {
     assert.deepEqual(changeset.errors, errors);
   });
 
-  // eslint-disable-next-line qunit/require-expect
-  test('validateOne', async (assert) => {
-    const data = dataWithNestedArray;
-    const error = {
-      key: 'key',
-      value: 'blblbl',
-      originalValue: undefined,
-    };
-
-    const changeset = new ImmerChangeset(data);
-
-    assert.false(changeset.isInvalid);
-    assert.true(changeset.isValid);
-
-    await changeset.validateOne('name', () => {
-      return error;
-    });
-
-    assert.false(changeset.isValid);
-    assert.true(changeset.isInvalid);
-    assert.deepEqual(changeset.errors, [error]);
-  });
-
   test('addError', async (assert) => {
     const errors = {
       key: 'key',
@@ -227,5 +204,25 @@ module('Unit | Immer changeset', function (hooks) {
     assert.true(changeset.isValid);
 
     assert.deepEqual(changeset.errors, []);
+  });
+
+  // eslint-disable-next-line qunit/require-expect
+  test('onSet', async (assert) => {
+    const changeset = new ImmerChangeset(dataWithNestedArray);
+
+    const cleanup = changeset.onSet((key: string) => {
+      assert.strictEqual(key, 'name');
+      assert.step('set');
+    });
+
+    changeset.set('name', 'false' as never);
+
+    assert.verifySteps(['set']);
+
+    cleanup();
+
+    changeset.set('name', 'false' as never);
+
+    assert.verifySteps([]);
   });
 });

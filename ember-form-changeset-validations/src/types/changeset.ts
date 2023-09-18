@@ -1,11 +1,5 @@
 import { Promisable, StringKeyOf } from 'type-fest';
 
-export type ValidateOneFunction<T extends Record<string, unknown>> = (
-  value: unknown,
-  field: StringKeyOf<T>,
-  data: T
-) => Promisable<ValidationError | undefined>;
-
 export type ValidationError = {
   message?: string;
   params?: Record<string, unknown>;
@@ -45,20 +39,4 @@ export interface Changeset<
   get(key: string): unknown;
   set(key: string, value: unknown): void;
   validate(fn: ValidationFunction<Record<string, unknown>>): Promisable<void>;
-  validateOne(
-    key: string,
-    fn: ValidateOneFunction<Record<string, unknown>>
-  ): Promisable<void>;
 }
-
-/**
- * A changeset wrapped into a proxy
- * https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Proxy
- */
-export type ProxyWrappedChangeset<T> = T extends Changeset<any>
-  ?
-      | T & {
-          [K in StringKeyOf<T['data']>]: T['data'][K];
-        }
-  : never;
-// note : T extends Changeset does not seems to be compatible. Instead we do the 'if changeset else never'

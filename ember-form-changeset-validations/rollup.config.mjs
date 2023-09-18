@@ -22,6 +22,7 @@ export default {
       "types/typed-changeset.js",
       "utils/is-changeset-array.js",
       "utils/is-changeset.js",
+      "helpers/changeset-get.js",
     ]),
 
     // These are the modules that should get reexported into the traditional
@@ -34,7 +35,8 @@ export default {
       "types/typed-changeset.js",
       "utils/is-changeset-array.js",
       "utils/is-changeset.js",
-    ]),
+      "helpers/changeset-get.js",
+    ]), 
 
     // Follow the V2 Addon rules about dependencies. Your code can import from
     // `dependencies` and `peerDependencies` as well as standard Ember-provided
