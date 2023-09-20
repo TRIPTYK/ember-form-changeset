@@ -84,12 +84,18 @@ importers:
       rollup-plugin-ts:
         specifier: ^3.2.0
         version: 3.4.5(@babel/core@7.22.20)(@babel/preset-typescript@7.22.15)(@babel/runtime@7.22.15)(rollup@3.29.2)(typescript@5.2.2)
+      rsvp:
+        specifier: ^4.8.5
+        version: 4.8.5
       type-fest:
         specifier: ~4.3.1
         version: 4.3.1
       typescript:
         specifier: ~5.2.2
         version: 5.2.2
+      webpack:
+        specifier: ^5.78.0
+        version: 5.88.2
 
   test-app:
     devDependencies:
@@ -126,6 +132,9 @@ importers:
       '@embroider/webpack':
         specifier: ^3.1.5
         version: 3.1.5(@embroider/core@3.2.1)(webpack@5.88.2)
+      '@glimmer/component':
+        specifier: ^1.1.2
+        version: 1.1.2(@babel/core@7.22.20)
       '@glimmer/tracking':
         specifier: ^1.1.2
         version: 1.1.2
@@ -309,6 +318,9 @@ importers:
       qunit-dom:
         specifier: ^2.0.0
         version: 2.0.0
+      rsvp:
+        specifier: ^4.8.5
+        version: 4.8.5
       stylelint:
         specifier: ^15.4.0
         version: 15.10.3(typescript@5.2.2)

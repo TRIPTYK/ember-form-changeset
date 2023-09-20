@@ -9,15 +9,19 @@ import {
   ValidationFunction,
 } from 'ember-form-changeset-validations';
 
+interface IntegrationTestContext extends TestContext {
+  changeset: ImmerChangeset;
+}
+
 module('Integration | Component | immer-form', function (hooks) {
   setupRenderingTest(hooks);
 
   // eslint-disable-next-line no-undef
   async function renderForm(this: TestContext, assert: Assert) {
-    this.set('changeset', new ImmerChangeset({}));
+    const changeset = new ImmerChangeset({});
+    this.set('changeset', changeset);
     this.set<ValidationFunction<any>>('validationFunction', () => {
       assert.step('validation_called');
-      return [];
     });
     this.set('save', () => assert.step('save'));
     await render(hbs`
@@ -37,11 +41,15 @@ module('Integration | Component | immer-form', function (hooks) {
     assert.verifySteps(['validation_called', 'save']);
   });
 
-  test('it does not call @onSubmit when form is submitted and changeset is not valid', async function (assert) {
+  test<IntegrationTestContext>('it does not call @onSubmit when form is submitted and changeset is not valid', async function (assert) {
     await renderForm.call(this, assert);
     this.set<ValidationFunction<any>>('validationFunction', () => {
       assert.step('validation_called');
-      return [{} as never];
+      this.changeset.addError({
+        key: 'name',
+        value: 'blblbl',
+        originalValue: undefined,
+      });
     });
 
     await click('button');

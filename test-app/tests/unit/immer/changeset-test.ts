@@ -143,13 +143,6 @@ module('Unit | Immer changeset', function (hooks) {
   // eslint-disable-next-line qunit/require-expect
   test('validate', async (assert) => {
     const data = dataWithNestedArray;
-    const errors = [
-      {
-        key: 'key',
-        value: 'blblbl',
-        originalValue: undefined,
-      },
-    ];
 
     const changeset = new ImmerChangeset(data);
 
@@ -158,12 +151,7 @@ module('Unit | Immer changeset', function (hooks) {
 
     await changeset.validate((draft) => {
       assert.deepEqual(draft, data);
-      return errors;
     });
-
-    assert.false(changeset.isValid);
-    assert.true(changeset.isInvalid);
-    assert.deepEqual(changeset.errors, errors);
   });
 
   test('addError', async (assert) => {
@@ -178,7 +166,7 @@ module('Unit | Immer changeset', function (hooks) {
     assert.false(changeset.isInvalid);
     assert.true(changeset.isValid);
 
-    changeset.addError(errors.key, errors);
+    changeset.addError(errors);
 
     assert.false(changeset.isValid);
     assert.true(changeset.isInvalid);
@@ -194,7 +182,7 @@ module('Unit | Immer changeset', function (hooks) {
 
     const changeset = new ImmerChangeset(dataWithNestedArray);
 
-    changeset.addError(errors.key, errors);
+    changeset.addError(errors);
 
     assert.deepEqual(changeset.errors, [errors]);
 

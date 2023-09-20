@@ -79,13 +79,17 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
     this.set(property, get(this.data, property) as never);
   }
 
-  addError(key: string, error: ValidationError): void {
-    this.innerErrors = { ...this.innerErrors, [key]: error };
+  addError(error: ValidationError): void {
+    this.innerErrors = { ...this.innerErrors, [error.key]: error };
   }
 
   removeError(key: string): void {
     delete this.innerErrors[key];
     this.innerErrors = { ...this.innerErrors };
+  }
+
+  removeErrors(): void {
+    this.innerErrors = {};
   }
 
   get<K extends string>(key: K): Get<T, K> {
@@ -101,17 +105,13 @@ export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
       (patches, inversePatches) => {
         this.patches.push(...patches);
         this.inversePatches.push(...inversePatches);
-      }
+      },
     );
     this.eventEmitter.emitOnSet(key as never, value);
   }
 
   async validate(validation: ValidationFunction<T>) {
-    const errors = await validation(this.draftData);
-    this.innerErrors = errors.reduce((p, c) => {
-      p[c.key] = c;
-      return p;
-    }, {} as Record<string, ValidationError>);
+    await validation(this.draftData);
   }
 
   private normalizedPatches() {

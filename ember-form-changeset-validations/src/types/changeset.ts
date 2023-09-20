@@ -1,4 +1,4 @@
-import { Promisable, StringKeyOf } from 'type-fest';
+import { Promisable } from 'type-fest';
 
 export type ValidationError = {
   message?: string;
@@ -9,8 +9,8 @@ export type ValidationError = {
 };
 
 export type ValidationFunction<T extends Record<string, unknown>> = (
-  data: T
-) => Promisable<ValidationError[]>;
+  data: T,
+) => Promisable<void>;
 
 export interface Change {
   key: string;
@@ -21,22 +21,22 @@ export interface Change {
  * This interface is for the old changeset compatibility
  */
 export interface Changeset<
-  T extends Record<string, any> = Record<string, any>
+  T extends Record<string, any> = Record<string, any>,
 > {
   data: T;
   changes: Change[];
-  errors: Record<string, unknown>[];
+  errors: ValidationError[];
   isValid: boolean;
   isPristine: boolean;
   isInvalid: boolean;
   isDirty: boolean;
   execute(): void;
   unexecute(): void;
-  save(options?: object): Promisable<void>;
+  save(options?: Record<string, unknown>): Promisable<void>;
   rollback(): void;
   rollbackProperty(key: string): void;
-  addError(key: string, error: unknown): void;
+  addError(error: ValidationError): void;
   get(key: string): unknown;
   set(key: string, value: unknown): void;
-  validate(fn: ValidationFunction<Record<string, unknown>>): Promisable<void>;
+  validate(fn: ValidationFunction<T>): Promisable<void>;
 }

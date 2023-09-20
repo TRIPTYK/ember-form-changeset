@@ -66,12 +66,12 @@ module('Integration | Component | immer-changeset', function (hooks) {
 
     assert.dom().matchesText('');
 
-    changeset.addError('name', {
+    changeset.addError({
       originalValue: '',
       value: '',
       key: 'name',
     });
-    changeset.addError('potato', {
+    changeset.addError({
       originalValue: '',
       value: '',
       key: 'aaaaaardapell',
