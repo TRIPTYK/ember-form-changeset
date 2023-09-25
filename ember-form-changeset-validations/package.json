@@ -73,7 +73,6 @@
   "ember-addon": {
     "app-js": {
       "./changeset/immer-changeset.js": "./dist/_app_/changeset/immer-changeset.js",
-      "./components/immer-form.js": "./dist/_app_/components/immer-form.js",
       "./helpers/changeset-get.js": "./dist/_app_/helpers/changeset-get.js",
       "./index.js": "./dist/_app_/index.js",
       "./utils/is-changeset-array.js": "./dist/_app_/utils/is-changeset-array.js",
