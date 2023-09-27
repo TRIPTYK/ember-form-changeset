@@ -1,12 +1,12 @@
 {
   "name": "test-app",
-  "version": "2.3.5",
+  "version": "1.0.0",
   "description": "A changeset library for emberJS.",
   "keywords": [
     "changeset",
     "typescript"
   ],
-  "repository": "https://github.com/TRIPTYK/ember-form-changeset-validations",
+  "repository": "https://github.com/TRIPTYK/ember-immer-changeset",
   "license": "MIT",
   "author": "TRIPTYK",
   "directories": {
@@ -83,7 +83,7 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-typescript": "^5.2.1",
-    "ember-form-changeset-validations": "workspace:*",
+    "ember-immer-changeset": "workspace:*",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^8.0.0",
     "ember-qunit": "^8.0.1",

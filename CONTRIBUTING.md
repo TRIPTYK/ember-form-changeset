@@ -3,7 +3,7 @@
 ## Installation
 
 * `git clone <repository-url>`
-* `cd ember-form-changeset-validations`
+* `cd ember-immer-changeset`
 * `yarn install`
 
 ## Linting

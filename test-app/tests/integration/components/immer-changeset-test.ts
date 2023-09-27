@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'test-app/tests/helpers';
 import { TestContext, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import hugeChangeset from './huge-changeset-data';
-import { ImmerChangeset } from 'ember-form-changeset-validations';
+import { ImmerChangeset } from 'ember-immer-changeset';
 
 const changes = [
   { key: 'name', value: 'Amaury Cardon' },

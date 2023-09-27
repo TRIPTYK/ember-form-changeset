@@ -20,7 +20,6 @@ export default {
       "components/immer-form.js",
       "index.js",
       "types/typed-changeset.js",
-      "utils/is-changeset-array.js",
       "utils/is-changeset.js",
       "helpers/changeset-get.js",
     ]),
@@ -33,10 +32,9 @@ export default {
       "components/immer-form.js",
       "index.js",
       "types/typed-changeset.js",
-      "utils/is-changeset-array.js",
       "utils/is-changeset.js",
       "helpers/changeset-get.js",
-    ]), 
+    ]),
 
     // Follow the V2 Addon rules about dependencies. Your code can import from
     // `dependencies` and `peerDependencies` as well as standard Ember-provided

@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import { ImmerChangeset } from 'ember-form-changeset-validations';
+import { ImmerChangeset } from 'ember-immer-changeset';
 
 const dataWithNestedArray = {
   name: 'a',

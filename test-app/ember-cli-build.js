@@ -6,7 +6,7 @@ module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
     // Add options here
     autoImport: {
-      watchDependencies: ['ember-form-changeset-validations'],
+      watchDependencies: ['ember-immer-changeset'],
     },
   });
 
