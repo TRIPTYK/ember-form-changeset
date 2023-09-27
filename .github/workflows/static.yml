@@ -31,13 +31,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: true
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - name: Create doc
+        working-directory: ember-immer-changeset
+        run: pnpm typedoc src/index.ts
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
           # Upload entire repository
-          path: 'ember-form-changeset-validations/docs'
+          path: 'ember-immer-changeset/docs'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
