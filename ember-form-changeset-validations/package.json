@@ -31,7 +31,7 @@
     "test:ember": "ember test"
   },
   "peerDependencies": {
-    "ember-source": "^4.0.0"
+    "ember-source": "=>3.0.0"
   },
   "dependencies": {
     "@ember/test-waiters": "~3.0.2",
@@ -80,7 +80,10 @@
     },
     "main": "addon-main.cjs",
     "type": "addon",
-    "version": 2
+    "version": 2,
+    "versionCompatibility": {
+      "ember": ">3.0.0 < 5.0.0"
+   }
   },
   "volta": {
     "node": "16.19.1"
