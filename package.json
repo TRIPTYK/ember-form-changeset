@@ -1,6 +1,6 @@
 {
   "name": "ember-immer-changeset-root",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "repository": "",
   "license": "MIT",
@@ -16,6 +16,6 @@
     "test": "pnpm --filter '*' test"
   },
   "devDependencies": {
-    "concurrently": "^8.0.1"
+    "concurrently": "^8.2.2"
   }
 }

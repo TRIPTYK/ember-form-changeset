@@ -1,14 +1,23 @@
-import { Get, Promisable } from 'type-fest';
-import { produce, Draft, Patch, applyPatches, enablePatches } from 'immer';
+import type { Get, Promisable } from 'type-fest';
+import {
+  produce,
+  type Draft,
+  type Patch,
+  applyPatches,
+  enablePatches,
+} from 'immer';
 import { get, set } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import {
+import type {
   Changeset,
   ValidationError,
   ValidationFunction,
 } from '../types/changeset';
 import { aggregatedLastChanges } from '../utils/get-last-versions';
-import { ChangesetEventEmitter, OnSetCallback } from '../utils/event-emitter';
+import {
+  ChangesetEventEmitter,
+  type OnSetCallback,
+} from '../utils/event-emitter';
 
 enablePatches();
 

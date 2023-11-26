@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'test-app/tests/helpers';
-import { TestContext, render, settled } from '@ember/test-helpers';
+import { type TestContext, render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import hugeChangeset from './huge-changeset-data';
 import { ImmerChangeset } from 'ember-immer-changeset';

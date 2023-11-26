@@ -1,4 +1,4 @@
-import { Change } from '../types/changeset';
+import type { Change } from '../types/changeset';
 
 export function aggregatedLastChanges(arr: Change[]) {
   const result: Change[] = [];
