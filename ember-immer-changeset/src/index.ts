@@ -1,4 +1,7 @@
 export * from './types/changeset';
-export * from './changeset/immer-changeset';
-export * from './utils/is-changeset';
-export * from './helpers/changeset-get';
+import ImmerChangeset from './changeset/immer-changeset';
+import { default as isChangeset } from './utils/is-changeset';
+import { default as changesetGet } from './helpers/changeset-get';
+
+export default ImmerChangeset;
+export { isChangeset, changesetGet, ImmerChangeset };

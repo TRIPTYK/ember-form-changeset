@@ -1,5 +1,5 @@
 import type { StringKeyOf } from 'type-fest';
-import { ImmerChangeset } from '..';
+import type ImmerChangeset from '../changeset/immer-changeset';
 
 export type OnSetCallback<
   T extends ImmerChangeset,
@@ -16,7 +16,7 @@ type MapValue<
   K extends StringKeyOf<EventMap<T, DTO>>,
 > = EventMap<T, DTO>[K] extends Map<Symbol, infer Callback> ? Callback : never;
 
-export class ChangesetEventEmitter<
+export default class ChangesetEventEmitter<
   T extends ImmerChangeset,
   DTO extends Record<string, any>,
 > {

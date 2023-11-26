@@ -1,5 +1,5 @@
 import { helper } from '@ember/component/helper';
-import { ImmerChangeset } from '..';
+import type ImmerChangeset from '../changeset/immer-changeset';
 
 function changesetGet([changeset, key]: [ImmerChangeset | undefined, string]) {
   return changeset?.get(key);

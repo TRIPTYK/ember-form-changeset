@@ -1,6 +1,6 @@
 import type { Change } from '../types/changeset';
 
-export function aggregatedLastChanges(arr: Change[]) {
+export default function aggregatedLastChanges(arr: Change[]) {
   const result: Change[] = [];
 
   arr.forEach((item) => {

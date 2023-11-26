@@ -1,5 +1,5 @@
 import { ImmerChangeset } from 'ember-immer-changeset';
-import { isChangeset } from 'ember-immer-changeset/utils/is-changeset';
+import isChangeset from 'ember-immer-changeset/utils/is-changeset';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | is-changeset', function () {

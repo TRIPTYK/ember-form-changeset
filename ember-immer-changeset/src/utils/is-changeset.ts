@@ -1,6 +1,6 @@
-import { ImmerChangeset } from '../changeset/immer-changeset';
+import ImmerChangeset from '../changeset/immer-changeset';
 
-export function isChangeset(obj?: InstanceType<any>) {
+export default function isChangeset(obj?: InstanceType<any>) {
   if (!obj) {
     return false;
   }

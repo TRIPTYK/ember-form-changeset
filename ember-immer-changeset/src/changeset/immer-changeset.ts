@@ -13,9 +13,9 @@ import type {
   ValidationError,
   ValidationFunction,
 } from '../types/changeset';
-import { aggregatedLastChanges } from '../utils/get-last-versions';
+import aggregatedLastChanges from '../utils/get-last-versions';
 import {
-  ChangesetEventEmitter,
+  default as ChangesetEventEmitter,
   type OnSetCallback,
 } from '../utils/event-emitter';
 
@@ -26,8 +26,9 @@ enablePatches();
  * It uses Immer to create a draft of the data object and track changes made to it.
  * The changes can be applied, reverted, validated, and saved.
  */
-export class ImmerChangeset<T extends Record<string, any> = Record<string, any>>
-  implements Changeset<T>
+export default class ImmerChangeset<
+  T extends Record<string, any> = Record<string, any>,
+> implements Changeset<T>
 {
   /**
    * The data object.
