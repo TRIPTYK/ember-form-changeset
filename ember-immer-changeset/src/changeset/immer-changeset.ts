@@ -1,4 +1,4 @@
-import type { Get, Promisable } from 'type-fest';
+import type { Get, Promisable, StringKeyOf } from 'type-fest';
 import {
   produce,
   type Draft,
@@ -173,14 +173,14 @@ export default class ImmerChangeset<
     this.draftData = produce(
       this.draftData,
       (d: Draft<T>) => {
-        set(d, key, value as never);
+        set(d, key as keyof Draft<T>, value as never);
       },
       (patches, inversePatches) => {
         this.patches.push(...patches);
         this.inversePatches.push(...inversePatches);
       },
     );
-    this.eventEmitter.emitOnSet(key as never, value);
+    this.eventEmitter.emitOnSet(key as StringKeyOf<T>, value as never);
   }
 
   /**
@@ -196,8 +196,8 @@ export default class ImmerChangeset<
    * @param fn The callback function to register.
    * @returns A function that can be called to unregister the callback.
    */
-  public onSet(fn: OnSetCallback<ImmerChangeset, T>) {
-    const listener = this.eventEmitter.on('set', fn as never);
+  public onSet(fn: OnSetCallback<this, T>) {
+    const listener = this.eventEmitter.on('set', fn);
     return () => {
       this.eventEmitter.off('set', listener);
     };

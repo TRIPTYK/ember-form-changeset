@@ -1,8 +1,9 @@
 import type { StringKeyOf } from 'type-fest';
 import type ImmerChangeset from '../changeset/immer-changeset';
+import type { Changeset } from '../types/changeset';
 
 export type OnSetCallback<
-  T extends ImmerChangeset,
+  T extends Changeset,
   DTO extends Record<string, any>,
 > = (key: StringKeyOf<DTO>, value: unknown, changeset: T) => void;
 

@@ -116,8 +116,8 @@ off();
 This utility function checks whether a given object is an instance of `ImmerChangeset`. It is useful when you want to ensure that an object is a valid changeset before interacting with it.
 
 ```ts
-import isChangeset from 'your-project/utils/isChangeset';
-import ImmerChangeset from 'your-project/changeset/immer-changeset';
+import { isChangeset } from 'ember-immer-changeset';
+import ImmerChangeset from 'ember-immer-changeset';
 
 const userChangeset = new ImmerChangeset(userData);
 
